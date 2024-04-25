@@ -22,6 +22,6 @@
    <!-- <script type="module" resources="./js/scripts.js"></script>  commentato per prima task--> 
 </head>
 <body>
- <% response.sendRedirect("./pages/home.jsp"); %>
+<jsp:forward page="pages/home.jsp"></jsp:forward>
 </body>
 </html>
