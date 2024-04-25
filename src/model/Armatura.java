@@ -1,6 +1,8 @@
 package model;
 
 public class Armatura extends Prodotto {
+	private static final long serialVersionUID = 1L;
+	
 	private final int ID_Armatura;
 	private String Materiale;
 	@Override

@@ -1,13 +1,14 @@
 package model;
 
 public class Accessorio extends Prodotto {
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	public String toString() {
 		return "Accessorio [ID_Accessorio=" + ID_Accessorio + "]";
 	}
 	private final int ID_Accessorio;
 	public Accessorio() {
-		//bisogna chiamare super con valori invalidanti.
 		this.ID_Accessorio = -1;
 	}
 	public Accessorio (String ID, double Prezzo, String Descrizione, int Giacenza, String img1, String img2, String img3, int ID_Accessorio) {
@@ -17,5 +18,4 @@ public class Accessorio extends Prodotto {
 	public int getID_Accessorio() {
 		return ID_Accessorio;
 	}
-	// da fare il toString()
 }

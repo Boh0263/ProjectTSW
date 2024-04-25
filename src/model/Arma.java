@@ -1,6 +1,9 @@
 package model;
 
 public class Arma extends Prodotto {
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String toString() {
 		return "Arma [ID_Arma=" + ID_Arma + ", Materiale=" + Materiale + ", Tipo=" + Tipo + ", Utilizzo=" + Utilizzo

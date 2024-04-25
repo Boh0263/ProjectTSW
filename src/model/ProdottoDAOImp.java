@@ -16,23 +16,24 @@ public class ProdottoDAOImp implements ProdottoDAO {
 
 	@Override
 	public Prodotto getbyID(int id) throws SQLException {
-		// TODO Auto-generated method stub
+		// TODO 
 		return null;
 	}
 
 	@Override
 	public int insert(Prodotto t) throws SQLException {
-		// TODO Auto-generated method stub
+		// TODO 
 		return 0;
 	}
 
 	@Override
 	public int update(Prodotto t) throws SQLException {
-		// TODO Auto-generated method stub
+		// TODO 
 		return 0;
 	}
 
 
+	@SuppressWarnings("resource")
 	@Override
 	public Collection<Prodotto> doretrieveAll(String order) throws SQLException {
 		Connection con = null;

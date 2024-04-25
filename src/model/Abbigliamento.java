@@ -1,6 +1,8 @@
 package model;
 
 public class Abbigliamento extends Prodotto {
+	private static final long serialVersionUID = 1L;
+	
 	private final int ID_Abbigliamento;
 	private String Tipo; //da fare l' enum
 	private String Genere; //da fare l'enum; 
@@ -33,7 +35,6 @@ public class Abbigliamento extends Prodotto {
 	public String getMateriale() {
 		return Genere;
 	}
-	// da fare il toString()
 }
 	
 	

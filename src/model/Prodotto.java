@@ -2,6 +2,8 @@ package model;
 import java.io.*;
 
 public abstract class Prodotto implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	protected final String Nome;
 	protected double Prezzo;
 	protected double IVA;

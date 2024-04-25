@@ -2,7 +2,8 @@ package model;
 import java.io.*;
 
 public class Utente implements Serializable {
-    
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String toString() {
 		return "Utente [id=" + id + ", username=" + username + ", password=" + password + ", nome=" + nome
