@@ -19,7 +19,7 @@
 
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
-						<li><a href="./pages/home.jsp">Home</a></li>
+						<li><a href="home.jsp">Home</a></li>
 						
 						<li><a href="categories - Copia.html"><i class="fa fa-angle-right" aria-hidden="true"></i><%= categoria %></a></li> <!-- ARMA-ARMATURA-ABBIGLIAMENTO-ACCESSORIO -->
 					</ul>

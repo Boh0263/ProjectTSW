@@ -1,7 +1,7 @@
 <%@include file="./generic_header.jsp"%>
 
 	<!-- Slider -->
-	<div class="main_slider" style="background-image:url(./resources/static/images/slider_1.jpg)">
+	<div class="main_slider" style="background-image:url(resources/static/images/slider_1.jpg)">
 		<div class="container fill_height">
 			<div class="row align-items-center fill_height">
 				<div class="col">
@@ -21,30 +21,30 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="banner_item align-items-center" style="background-image:url(./resources/static/images/Arma.jpg)">
+					<div class="banner_item align-items-center" style="background-image:url(resources/static/images/Arma.jpg)">
 						<div class="banner_category" style="background-color:rgb(244,237,229)">
-							<a href="categories.html">armi</a>
+							<a href="./Prodotti?category=Arma">armi</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="banner_item align-items-center" style="background-image:url(./resources/static/images/Armatura.jpg)">
+					<div class="banner_item align-items-center" style="background-image:url(resources/static/images/Armatura.jpg)">
 						<div class="banner_category" style="background-color:rgb(244,237,229)">
-							<a href="categories.html">armature</a>
+							<a href="./Prodotti?category=Armatura">armature</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="banner_item align-items-center" style="background-image:url(./resources/static/images/Accessorio.jpg)">
+					<div class="banner_item align-items-center banner_item_accessorio">
 						<div class="banner_category" style="background-color:rgb(244,237,229)">
-							<a href="categories.html">accessori</a>
+							<a href="./Prodotti?category=Accessorio">accessori</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="banner_item align-items-center" style="background-image:url(./resources/static/images/Abbigliamento.jpg)">
+					<div class="banner_item align-items-center" style="background-image:url(resources/static/images/Abbigliamento.jpg)">
 						<div class="banner_category" style="background-color:rgb(244,237,229)">
-							<a href="categories.html">abbigliamento</a>
+							<a href="./Prodotti?category=Abbigliamento">abbigliamento</a>
 						</div>
 					</div>
 				</div>
