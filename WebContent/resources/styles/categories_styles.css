@@ -897,6 +897,7 @@ section
 .product_sorting_container_bottom
 {
 	margin-top: 24px;
+	clear:both;
 }
 .product_sorting_container_bottom .product_sorting
 {
@@ -1295,10 +1296,15 @@ section
 	padding-left: 34px;
 }
 
+.product-grid-wrapper {
+ z-index: 1;	
+}
+
 .product-grid
 {
 	width: 100%;
 	margin-top: 57px;
+	display: inline-block;
 }
 .product-item
 {
@@ -1338,10 +1344,13 @@ section
 .product_image
 {
 	width: 100%;
+	
 }
 .product_image img
 {
 	width: 100%;
+	max-width: 235px;
+	max-height: 235px;
 }
 .product_info
 {

@@ -1,5 +1,5 @@
 <%@include file="./generic_header.jsp" %>
-	
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<%@ page import="java.util.*,model.Prodotto" %>
 	<%
 		String categoria = (String) request.getParameter("category");
@@ -36,19 +36,19 @@
 							
 							<%if (categoria.equalsIgnoreCase("Arma")){ %>
 							<li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Armi</a></li><%} else { %>
-							<li><a href="./Prodotti?category=Arma">Armi</a></li> <% } %>
+							<li><a href="./Catalogo?category=Arma">Armi</a></li> <% } %>
 							
 							<%if (categoria.equalsIgnoreCase("Armatura")){ %>
 							<li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Armature</a></li><%} else { %>
-							<li><a href="./Prodotti?category=Armatura">Armature</a></li> <% } %>
+							<li><a href="./Catalogo?category=Armatura">Armature</a></li> <% } %>
 							
 							<%if (categoria.equalsIgnoreCase("Accessorio")){ %>
 							<li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Accessori</a></li><%} else { %>
-							<li><a href="./Prodotti?category=Accessorio">Accessori</a></li> <% } %>
+							<li><a href="./Catalogo?category=Accessorio">Accessori</a></li> <% } %>
 							
 							<%if (categoria.equalsIgnoreCase("Abbigliamento")){ %>
 							<li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Abbigliamenti</a></li><%} else { %>
-							<li><a href="./Prodotti?category=Abbigliamento">Abbigliamenti</a></li> <% } %>
+							<li><a href="./Catalogo?category=Abbigliamento">Abbigliamenti</a></li> <% } %>
 						
 						    </ul>
 					</div>
@@ -96,6 +96,7 @@
 					<% }  else if (categoria.equalsIgnoreCase("Arma")){%>
 					
 					<!-- Tipi -->
+					
 					<div class="sidebar_section">
 						<div class="sidebar_title">
 							<h5>Tipi</h5>
@@ -194,7 +195,9 @@
 								</div>
 
 								<!-- Product Grid -->
-
+								
+								<div class="product-grid-wrapper">
+								
 								<div class="product-grid">
 
 							<% 
@@ -211,17 +214,16 @@
 												<img src="<%=prod.getImg1()%>" alt="<%=prod.getNome()%>">
 											</div>
 											<div class="favorite favorite_left"></div>
-											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$<%= (prod.getPrezzo()/100)*30%></span></div>
+											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-<fmt:formatNumber value="<%= (prod.getPrezzo()/100)*30%>" type="number" pattern="0.0"/>$</span></div>
 											<div class="product_info">
 												<h6 class="product_name"><a href="single.html"><%=prod.getNome()%></a></h6>
-												<div class="product_price"><%=prod.getPrezzo()%>euro<span><%=((prod.getPrezzo()/100)*130)%>euro</span></div> 
+												<div class="product_price"><fmt:formatNumber value="<%=prod.getPrezzo()%>" type="number" pattern="0.00" groupingUsed="false"/>$<span><fmt:formatNumber value="<%=((prod.getPrezzo()/100)*130)%>" type="number" pattern="0.00"/>$</span></div> <!--  Possibili problemi di formatting con il filtro per prezzo --> 
 											</div>
 										</div>
 										<div class="red_button carrello_button"><a href="#">add to cart</a></div>
 									</div> 
 								<% }
 								} else { %> <div>Errore, riprovare più tardi</div> <% } %>
-
 						
 
 								<div class="product_sorting_container product_sorting_container_bottom clearfix">
@@ -254,6 +256,7 @@
 
 								</div>
 
+							</div>
 							</div>
 						</div>
 					</div>

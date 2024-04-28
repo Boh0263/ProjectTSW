@@ -16,7 +16,7 @@
  </servlet>
   <servlet-mapping>
     <servlet-name>ProdottoControl</servlet-name>
-    <url-pattern>/Prodotti</url-pattern>
+    <url-pattern>/Catalogo</url-pattern>
   </servlet-mapping>
   
 </web-app>
