@@ -217,7 +217,7 @@
 												<div class="product_price"><%=prod.getPrezzo()%>euro<span><%=((prod.getPrezzo()/100)*130)%>euro</span></div> 
 											</div>
 										</div>
-										<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+										<div class="red_button carrello_button"><a href="#">add to cart</a></div>
 									</div> 
 								<% }
 								} else { %> <div>Errore, riprovare più tardi</div> <% } %>

@@ -72,7 +72,7 @@
 								<li><a href="#">pagine</a></li>  <!-- da implementare -->
 								<li><a href="contact.html">contatti</a></li>
 							</ul>
-							<ul class="navbar_user">
+							<ul class="navbar_utente">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
@@ -82,7 +82,7 @@
 									</a>
 								</li>
 							</ul>
-							<div class="hamburger_container">
+							<div class="dropdown_container">
 								<i class="fa fa-bars" aria-hidden="true"></i>
 							</div>
 						</nav>
@@ -97,16 +97,16 @@
 
 	<!-- Hamburger Menu -->
 
-	<div class="hamburger_menu">
-		<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
-		<div class="hamburger_menu_content text-right">
+	<div class="dropdown_menu">
+		<div class="dropdown_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+		<div class="dropdown_menu_content text-right">
 			<ul class="menu_top_nav">
 				<li class="menu_item has-children">
 					<a href="#">
 						usd
 						<i class="fa fa-angle-down"></i>
 					</a>
-					<ul class="menu_selection">
+					<ul class="menu_sel">
 						<li><a href="#">cad</a></li>
 						<li><a href="#">aud</a></li>
 						<li><a href="#">eur</a></li>
@@ -118,7 +118,7 @@
 						English
 						<i class="fa fa-angle-down"></i>
 					</a>
-					<ul class="menu_selection">
+					<ul class="menu_sel">
 						<li><a href="#">French</a></li>
 						<li><a href="#">Italian</a></li>
 						<li><a href="#">German</a></li>
@@ -130,7 +130,7 @@
 						My Account
 						<i class="fa fa-angle-down"></i>
 					</a>
-					<ul class="menu_selection">
+					<ul class="menu_sel">
 						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
 						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 					</ul>

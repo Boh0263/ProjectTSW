@@ -8,7 +8,7 @@
 					<div class="main_slider_content">
 						<h6>Spring / Summer Collection 2017</h6>
 						<h1>Get up to 30% Off New Arrivals</h1>
-						<div class="red_button shop_now_button"><a href="#">shop now</a></div>
+						<div class="red_button shop_button"><a href="#">shop now</a></div>
 					</div>
 				</div>
 			</div>
@@ -17,7 +17,7 @@
 
 	<!-- Banner -->
 
-	<div class="banner">
+	<div class="main_banner">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="banner_item align-items-center banner_item_accessorio">
+					<div class="banner_item align-items-center" style="background-image:url(resources/static/images/Accessorio.jpg)">
 						<div class="banner_category" style="background-color:rgb(244,237,229)">
 							<a href="./Prodotti?category=Accessorio">accessori</a>
 						</div>

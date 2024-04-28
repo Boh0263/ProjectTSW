@@ -95,7 +95,7 @@
 	{
 		display: none;
 	}
-	.hamburger_container
+	.dropdown_container
 	{
 		display: block;
 	}
@@ -205,7 +205,7 @@
 	{
 		font-size: 13px;
 	}
-	.hamburger_menu
+	.dropdown_menu
 	{
 		right: -100%;
 		width: 100%;
@@ -350,24 +350,24 @@
 	{
 		font-size: 12px;
 	}
-	.hamburger_container
+	.dropdown_container
 	{
 		margin-left: 25px;
 	}
-	.hamburger_container i
+	.dropdown_container i
 	{
 		font-size: 16px;
 	}
-	.hamburger_close
+	.dropdown_close
 	{
 		top: 14px;
 		right: 4px;
 	}
-	.hamburger_close i
+	.dropdown_close i
 	{
 		font-size: 20px;
 	}
-	.hamburger_menu_content
+	.dropdown_menu_content
 	{
 		padding-right: 15px;
 		padding-top: 70px;
@@ -382,7 +382,7 @@
 		line-height: 35px;
 		height: 35px;
 	}
-	.menu_selection li a
+	.menu_sel li a
 	{
 		font-size: 12px;
 		line-height: 35px;
@@ -392,7 +392,7 @@
 	{
 		height: 70px;
 	}
-	.navbar_user li a
+	.navbar_utente li a
 	{
 		width: 30px;
 		height: 30px;

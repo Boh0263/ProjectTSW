@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@WebServlet("/Catalogo")
+
 public class ProdottoControl extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

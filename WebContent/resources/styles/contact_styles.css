@@ -568,16 +568,16 @@ section
 {
 	color: #b5aec4;
 }
-.navbar_user
+.navbar_utente
 {
 	margin-left: 37px;
 }
-.navbar_user li
+.navbar_utente li
 {
 	display: inline-block;
 	text-align: center;
 }
-.navbar_user li a
+.navbar_utente li a
 {
 	display: -webkit-box;
 	display: -moz-box;
@@ -597,7 +597,7 @@ section
 	-o-transition: color 0.3s ease;
 	transition: color 0.3s ease;
 }
-.navbar_user li a:hover
+.navbar_utente li a:hover
 {
 	color: #b5aec4;
 }
@@ -631,12 +631,12 @@ section
 3.5 Hamburger Menu
 *********************************/
 
-.hamburger_container
+.dropdown_container
 {
 	display: none;
 	margin-left: 40px;
 }
-.hamburger_container i
+.dropdown_container i
 {
 	font-size: 24px;
 	color: #1e1e27;
@@ -646,11 +646,11 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.hamburger_container:hover i
+.dropdown_container:hover i
 {
 	color: #b5aec4;
 }
-.hamburger_menu
+.dropdown_menu
 {
 	position: fixed;
 	top: 0;
@@ -665,7 +665,7 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.hamburger_menu.active
+.dropdown_menu.active
 {
 	right: 0;
 }
@@ -685,7 +685,7 @@ section
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.hamburger_close
+.dropdown_close
 {
 	position: absolute;
 	top: 26px;
@@ -693,7 +693,7 @@ section
 	padding: 10px;
 	z-index: 1;
 }
-.hamburger_close i
+.dropdown_close i
 {
 	font-size: 24px;
 	color: #1e1e27;
@@ -703,11 +703,11 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.hamburger_close:hover i
+.dropdown_close:hover i
 {
 	color: #b5aec4;
 }
-.hamburger_menu_content
+.dropdown_menu_content
 {
 	padding-top: 100px;
 	width: 100%;
@@ -739,13 +739,13 @@ section
 {
 	margin-left: 8px;
 }
-.menu_item.active .menu_selection
+.menu_item.active .menu_sel
 {
 	display: block;
 	visibility: visible;
 	opacity: 1;
 }
-.menu_selection
+.menu_sel
 {
 	margin: 0;
 	width: 100%;
@@ -758,13 +758,13 @@ section
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
-.menu_selection li
+.menu_sel li
 {
 	padding-left: 10px;
 	padding-right: 10px;
 	line-height: 50px;
 }
-.menu_selection li a
+.menu_sel li a
 {
 	display: block;
 	color: #232530;
@@ -777,15 +777,15 @@ section
 	-o-transition: opacity 0.3s ease;
 	transition: all 0.3s ease;
 }
-.menu_selection li a i
+.menu_sel li a i
 {
 	margin-right: 5px;
 }
-.menu_selection li a:hover
+.menu_sel li a:hover
 {
 	color: #b5aec4;
 }
-.menu_selection li:last-child a
+.menu_sel li:last-child a
 {
 	border-bottom: none;
 }
@@ -851,7 +851,7 @@ section
 	line-height: 40px;
 	width: 100%;
 }
-.shop_now_button
+.shop_button
 {
 	width: 140px;
 	margin-top: 32px;
