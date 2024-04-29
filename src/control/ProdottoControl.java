@@ -29,36 +29,22 @@ public class ProdottoControl extends HttpServlet {
 				if (categoria.equalsIgnoreCase("Abbigliamento")) {
 					//try {
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Abbigliamento"));/*Class<? extends Prodotto>) Class.forName("Abbigliamento")*/
-				//	} catch (ClassNotFoundException e) {
-					//	System.out.println("Errore: " + e.getMessage());
-				//	
+								model.doRetrieveByCategory("Abbigliamento"));
 
 				} else if (categoria.equalsIgnoreCase("Arma")) {
 					//try {
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Arma"/* (Class<? extends Prodotto>) Class.forName("Arma") */));
-					//} catch (ClassNotFoundException e) {
-					//	System.out.println("Errore: " + e.getMessage());
-					
+								model.doRetrieveByCategory("Arma"));
 
 				} else if (categoria.equalsIgnoreCase("Armatura")) {
-					//try {
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Armatura"/* (Class<? extends Prodotto>) Class.forName("Armatura") */));
-				//	} catch (ClassNotFoundException e) {
-					//	System.out.println("Errore: " + e.getMessage());
+								model.doRetrieveByCategory("Armatura"));
 					
 
 				} else if (categoria.equalsIgnoreCase("Accessorio")) {
-					//try {
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Accessorio"/*
-															 * (Class<? extends Prodotto>)
-															 * Class.forName("Abbigliamento")
-															 */));
-			//		} catch (ClassNotFoundException e) {
-				//		System.out.println("Errore: " + e.getMessage());
+								model.doRetrieveByCategory("Accessorio"));
+		
 					
 
 				} else if (categoria.equalsIgnoreCase("All")) {
