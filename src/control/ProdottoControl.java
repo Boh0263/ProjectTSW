@@ -27,12 +27,12 @@ public class ProdottoControl extends HttpServlet {
 			if (categoria != null) {
 				req.removeAttribute("Prodotto");
 				if (categoria.equalsIgnoreCase("Abbigliamento")) {
-					//try {
+				
 						req.setAttribute("Prodotto",
 								model.doRetrieveByCategory("Abbigliamento"));
 
 				} else if (categoria.equalsIgnoreCase("Arma")) {
-					//try {
+					
 						req.setAttribute("Prodotto",
 								model.doRetrieveByCategory("Arma"));
 
@@ -53,7 +53,7 @@ public class ProdottoControl extends HttpServlet {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println("Errore: " + e.getMessage());
+			System.out.println("Errore: " + e.getMessage()); //fare la req.getRequestDispatcher("directory pagina di errore");
 			throw new ServletException();
 		}
 
