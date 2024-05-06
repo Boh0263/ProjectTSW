@@ -1,6 +1,6 @@
-## TODO in formato MD
+## TODO
 
-### Sicurezza
+### (Sicurezza)
 
 **Sistema di Error Handling con LOGGER (Opzionale):**
 
@@ -24,7 +24,7 @@
 
 * Seguire l'esempio della lezione 10 su elearning.
 
-### Refactoring
+### (Refactoring)
 
 **Sostituire riferimenti di script e stili:**
 
@@ -48,7 +48,7 @@
 * Mostrare il numero di prodotti nel carrello.
 * Mostrare username/nome utente nell'header (Opzionale).
 
-### Da Implementare
+### (Cose Da Implementare)
 
 **Pagina Impostazioni Account Utente:**
 
