@@ -14,6 +14,11 @@ public class Abbigliamento extends Prodotto {
 		this.Genere = Genere;
 	}
 	
+	public Abbigliamento() {
+		this.ID_Abbigliamento = -1;
+	
+	}
+
 	@Override
 	public String toString() {
 		return "Abbigliamento [ID_Abbigliamento=" + ID_Abbigliamento + ", Tipo=" + Tipo + ", Genere=" + Genere + "]";
@@ -29,10 +34,10 @@ public class Abbigliamento extends Prodotto {
 	public String getTipo() {
 		return Tipo;
 	}
-	public void setMateriale(String Materiale) {
+	public void setGenere(String Materiale) {
 		this.Genere = Materiale;
 	}
-	public String getMateriale() {
+	public String getGenere() {
 		return Genere;
 	}
 }

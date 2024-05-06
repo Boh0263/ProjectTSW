@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ProdottoControl extends HttpServlet {
+public class CatalogoControl extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	static ProdottoDAOImp model = new ProdottoDAOImp();
+	static ProdottoDAOImp pmodel = new ProdottoDAOImp();
 
-	public ProdottoControl() {
+	public CatalogoControl() {
 		super();
 	}
 
@@ -29,26 +29,26 @@ public class ProdottoControl extends HttpServlet {
 				if (categoria.equalsIgnoreCase("Abbigliamento")) {
 				
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Abbigliamento"));
+								pmodel.doRetrieveByCategory("Abbigliamento"));
 
 				} else if (categoria.equalsIgnoreCase("Arma")) {
 					
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Arma"));
+								pmodel.doRetrieveByCategory("Arma"));
 
 				} else if (categoria.equalsIgnoreCase("Armatura")) {
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Armatura"));
+								pmodel.doRetrieveByCategory("Armatura"));
 					
 
 				} else if (categoria.equalsIgnoreCase("Accessorio")) {
 						req.setAttribute("Prodotto",
-								model.doRetrieveByCategory("Accessorio"));
+								pmodel.doRetrieveByCategory("Accessorio"));
 		
 					
 
 				} else if (categoria.equalsIgnoreCase("All")) {
-					req.setAttribute("Prodotto", model.doretrieveAll(null));
+					req.setAttribute("Prodotto", pmodel.doretrieveAll(null));
 
 				}
 			}

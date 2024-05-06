@@ -35,7 +35,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 
 	@SuppressWarnings("resource")
 	@Override
-	public Collection<Prodotto> doretrieveAll(String order) throws SQLException {
+	public synchronized Collection<Prodotto> doretrieveAll(String order) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
@@ -359,7 +359,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 		}
 
 	@Override
-	public Collection<Prodotto> doRetrieveByCategory(String tipo) throws SQLException {
+	public synchronized Collection<Prodotto> doRetrieveByCategory(String tipo) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;

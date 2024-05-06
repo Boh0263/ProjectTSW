@@ -15,19 +15,19 @@ public class UserDaoImp implements UserDAO {
 
 	@Override
 	public Collection<Utente> doretrieveAll(String order) throws SQLException {
-		// TODO 
+		// TODO necessario se ci verrà chiesto di gestire gli utenti
 		return null;
 	}
 
 	@Override
 	public boolean doSave(Utente t) throws SQLException {
-		// TODO
+		// TODO 
 		return false;
 	}
 
 	@Override
 	public int insert(Utente t) throws SQLException {
-		// TODO 
+		// TONOTDO
 		return 0;
 	}
 
