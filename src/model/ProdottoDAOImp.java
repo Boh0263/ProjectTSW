@@ -28,10 +28,54 @@ public class ProdottoDAOImp implements ProdottoDAO {
 
 	@Override
 	public int update(Prodotto t) throws SQLException {
-		// TODO 
-		return 0;
+		
+		String[] queries = { "UPDATE Prodotto SET Prezzo = ?, IVA = ?, Giacenza = ?, Descrizione = ?, img1 = ?, img2 = ?, img3 = ? WHERE Nome = ?;",
+				"UPDATE Arma SET Materiale = ?, Tipo = ?, Utilizzo = ? WHERE ID_Prodotto = ?",
+				"UPDATE Abbigliamento SET Tipo = ?, Materiale = ? WHERE ID_Prodotto = ?"
+		};
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		int modifiche = 0;
+		
+		try {
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(queries[0]);
+			ps.setDouble(1, t.getPrezzo());
+			ps.setDouble(2, t.getIVA());
+			ps.setInt(3, t.getGiacenza());
+			ps.setString(4, t.getDescrizione());
+			ps.setString(5, t.getImg1());
+			ps.setString(6, t.getImg2());
+			ps.setString(7, t.getImg3());
+			ps.setString(8, t.getNome());
+			
+			modifiche += ps.executeUpdate();
+			if (t instanceof Arma) {
+				ps = con.prepareStatement(queries[1]);
+				ps.setString(1, ((Arma) t).getMateriale());
+				ps.setString(2, ((Arma) t).getTipo());
+				ps.setString(3, ((Arma) t).getUtilizzo());
+				ps.setString(3, t.getNome());
+				
+				modifiche += ps.executeUpdate();
+			} else if (t instanceof Abbigliamento) {
+				ps = con.prepareStatement(queries[2]);
+				ps.setString(1, ((Abbigliamento) t).getTipo());
+				ps.setString(2, ((Abbigliamento) t).getMateriale());
+				ps.setString(2, t.getNome());
+				
+				modifiche += ps.executeUpdate();
+			}			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (ps != null) con.close();
+		}
+		
+		return modifiche;
+	
 	}
-
 
 	@SuppressWarnings("resource")
 	@Override
