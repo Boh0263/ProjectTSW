@@ -22,6 +22,6 @@
    <!-- <script type="module" resources="./js/scripts.js"></script>  commentato per prima task--> 
 </head>
 <body>
-<jsp:forward page="pages/shoppingcart.jsp"></jsp:forward>
+<jsp:forward page="pages/home.jsp"></jsp:forward>
 </body>
 </html>
