@@ -220,12 +220,19 @@
 												<div class="product_price"><fmt:formatNumber value="<%=prod.getPrezzo()%>" type="number" pattern="0.00" groupingUsed="false"/>$<span><fmt:formatNumber value="<%=((prod.getPrezzo()/100)*130)%>" type="number" pattern="0.00"/>$</span></div> <!--  Possibili problemi di formatting con il filtro per prezzo --> 
 											</div>
 										</div>
-										<div class="red_button carrello_button"><a href="#">add to cart</a></div>
+										
+            								<div class="red_button carrello_button">
+            								<form action="/Carrello" method="post">
+              									<input type="hidden" name="prodotto" value="<%=prod.getNome()%>" /> <!-- TODO Usare AJAX (ASAP) -->
+              									<input type="hidden" name="forward" value="/Catalogo.jsp" />
+              								</form>
+              								<button type="submit">Add to Cart</button>
+            								</div>
 									</div> 
 								<% }
 								} else { %> <div>Errore, riprovare più tardi</div> <% } %>
-						
-
+				
+	
 								<div class="product_sorting_container product_sorting_container_bottom clearfix">
 									<ul class="product_sorting">
 										<li>

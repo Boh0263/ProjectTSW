@@ -62,7 +62,7 @@
 				<div class="row" style="background-color:rgb(229,214,194)">
 					<div class="col-lg-12 text-right" style="background-color:rgb(229,214,194)">
 						<div class="logo_container">
-							<img style="max-width: 80px; height: auto; " src="./resources/static/images/Kits.jpg" alt="">
+							<img style="max-width: 80px; height: auto; " src="./resources/static/images/Kits.jpg" alt="Kits'logo">
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
@@ -76,9 +76,9 @@
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
-									<a href="#">
+									<a href="./Carrello">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">x</span>
+										<span id="checkout_items" class="checkout_items"><%= request.getAttribute("cartItems") %></span>
 									</a>
 								</li>
 							</ul>
@@ -102,12 +102,12 @@
 		<div class="dropdown_menu_content text-right">
 			<ul class="menu_top_nav">
 				<li class="menu_item has-children">
-					<a href="#">
+					<a href="#"> <!-- TODO -->
 						usd
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_sel">
-						<li><a href="#">cad</a></li>
+						<li><a href="#">cad</a></li> <!-- TODO -->
 						<li><a href="#">aud</a></li>
 						<li><a href="#">eur</a></li>
 						<li><a href="#">gbp</a></li>
@@ -125,18 +125,18 @@
 						<li><a href="#">Spanish</a></li>
 					</ul>
 				</li>
-				<li class="menu_item has-children">
+				<li class="menu_item has-children"> 
 					<a href="#">
 						My Account
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_sel">
-						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li> <!-- TODO gestione con la sessione utente -->
+						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
 					</ul>
 				</li>
 				<li class="menu_item"><a href="./index.jsp">home</a></li>
-				<li class="menu_item"><a href="#">catalogo</a></li>
+				<li class="menu_item"><a href="/Catalogo?category=All">catalogo</a></li>
 				<li class="menu_item"><a href="#">promozioni</a></li>
 				<li class="menu_item"><a href="#">pagine</a></li>
 				<li class="menu_item"><a href="./pages/contact.html">contatti</a></li>
