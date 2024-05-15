@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +7,8 @@
 </head>
 <body>
 <body>
-<h1>Invalid user credentials</h1>
-<a href="<%= %>">Try Again</a>
+<h1>Credenziali Errate</h1>
+<a href="./login">Riprova</a>
 </body>
 </body>
 </html>

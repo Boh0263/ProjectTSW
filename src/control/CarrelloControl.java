@@ -56,12 +56,19 @@ public class CarrelloControl extends HttpServlet {
 		  } else {
 		    String serializedCarr = serializeCarr(cart);
 		    setCarrCookie(response, serializedCarr);
+		    request.setAttribute("carrello", cart);
+		    request.setAttribute("cartItems", cart.getTotalItems());
 		  }
 		  } catch(Exception e) {
 			  System.out.println("Errore" + e.getMessage());
 		  }
+		  if(request.getAttribute("forward") != null && request.getAttribute("forward").toString().isEmpty()) {
 		  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(request.getAttribute("forward").toString());
 		  dispatcher.forward(request, response);
+		} else {
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/shoppingcart.jsp");
+			dispatcher.forward(request, response);
+			}
 		}
 	
 		private String getCartFromCookie(HttpServletRequest request) {
@@ -137,20 +144,27 @@ public class CarrelloControl extends HttpServlet {
 		String action = request.getParameter("action");
 		 HttpSession session = request.getSession(false); //TODO Sequenza di verifica utente.
 		if (action.equalsIgnoreCase("proceedToCheckout")) {
+			if(request.getAttribute("username") != null /*Controllo di sessione utente qui.*/) {
 			  try {
 				Carrello carrello = (Carrello) session.getAttribute("carrello");
 			    boolean success = processCheckout(response, session, carrello);
 			    if (success) {
-			      response.sendRedirect("/checkouts-success.jsp");
+			      response.sendRedirect("/pages/checkouts-success.jsp");
 			    } else {
-			      request.setAttribute("errorMessage", "Order could not be saved.");
-			      RequestDispatcher dispatcher = request.getRequestDispatcher("/shoppingcart.jsp");
+			      request.setAttribute("errorMessage", "L'ordine non è stato salvato. Riprova più tardi.");
+			      RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/shoppingcart.jsp");
 			      dispatcher.forward(request, response);
 			    }
 			  } catch (Exception e) {
 			    // Auth Errors etc.
 				//TODO verifica sessione utente.
+				  throw new ServletException(e.getMessage());
 			  }
+			} else {
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/A-pages/login.jsp");
+				request.setAttribute("forward", "/pages/shoppingcart.jsp");
+				dispatcher.forward(request, response);
+			}
 			} else if (action.equalsIgnoreCase("addProduct")) {
 			    try {
 			        Carrello cart;

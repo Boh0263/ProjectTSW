@@ -47,6 +47,7 @@
 
 * Mostrare il numero di prodotti nel carrello.
 * Mostrare username/nome utente nell'header (Opzionale).
+* Creare Pagina alternativa per il carrello vuoto.
 
 ### (Cose Da Implementare)
 

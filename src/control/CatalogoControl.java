@@ -54,7 +54,7 @@ public class CatalogoControl extends HttpServlet {
 			}
 		} catch (SQLException e) {
 			System.out.println("Errore: " + e.getMessage()); //fare la req.getRequestDispatcher("directory pagina di errore");
-			throw new ServletException();
+			throw new ServletException("Bing BOng!");
 		}
 
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/pages/Catalogo.jsp");

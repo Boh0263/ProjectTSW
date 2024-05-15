@@ -5,7 +5,9 @@
 	<link rel="stylesheet" href="./resources/styles/sc_styles.css" />
 	<%  
 		Carrello cart = (Carrello) request.getAttribute("carrello");
+		if (cart != null){
 		Map<Prodotto,Integer> prodotti = cart.getProdotti();
+		if (prodotti != null){
 	%>
 	
 	<div class="main_slider cart-slider" style="background-image:url(./resources/static/images/slider_1_empty.jpg)">
@@ -32,7 +34,7 @@
                 &euro; <fmt:formatNumber value="<%= entry.getKey().getPrezzo()%>" type="currency" currencySymbol="" /> <span class="close cart_close">&#10005;</span>
               </div>
             </div>
-         <% } %>
+         <% }}%>
                     <div class="back-to-shop"><a href="./Catalogo.jsp?category=All">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
                 </div>
                 <div class="col-md-4 summary cart_summary">
@@ -42,7 +44,7 @@
                         <div class="col" style="padding-left:0;">ITEMS <%= cart.getTotalItems() %></div>
                         <div class="col text-right">&euro; <%=cart.getTotalPrice() %></div>
                     </div>
-                    <form method="post" action="shoppingcart.jsp">
+                    <form method="post" action="./Carrello">
                         <p>SHIPPING</p>
                         <select><option class="text-muted">Standard-Delivery- &euro;5.00</option></select>
                         <p>GIVE CODE</p>
@@ -55,7 +57,7 @@
 					<button class="btn cart_btn" type="submit" name="action" value="proceedToCheckout">CHECKOUT</button>
                     </form>
                 </div>
-               
+               <% } %>
             </div>
             
         </div>

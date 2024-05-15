@@ -11,7 +11,7 @@ public class Carrello implements Serializable {
 	
 
 	public Carrello() {
-		prodotti = new HashMap<>();	 
+		prodotti = new HashMap<Prodotto, Integer>();	 
  }
 	
 	

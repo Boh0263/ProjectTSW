@@ -62,13 +62,11 @@ public class ProdottoDAOImp implements ProdottoDAO {
 			} else if (t instanceof Abbigliamento) {
 				ps = con.prepareStatement(queries[2]);
 				ps.setString(1, ((Abbigliamento) t).getTipo());
-				ps.setString(2, ((Abbigliamento) t).getMateriale());
+				ps.setString(2, ((Abbigliamento) t).getGenere());
 				ps.setString(2, t.getNome());
 				
 				modifiche += ps.executeUpdate();
-			}			
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+			}					
 		} finally {
 			if (ps != null) con.close();
 		}
@@ -248,7 +246,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 			else if (t instanceof Abbigliamento) {
 				psg = con.prepareStatement(insertSQL4);
 				psg.setString(1, tempID);
-				psg.setString(2, ((Abbigliamento) t).getMateriale());
+				psg.setString(2, ((Abbigliamento) t).getGenere());
 				psg.setString(3, ((Abbigliamento) t).getTipo());
 				} else con.rollback();
 			} else con.rollback();
@@ -428,7 +426,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						  rs.getString("img3"),
 						  rs.getInt("ID_Abbigliamento"),
 						  rs.getString("Tipo"),
-						  rs.getString("Materiale")
+						  rs.getString("Genere")
 						  ));
 				  }
 				  break;

@@ -51,6 +51,15 @@ public class Ordine implements Serializable {
 	public String getData_Ordine() {
 		return Data_Ordine;
 	}
+	public double getTotalPrice() {
+	    double totalPrice = 0.0;
+	    for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
+	      Prodotto prodotto = entry.getKey();
+	      int quantity = entry.getValue();
+	      totalPrice += prodotto.getPrezzo() * quantity;
+	    }
+	    return totalPrice;
+	  }
 
 }
 

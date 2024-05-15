@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div align="center">
-		<form action="processLogin.jsp" method="post">
+		<form action="./login" method="post">
 			<table class="loginForm">
 				<tr>
 					<td><label for="username">User Name</label></td>

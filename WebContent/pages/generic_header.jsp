@@ -78,7 +78,11 @@
 								<li class="checkout">
 									<a href="./Carrello">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items"><%= request.getAttribute("cartItems") %></span>
+										<% if (request.getAttribute("cartItems") != null) { %>
+										<span id="checkout_items" class="checkout_items"><%= request.getAttribute("cartItems")%></span>
+										<%} else {  %>
+										<span id="checkout_items" class="checkout_items">0</span>
+										<% } %>
 									</a>
 								</li>
 							</ul>
