@@ -23,7 +23,7 @@ public class LoginControl extends HttpServlet {
     	
     	@Override	
     	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	doPost(request,response);
+    	doPost(request, response);
     	}
     	
         @Override
@@ -40,7 +40,7 @@ public class LoginControl extends HttpServlet {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
                 //CRSF TOKEN 
                 dispatcher.forward(request, response);
-                response.sendRedirect(request.getContextPath()+"/AdminHome.jsp"); //Usa il Dispatcher con ServletContext
+                response.sendRedirect(request.getContextPath()+"/AdminHome.jsp");
             } else if (LoginDAO.UserValidation(new LoginInfo(username, password)).equalsIgnoreCase("R")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);

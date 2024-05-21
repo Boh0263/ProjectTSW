@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class OrdineDAOImp implements OrdineDAO {
 
@@ -17,7 +18,7 @@ public class OrdineDAOImp implements OrdineDAO {
 	}
 
 	@Override
-	public Collection<Ordine> doretrieveAll(String order) throws SQLException {
+	public Collection<Ordine> doretrieveAll(String stato) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -35,6 +36,7 @@ public class OrdineDAOImp implements OrdineDAO {
 		
 		String insertOrdine = "INSERT INTO Ordine (Ragione_sociale, Indirizzo_breve, Imposta, Sconto, Totale, Stato) VALUES (?,?,?,?,?,'NON EVASO')"; 
 		String insertContent = "INSERT INTO Contenuto (Prezzo_Lordo, Qta, ID_Ordine, ID_Prodotto) VALUES (?,?,?,?)";
+		String updateProduct = "UPDATE Prodotto SET Giacenza = Giacenza - ?";
 		try {
 			con = DMConnectionPool.getConnection();
 			ps1 = con.prepareStatement(insertOrdine, Statement.RETURN_GENERATED_KEYS);
@@ -43,14 +45,27 @@ public class OrdineDAOImp implements OrdineDAO {
 				ResultSet gK = ps1.getGeneratedKeys();
 				if(gK.next()) {
 				 int ID = gK.getInt(1);
-				 ps2 = con.prepareStatement(insertContent);
-				 ps2.setDouble(1,t.getTotalPrice());
-				 //TBC
 				 
-				 
+				 for (Map.Entry<Prodotto, Integer> entry : t.getProdotti().entrySet()) {
+					 ps2 = con.prepareStatement(insertContent);
+					 
+					 Prodotto prodotto = entry.getKey();
+					 ps2.setDouble(1,prodotto.getPrezzo());
+					 ps2.setInt(2, entry.getValue());
+					 ps2.setInt(3, ID);
+					 ps2.setString(4, prodotto.getNome());
+					 
+					 if (ps2.executeUpdate() <= 0) {
+						con.rollback();
+						return false;
+					 };
+					 
 				}
+			} else {
+				con.rollback();
+				return false;
 			}
-
+		}
 			con.commit();
 			
 		} finally {

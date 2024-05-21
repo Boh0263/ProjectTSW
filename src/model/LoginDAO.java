@@ -13,8 +13,7 @@ public class LoginDAO {
 		PreparedStatement st = null;
 		String validStatus = "";
 		
-		try
-		{
+		try {
 			con = DMConnectionPool.getConnection();
 			st = con.prepareStatement("SELECT username, password from Utente WHERE (username = ? AND password = ?)");
 			st.setString(1,userDetails.getUsername());

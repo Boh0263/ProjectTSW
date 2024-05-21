@@ -44,8 +44,8 @@
 										<i class="fa fa-angle-down"></i>
 									</a>
 									<ul class="account_selection">
-										<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li>
-										<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
+										<li><a href="./pages/login-alternative.jsp?forward=home"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li>
+										<li><a href="./pages/Registration.jsp?forward=home"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -69,7 +69,7 @@
 								<li><a href="./index.jsp">Home</a></li>
 								<li><a href="#">catalogo</a></li>
 								<li><a href="#">promozioni</a></li> <!-- da implementare -->
-								<li><a href="#">pagine</a></li>  <!-- da implementare -->
+								<li><a href="#">pagine</a></li>  <!-- da implementare -->  
 								<li><a href="contact.html">contatti</a></li>
 							</ul>
 							<ul class="navbar_utente">

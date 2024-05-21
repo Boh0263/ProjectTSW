@@ -51,7 +51,7 @@ public class Ordine implements Serializable {
 	public String getData_Ordine() {
 		return Data_Ordine;
 	}
-	public double getTotalPrice() {
+	public double getSubTotalPrice() {
 	    double totalPrice = 0.0;
 	    for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
 	      Prodotto prodotto = entry.getKey();
@@ -60,6 +60,10 @@ public class Ordine implements Serializable {
 	    }
 	    return totalPrice;
 	  }
+	
+	public double getTotalPrice() {
+		return getSubTotalPrice() - getScontoCoupon();
+	}
 
 }
 

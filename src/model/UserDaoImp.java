@@ -9,7 +9,6 @@ public class UserDaoImp implements UserDAO {
 
 	@Override
 	public Utente getbyID(int id) throws SQLException {
-		// TODO 
 		return null;
 	}
 
@@ -21,8 +20,32 @@ public class UserDaoImp implements UserDAO {
 
 	@Override
 	public boolean doSave(Utente t) throws SQLException {
-		// TODO 
-		return false;
+		//save user in the database
+		Connection con = null;
+		PreparedStatement ps = null;
+		boolean result = false;	
+        // follow the database schema to insert the user
+		        String insertSQL = "INSERT INTO Utente (username, password, email, CF, tipo) VALUES (?, ?, ?, ?, ?)";
+		     
+		try {
+            con = DMConnectionPool.getConnection();
+            ps = con.prepareStatement(insertSQL);
+            ps.setString(1, t.getUsername());
+			ps.setString(2, t.getPassword());
+			ps.setString(3, t.getEmail());
+			ps.setString(4, t.getCF());
+			ps.setString(5, t.getTipo());
+			ps.executeUpdate();
+			result = true;
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -33,7 +56,28 @@ public class UserDaoImp implements UserDAO {
 
 	@Override
 	public int update(Utente t) throws SQLException {
-		// TODO
+		Connection con = null;
+		PreparedStatement ps = null;
+	    int result = 0;
+	            String updateSQL = "UPDATE Utente SET password = ?, email = ?, CF = ?, tipo = ? WHERE username = ?";
+	                    try {
+							con = DMConnectionPool.getConnection();
+							ps = con.prepareStatement(updateSQL);
+							ps.setString(1, t.getPassword());
+							ps.setString(2, t.getEmail());
+							ps.setString(3, t.getCF());
+							ps.setString(4, t.getTipo());
+							ps.setString(5, t.getUsername());
+							result = ps.executeUpdate();
+						} finally {
+							try {
+								if (ps != null)
+									ps.close();
+							} finally {
+								DMConnectionPool.releaseConnection(con);
+							}
+							
+	                    }
 		return 0;
 	}
 
@@ -57,6 +101,38 @@ public class UserDaoImp implements UserDAO {
 					}
 				}
 		return (result != 0);
-	}	}
+	}
+	
+	public boolean doEmail(String email) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		boolean result = false;
+        return true; //TODO
+	}
+
+	public boolean doCheck(String username) throws SQLException {
+	Connection con = null;
+	PreparedStatement ps = null;
+	boolean result = false;
+	
+	String checkSQL = "SELECT * FROM Utente WHERE Utente.username = ?";
+	try {
+		con = DMConnectionPool.getConnection();
+		ps = con.prepareStatement(checkSQL);
+		ps.setString(1, username);
+		result = ps.executeQuery().next();
+	} finally {
+		try {
+			if (ps != null)
+				ps.close();
+		} finally {
+			DMConnectionPool.releaseConnection(con);
+		}
+	}
+	return result;
+	
+	}
+	
+}
 
 
