@@ -34,7 +34,7 @@
                 &euro; <fmt:formatNumber value="<%= entry.getKey().getPrezzo()%>" type="currency" currencySymbol="" /> <span class="close cart_close">&#10005;</span>
               </div>
             </div>
-         <% }}%>
+         <% }} else { //TODO %>
                     <div class="back-to-shop"><a href="./Catalogo.jsp?category=All">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
                 </div>
                 <div class="col-md-4 summary cart_summary">
@@ -57,7 +57,7 @@
 					<button class="btn cart_btn" type="submit" name="action" value="proceedToCheckout">CHECKOUT</button>
                     </form>
                 </div>
-               <% } %>
+               <% }} %>
             </div>
             
         </div>

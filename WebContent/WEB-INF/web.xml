@@ -18,6 +18,7 @@
     <servlet-name>CatalogoControl</servlet-name>
     <url-pattern>/Catalogo</url-pattern>
   </servlet-mapping>
+ 
   <filter>
   <filter-name>UserSessionFilter</filter-name>
   <filter-class>control.UserSessionFilter</filter-class>

@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,28 +21,35 @@ public class RegistrationControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static UserDaoImp dao = new UserDaoImp();
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public RegistrationControl() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("pages/Registration.jsp");
-		dispatcher.forward(request, response);
+	doPost(request, response);	
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Utente u = new Utente();
+		String Messaggio = "Registrazione avvenuta con successo";
+		//TODO proteggere l'user input
+		u.setNome(request.getParameter("nome"));
+		u.setCognome(request.getParameter("cognome"));
+		u.setEmail(request.getParameter("email"));
+		u.setPassword(request.getParameter("password"));
+		try {
+			dao.doSave(u);
+		} catch (SQLException e) {
+			Messaggio = "Registrazione fallita, riprova o contatta l'assistenza";
+		    e.printStackTrace(); //TODO log
+		} finally {
+			request.setAttribute("Messaggio", Messaggio);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login-alternative.jsp");
+			dispatcher.forward(request, response);
+		}
 	
-		 //parse the ajax request written in the registration.jsp file
 	
 		
 		

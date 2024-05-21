@@ -21,7 +21,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="submit" value="Login" class="actionBtn" />
+						<input type="submit" value="" class="actionBtn" />
 					</td>
 				</tr>
 			</table>

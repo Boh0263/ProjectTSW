@@ -22,5 +22,13 @@
         <button type="submit" value="login" class="actionBtn">Login</button>
       </form>
     </div>
+
+	<% if(request.getAttribute("Messaggio") != null) { %>
+	<div class="container" style="">
+		<div class="alert alert-danger" role="alert">
+			<%=(String) request.getAttribute("Messaggio")%>
+		</div>
+	</div>
+	<% } %>	
 </body>
 </html>

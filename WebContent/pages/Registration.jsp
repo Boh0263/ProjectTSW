@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="container">
-    <form id="form" action="./registration" method="post" class="form">
+    <form id="form" action="${pageContext.request.contextPath}/register" method="post" class="form">
         <div class="form-control">
           <label for="username">Username</label>
           <input type="text" id="username" name="username" placeholder="Enter username" />
@@ -63,12 +63,13 @@
 				id="telefono" name="telefono" placeholder="Enter telefono" /> <small
 				id="telefonoError">Error message</small>
 		    </div>
-			<button type="button" id="Submit" class="actionBtn">Register</button>
+			<button type="submit" id="Submit" class="actionBtn">Registrati</button>
 			</form>
 		</div>
 		</body>
-		<script>
 		
+	<script src="../resources/js/validation.js" type="text/javascript"></script>
+		<script>		
 			document.getElementById("username").addEventListener("input", function() {
                 var username = document.getElementById("username").value;
                 var xhr = new XMLHttpRequest();
@@ -85,11 +86,10 @@
                 }
                 xhr.send();
             });
+			
             document.getElementById("email").addEventListener("input", function() {
-            	//i need to check the email after being in a valid format
 			var email = document.getElementById("email").value;
-            	//check if the email is in a valid format first
-                	if (/*email evaluation pietro*/){
+                	if (validateEmail(email)){
 								var xhr = new XMLHttpRequest();
 								xhr.open("GET", "./verifyEmail?email=" + email,
 										true);
@@ -113,7 +113,7 @@
             
             document.getElementById("password").addEventListener("input", function() {
                 var password = document.getElementById("password").value;
-                if (/*valuation pietro*/) {
+                if (validatePassword(password)) {
                     document.getElementById("passwordError").textContent = "La password deve: 1. contenere almeno 8 caratteri, 2. contenere almeno una lettera maiuscola, 3. contenere almeno un numero, 4. contenere almeno un carattere speciale";
                 } else {
                     document.getElementById("passwordError").textContent = "OK";

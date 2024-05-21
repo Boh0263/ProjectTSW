@@ -149,7 +149,7 @@ public class CarrelloControl extends HttpServlet {
 				Carrello carrello = (Carrello) session.getAttribute("carrello");
 			    boolean success = processCheckout(response, session, carrello);
 			    if (success) {
-			      response.sendRedirect("/pages/checkouts-success.jsp");
+			      response.sendRedirect("/pages/checkouts-success.jsp"); //TODO
 			    } else {
 			      request.setAttribute("errorMessage", "L'ordine non è stato salvato. Riprova più tardi.");
 			      RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/shoppingcart.jsp");
@@ -161,16 +161,16 @@ public class CarrelloControl extends HttpServlet {
 				  throw new ServletException(e.getMessage());
 			  }
 			} else {
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/A-pages/login.jsp");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("pages/login-alternative.jsp");
 				request.setAttribute("forward", "/pages/shoppingcart.jsp");
 				dispatcher.forward(request, response);
 			}
 			} else if (action.equalsIgnoreCase("addProduct")) {
 			    try {
-			        Carrello cart;
+			        Carrello cart = null;
 			        if (session != null && session.getAttribute("carrello") != null) {
-			          cart = (Carrello) session.getAttribute("carrello");
-			        } else {
+			        	cart = (Carrello) session.getAttribute("carrello");                        
+ 			        } else {
 			          String cartCookieValue = getCartFromCookie(request);
 			          if (cartCookieValue != null) {
 			            cart = deserializeCarr(cartCookieValue);
@@ -192,6 +192,8 @@ public class CarrelloControl extends HttpServlet {
 			        } else {
 			          String serializedCart = serializeCarr(cart);
 			          setCarrCookie(response, serializedCart);
+			          request.setAttribute("carrello", cart);
+			          request.setAttribute("cartItems", cart.getTotalItems());
 			        }
 			       }
 			      } catch (Exception e) {

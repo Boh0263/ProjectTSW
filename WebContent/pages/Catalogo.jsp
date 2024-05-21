@@ -272,5 +272,30 @@
 		</div>
 	  </div>
 	</div>
-	
+	<script>
+     <!-- if an item is added to the cart, the number of items must be refreshed (not incremented directly)-->	
+             $('.carrello_button').click(function() {
+            	 
+		var cart = document.getElementById('cart');
+		
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "./Carrello", true);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    cart.innerHTML = response.cartItems;
+                }
+            }
+			xhr.send();
+		
+			//the function is called when the user clicks on the button to add an item to the cart
+			//it sends a POST request to the servlet that manages the cart
+			//the servlet updates the cartItems attribute in the session
+			//the servlet returns the updated cartItems attribute
+			//the function updates the cartItems number in the page
+			
+			});
+		});}
+	</script>
 	<%@include file="./generic_footer.jsp" %>

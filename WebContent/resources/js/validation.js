@@ -22,18 +22,12 @@ function validateUsername(username)
 	if(!pattern.test(username)) {
 		return false;
 	}
-	/*
-	if(username.value.match(letters))
-	{
-		return true;
-	}
-	else
-	{	
-		alert('Lo username può contenere soltanto caratteri alfabetici');
-		name.focus();
+}
+function validateEmail(email) {
+	const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+	if (!pattern.test(email)) {
 		return false;
 	}
-	*/
 }
 
 function validatePassword(password)
