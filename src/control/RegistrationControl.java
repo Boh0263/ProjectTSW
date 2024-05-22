@@ -28,17 +28,20 @@ public class RegistrationControl extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	doPost(request, response);	
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/Registration.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Utente u = new Utente();
+		Utente u = null;
 		String Messaggio = "Registrazione avvenuta con successo";
-		//TODO proteggere l'user input
-		u.setNome(request.getParameter("nome"));
-		u.setCognome(request.getParameter("cognome"));
-		u.setEmail(request.getParameter("email"));
-		u.setPassword(request.getParameter("password"));
+		u = new Utente(-1,
+				request.getParameter("username"),
+				request.getParameter("password"),
+				request.getParameter("nome"),
+				request.getParameter("cognome"),
+				request.getParameter("CF"),
+				request.getParameter("email"));
 		try {
 			dao.doSave(u);
 		} catch (SQLException e) {
@@ -46,7 +49,7 @@ public class RegistrationControl extends HttpServlet {
 		    e.printStackTrace(); //TODO log
 		} finally {
 			request.setAttribute("Messaggio", Messaggio);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login-alternative.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/login-alternative.jsp");
 			dispatcher.forward(request, response);
 		}
 	

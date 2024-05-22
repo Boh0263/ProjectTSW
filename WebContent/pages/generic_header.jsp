@@ -44,8 +44,9 @@
 										<i class="fa fa-angle-down"></i>
 									</a>
 									<ul class="account_selection">
-										<li><a href="./pages/login-alternative.jsp?forward=home"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li>
-										<li><a href="./pages/Registration.jsp?forward=home"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
+									<% String uri = request.getRequestURI(); %>	
+									<li><a href="./login?forward=<%= uri.substring(uri.lastIndexOf("/") + 1) %>"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li>
+										<li><a href="./register"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
 									</ul>
 								</li>
 							</ul>

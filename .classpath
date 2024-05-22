@@ -13,10 +13,7 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator/eclipse-workspace/ProjectTSW/WebContent/WEB-INF/lib/mysql-connector-j-8.3.0.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-j-8.3.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/jstl-1.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

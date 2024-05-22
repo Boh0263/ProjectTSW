@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS Accessorio (
   ID_Prodotto VARCHAR(255) NOT NULL,
   FOREIGN KEY (ID_Prodotto) REFERENCES Prodotto(Nome)
 );
-Use kiitz;
+
 CREATE TABLE IF NOT EXISTS Abbigliamento (
   ID_Abbigliamento INT PRIMARY KEY AUTO_INCREMENT,
   ID_Prodotto VARCHAR(255) NOT NULL,

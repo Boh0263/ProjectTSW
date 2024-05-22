@@ -118,7 +118,7 @@ public class CarrelloControl extends HttpServlet {
 		      throw new ServletException("Checkout non autorizzato");
 		    }
 		    String ragioneSociale = "temp1"; //TODO
-		    Indirizzo address = new Indirizzo(); //TODO
+		    Indirizzo address = new Indirizzo("temp"); //TODO
 		    double ScontoCoupon = 0.00d; //TODO Sistema di verifica coupon
 		    boolean saveStatus = false;
 		    Ordine ordine = new Ordine(cart.getProdotti(), ragioneSociale, ScontoCoupon, address);

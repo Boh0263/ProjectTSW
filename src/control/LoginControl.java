@@ -23,7 +23,8 @@ public class LoginControl extends HttpServlet {
     	
     	@Override	
     	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	doPost(request, response);
+    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/login-alternative.jsp");
+    	dispatcher.forward(request, response);
     	}
     	
         @Override
@@ -55,7 +56,9 @@ public class LoginControl extends HttpServlet {
                 }
             }
             else  {
-                response.sendRedirect(request.getContextPath() +"/loginFailed.jsp"); 
+				request.setAttribute("Messaggio", "Credenziali non valide");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/login-alternative.jsp");
+				dispatcher.forward(request, response);
             }
         } catch (Exception e) {
         	throw new ServletException("Errore: "+ e.getMessage()); 
