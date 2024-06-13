@@ -185,18 +185,39 @@ public class CarrelloControl extends HttpServlet {
 			         
 			          session.setAttribute("carrello", cart);
 			          request.setAttribute("carrello", cart);
-			          request.setAttribute("cartItems", cart.getTotalItems());
 			        } else {
 			          String serializedCart = serializeCarr(cart);
 			          setCarrCookie(response, serializedCart);
 			          request.setAttribute("carrello", cart);
-			          request.setAttribute("cartItems", cart.getTotalItems());
 			        }
 			       }
 			      } catch (Exception e) {
 			        throw new ServletException("Errore nell'aggiungere il prodotto: " + e.getMessage()); //TODO error handling
 			      }
 			   
-			    }
+			 } else if (action.equalsIgnoreCase("getCartItems")) {
+				    try {
+				        Carrello cart = null;
+				        if (session != null && session.getAttribute("carrello") != null) {
+				          cart = (Carrello) session.getAttribute("carrello");
+				        } else {
+				          String cartCookieValue = getCartFromCookie(request);
+				          if (cartCookieValue != null) {
+				            cart = deserializeCarr(cartCookieValue);
+				          } else {
+				            cart = new Carrello();
+				          }
+				        }
+
+				        int totalItems = cart.getTotalItems();
+
+				        response.setContentType("application/json");
+				        response.setCharacterEncoding("UTF-8");
+				        response.getWriter().write("{\"totalItems\": " + totalItems + "}");
+
+				      } catch (Exception e) {
+				        throw new ServletException("Error retrieving cart items: " + e.getMessage());
+				      }
+				    }
 		}
 }

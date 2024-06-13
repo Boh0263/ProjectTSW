@@ -37,6 +37,7 @@
 <script src="./resources/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 <script src="./resources/plugins/easing/easing.js"></script>
 <script src="./resources/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="./resources/js/cart-number.js"></script>
 <script src="./resources/js/categories_custom.js"></script>
 
 </body>
