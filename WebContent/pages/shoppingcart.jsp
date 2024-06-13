@@ -2,14 +2,28 @@
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<%@page import="java.util.*, model.Prodotto, model.Carrello" %>
 	<%@include file="./generic_header.jsp"%>
-	<link rel="stylesheet" href="./resources/styles/sc_styles.css" />
+
 	<%  
 		Carrello cart = (Carrello) request.getAttribute("carrello");
-		if (cart != null){
+		int counter = 0;
+		if (cart != null) {
 		Map<Prodotto,Integer> prodotti = cart.getProdotti();
-		if (prodotti != null){
+		if (prodotti != null && !prodotti.isEmpty()) {
+		counter = 0;	
 	%>
-	
+	<style>
+					.empty-cart {
+    					color: black;
+    					font-family: Arial, sans-serif;
+    					text-align: center;
+    					font-size: 2em; /* You can adjust this value to suit your needs */
+						}
+					@media screen and (max-width: 600px) {
+    				.empty-cart {
+        				font-size: 1.5em; /* Adjust this value for smaller screens */
+				    		}
+						}
+	</style>
 	<div class="main_slider cart-slider" style="background-image:url(./resources/static/images/slider_1_empty.jpg)">
 		<div class="cart">
 			<div class="row cart_row">
@@ -34,8 +48,8 @@
                 &euro; <fmt:formatNumber value="<%= entry.getKey().getPrezzo()%>" type="currency" currencySymbol="" /> <span class="close cart_close">&#10005;</span>
               </div>
             </div>
-         <% }} else { //TODO %>
-                    <div class="back-to-shop"><a href="./Catalogo.jsp?category=All">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+        <%  counter+=1; } %> 
+                    <div class="back-to-shop"><a href="./Catalogo.jsp?category=All">&leftarrow;</a><span class="text-muted">Ritorna al Catalogo</span></div>
                 </div>
                 <div class="col-md-4 summary cart_summary">
                     <div><h5><b>Summary</b></h5></div>
@@ -46,21 +60,55 @@
                     </div>
                     <form method="post" action="./Carrello">
                         <p>SHIPPING</p>
-                        <select><option class="text-muted">Standard-Delivery- &euro;5.00</option></select>
+                        <select>
+                        <option class="text-muted" selected>Standard-Delivery- &euro;5.00</option>
+                        <option class="text-muted">Express-Delivery- &euro;10.00</option>
+                        </select>
                         <p>GIVE CODE</p>
                         <input id="code" placeholder="Enter your code">
                     
                     <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                         <div class="col">TOTAL PRICE</div>
-                        <div class="col text-right">&euro; <%=cart.getTotalPrice() + 5.00d %></div> <!-- TODO Costi di spedizione -->
+                        <div class="col text-right">&euro; <%=cart.getTotalPrice() + 5.00 %></div>
                     </div>
 					<button class="btn cart_btn" type="submit" name="action" value="proceedToCheckout">CHECKOUT</button>
                     </form>
                 </div>
-               <% }} %>
             </div>
-            
+            <% } else {
+            	
+            	%>
+            	<div class="cart">
+            	<p class="empty-cart">Il carrello è vuoto</p>
+            	<div class="back-to-shop" ><a onclick="window.history.go(-1);">&leftarrow;</a><span class="text-muted">Ritorna al Catalogo</span></div>
+            	</div>
+            	<% }} else { %>
+            	<div class ="cart">
+            	<p class="empty-cart">Si è verificato un errore, riprovare più tardi.</p> <!-- TODO Stylesheet per empty-cart -->
+             <div class="back-to-shop"><a onclick="window.history.go(-1);">&leftarrow;</a><span class="text-muted">Ritorna al Catalogo</span></div>
+             </div>
+             <% } %>
         </div>
 	</div>
-		
+	<% if(cart != null) { %>
+	<script type="text/javascript">
+	document.getElementById('standardDelivery').addEventListener('change', updateTotalPrice);
+	document.getElementById('expressDelivery').addEventListener('change', updateTotalPrice); 
+	// Update the total price when the user adds or removes a product from the cart using the +/- buttons
+	document.querySelectorAll('.plus').forEach(function(button) {
+        button.addEventListener('click', function() {
+            // use ajax to update the product quantity in the cart and then update the total price on the page
+ 
+        });
+    });
+
+	function updateTotalPrice() {
+	    var basePrice = cart.getTotalPrice();
+	    var standardDeliveryCost = parseFloat(document.getElementById('standardDelivery').value);
+	    var expressDeliveryCost = parseFloat(document.getElementById('expressDelivery').value);
+	    var totalPrice = basePrice + standardDeliveryCost + expressDeliveryCost;
+	    document.getElementById('totalPrice').textContent = '€ ' + totalPrice.toFixed(2);
+	}
+	</script>	
+	<% } %>
 		<%@ include file="./generic_footer.jsp" %>

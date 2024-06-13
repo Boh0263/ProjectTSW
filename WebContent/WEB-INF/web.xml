@@ -18,6 +18,14 @@
     <servlet-name>CatalogoControl</servlet-name>
     <url-pattern>/Catalogo</url-pattern>
   </servlet-mapping>
+  <servlet>
+  <servlet-name>ProductControl</servlet-name>
+  <servlet-class>control.ProductControl</servlet-class>
+  </servlet>
+	<servlet-mapping>
+	<servlet-name>ProductControl</servlet-name>
+	<url-pattern>/Prodotto/*</url-pattern>
+	</servlet-mapping>
  
   <filter>
   <filter-name>UserSessionFilter</filter-name>

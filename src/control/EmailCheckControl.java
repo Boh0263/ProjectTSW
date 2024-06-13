@@ -13,7 +13,7 @@ import model.UserDaoImp;
  * Servlet implementation class EmailCheckControl
  */
 
-@WebServlet("/EmailCheckControl")
+@WebServlet("/verifyEmail")
 public class EmailCheckControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static UserDaoImp dao = new UserDaoImp();

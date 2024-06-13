@@ -93,7 +93,7 @@
 							<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
 						</ul>
 					</div>
-					<% }  else if (categoria.equalsIgnoreCase("Arma")){%>
+					<% }  else if (categoria.equalsIgnoreCase("Arma")) { %>
 					
 					<!-- Tipi -->
 					
@@ -201,7 +201,7 @@
 								<div class="product-grid">
 
 							<% 
-							if (products != null){
+							if (products != null) {
 							Iterator<?> product = products.iterator();
 							 
 								while(product.hasNext()) {
@@ -210,27 +210,28 @@
 
 									<div class="product-item <%=request.getParameter("category")%>">
 										<div class="product discount product_filter">
-											<div class="product_image">
+											<div class="product_image">	
+					                        <% if(prod.getImg1() == null || prod.getImg1().isEmpty() || true) { %>
+					                        <img src="./resources/static/images/Error.png" alt="<%=prod.getNome()%>">
+					                        <% } else { %>
 												<img src="<%=prod.getImg1()%>" alt="<%=prod.getNome()%>">
+												<% } %> 
 											</div>
 											<div class="favorite favorite_left"></div>
 											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-<fmt:formatNumber value="<%= (prod.getPrezzo()/100)*30%>" type="number" pattern="0.0"/>$</span></div>
 											<div class="product_info">
-												<h6 class="product_name"><a href="single.html"><%=prod.getNome()%></a></h6>
+												<h6 class="product_name"><a href="/Prodotto?Nome=<%=prod.getNome()%>"><%=prod.getNome()%></a></h6>
 												<div class="product_price"><fmt:formatNumber value="<%=prod.getPrezzo()%>" type="number" pattern="0.00" groupingUsed="false"/>$<span><fmt:formatNumber value="<%=((prod.getPrezzo()/100)*130)%>" type="number" pattern="0.00"/>$</span></div> <!--  Possibili problemi di formatting con il filtro per prezzo --> 
 											</div>
 										</div>
-										
+										<form action="./Carrello?action=addProduct&forward=home.jsp" method="post" class="add_to_cart">
             								<div class="red_button carrello_button">
-            								<form action="/Carrello" method="post">
-              									<input type="hidden" name="prodotto" value="<%=prod.getNome()%>" /> <!-- TODO Usare AJAX (ASAP) -->
-              									<input type="hidden" name="forward" value="/Catalogo.jsp" />
-              								</form>
-              								<button type="submit">Add to Cart</button>
+              									<input type="hidden" name="prodotto" value="<%=prod.getNome()%>" /> 
+              								    <button type="submit">Add to Cart</button>
             								</div>
+            							</form>
 									</div> 
-								<% }
-								} else { %> <div>Errore, riprovare più tardi</div> <% } %>
+								<% }} %>
 				
 	
 								<div class="product_sorting_container product_sorting_container_bottom clearfix">
@@ -272,30 +273,47 @@
 		</div>
 	  </div>
 	</div>
-	<script>
-     <!-- if an item is added to the cart, the number of items must be refreshed (not incremented directly)-->	
-             $('.carrello_button').click(function() {
-            	 
-		var cart = document.getElementById('cart');
-		
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "./Carrello", true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    cart.innerHTML = response.cartItems;
-                }
+	<script src="./resources/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+    $(".add_to_cart").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var url = form.attr('action');
+        var data = form.serialize();
+        $.ajax({
+            type : "POST",
+            url : url,
+            data : data,
+            success : function(data) {
+                $("#checkout_items").text(data);
+
+                var banner = document.createElement('div');
+                banner.className = 'banner';
+                banner.textContent = 'Prodotto aggiunto al carrello!';
+                document.getElementById('banner-container').appendChild(banner);
+                // dopo 3 secondi il banner scompare.
+                setTimeout(function() {
+                    banner.style.opacity = '0';
+                    setTimeout(function() {
+                        banner.remove();
+                    }, 500);
+                }, 3000);
+            },
+            error : function(data) {
+                var banner = document.createElement('div');
+                banner.className = 'banner';
+                banner.textContent = 'Errore, riprovare più tardi';
+                document.getElementById('banner-container').appendChild(banner);
+                setTimeout(function() {
+                    banner.style.opacity = '0';
+                    setTimeout(function() {
+                        banner.remove();  
+                    },500); 
+                }, 3000);
             }
-			xhr.send();
-		
-			//the function is called when the user clicks on the button to add an item to the cart
-			//it sends a POST request to the servlet that manages the cart
-			//the servlet updates the cartItems attribute in the session
-			//the servlet returns the updated cartItems attribute
-			//the function updates the cartItems number in the page
-			
-			});
-		});}
-	</script>
+        });
+    });
+}); 
+</script>
 	<%@include file="./generic_footer.jsp" %>

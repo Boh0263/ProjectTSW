@@ -31,6 +31,7 @@ public class CarrelloControl extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	 
 		  HttpSession session = request.getSession(false);
+		  request.setAttribute("custom_styles", new String[] {"./resources/styles/sc_styles.css", "./resources/styles/main_styles.css","./resources/styles/responsive.css"} );
 		  Carrello cart;
 		  try {
 		  String cartCookieValue = getCartFromCookie(request);
@@ -160,12 +161,8 @@ public class CarrelloControl extends HttpServlet {
 				//TODO verifica sessione utente.
 				  throw new ServletException(e.getMessage());
 			  }
-			} else {
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("pages/login-alternative.jsp");
-				request.setAttribute("forward", "/pages/shoppingcart.jsp");
-				dispatcher.forward(request, response);
 			}
-			} else if (action.equalsIgnoreCase("addProduct")) {
+		} else if (action.equalsIgnoreCase("addProduct")) {
 			    try {
 			        Carrello cart = null;
 			        if (session != null && session.getAttribute("carrello") != null) {
@@ -199,8 +196,7 @@ public class CarrelloControl extends HttpServlet {
 			      } catch (Exception e) {
 			        throw new ServletException("Errore nell'aggiungere il prodotto: " + e.getMessage()); //TODO error handling
 			      }
-			    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(request.getAttribute("forward").toString());
-				  dispatcher.forward(request, response);
+			   
 			    }
 		}
 }

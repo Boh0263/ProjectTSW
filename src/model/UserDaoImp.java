@@ -25,7 +25,7 @@ public class UserDaoImp implements UserDAO {
 		PreparedStatement ps = null;
 		boolean result = false;	
         // follow the database schema to insert the user
-		        String insertSQL = "INSERT INTO Utente (username, password, email, CF, tipo) VALUES (?, ?, ?, ?, ?)";
+		        String insertSQL = "INSERT INTO Utente (username, password, email, CF, tipo) VALUES (?, SHA(?,256), ?, ?, ?)";
 		     
 		try {
             con = DMConnectionPool.getConnection();
@@ -34,7 +34,7 @@ public class UserDaoImp implements UserDAO {
 			ps.setString(2, t.getPassword());
 			ps.setString(3, t.getEmail());
 			ps.setString(4, t.getCF());
-			ps.setString(5, t.getTipo());
+			ps.setString(5, "R");
 			ps.executeUpdate();
 			result = true;
 		} finally {
@@ -59,7 +59,7 @@ public class UserDaoImp implements UserDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 	    int result = 0;
-	            String updateSQL = "UPDATE Utente SET password = ?, email = ?, CF = ?, tipo = ? WHERE username = ?";
+	            String updateSQL = "UPDATE Utente SET password = SHA(?,256), email = ?, CF = ?, tipo = ? WHERE username = ?";
 	                    try {
 							con = DMConnectionPool.getConnection();
 							ps = con.prepareStatement(updateSQL);

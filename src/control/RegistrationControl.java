@@ -35,6 +35,7 @@ public class RegistrationControl extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Utente u = null;
 		String Messaggio = "Registrazione avvenuta con successo";
+		//xhr.send("username=" + username + "&email=" + email + "&password=" + password + "&confirmPassword=" + confirmPassword + "&Nome=" + firstName + "&Cognome=" + lastName + "&Indirizzo=" + address + "&CF=" + CF + "&dataNascita=" + dataNascita + "&telefono=" + telefono);
 		u = new Utente(-1,
 				request.getParameter("username"),
 				request.getParameter("password"),

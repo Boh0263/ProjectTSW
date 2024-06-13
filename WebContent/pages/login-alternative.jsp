@@ -7,60 +7,49 @@
 </head>
 <body>
     <div class="container">
-      <form  id="form" action="./login" method="post" class="form">
+      <form  id="form" action="/login" method="post" class="form" onsubmit="return formVal()">
         <h2>Login</h2>
+        <
         <div class="form-control">
+          <div class="input-field">
+          <i class="fas fa-user"></i>
           <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Inserisci l'username" />
-          <small>Error message</small>
+          <input type="text" id="username" placeholder="Inserisci l'username"  required autofocus/>
+          </div>
         </div>
         <div class="form-control">
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Inserisci la password" />
-          <small>Error message</small>
+          <input type="password" id="password" placeholder="Inserisci la password" required />
+        </div>
         </div>
         <button type="submit" value="login" class="actionBtn">Login</button>
       </form>
     </div>
 
 	<% if(request.getAttribute("Messaggio") != null) { %>
-	<div class="container" style="">
+	<div class="container" style="display: none;">
 		<div class="alert alert-danger" role="alert">
 			<%=(String) request.getAttribute("Messaggio")%>
 		</div>
 	</div>
 	<% } %>	
-</body>
-<script>
-//handle form submit with ajax (if login fails, the page is not reloaded and the error message is displayed, else you're redirected by the foward attribute)
+	<script src="${pageContext.request.contextPath}/resources/scripts/validation.js"></script>
+	<script>
+		function formVal() {
+		var username = document.getElementById('username').value;
+    	var password = document.getElementById('password').value;
+    	var alertDiv = document.querySelector('.alert');
 
-	
-	$(document).ready(function() {
-    $("#form").submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-                url: $(this).attr("action"),
-                type: $(this).attr("method"),
-                data: $(this).serialize(),
-                success: function(response) {
-                    if (response == "true") {
-                    	//get the request attribute "forward" and redirect to that page
-                    	//if the attribute is not set, redirect to the home page
-                    	var forward = "${requestScope.forward}";
-                    	if(forward != null){
-                    		window.location.href = forward;
-                    	} else {
-                    		window.location.href = "./home.jsp"; 
-                    	}
-                    } else {
-                    	
-           
-                        $(".alert").remove();
-                        $(".container").prepend('<div class="alert alert-danger" role="alert">Credenziali errate</div>');
-                    }
-                }
-            });
-    });
-});
-</script>
+    	if(validateUsername(username) && validatePassword(password)) {
+        alertDiv.style.display = 'block';
+        alertDiv.innerHTML = 'campi invalidi';
+        return false;
+    	}
+    	alertDiv.style.display = 'none';
+    	return true;
+		}
+	</script>
+</body>
 </html>

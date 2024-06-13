@@ -58,6 +58,7 @@ public class CatalogoControl extends HttpServlet {
 		}
 
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/pages/Catalogo.jsp");
+		req.setAttribute("custom_styles", new String[] { "./resources/styles/categories_styles.css", "./resources/styles/categories_responsive.css" });
 		dispatch.forward(req, res);
 	}
 

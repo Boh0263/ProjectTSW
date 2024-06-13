@@ -2,12 +2,12 @@ CREATE DATABASE IF NOT EXISTS Kiitz;
 Use Kiitz;
 
 CREATE TABLE IF NOT EXISTS Utente(
-  ID INT auto_increment PRIMARY KEY,
+  ID INT auto_increment NOT NULL PRIMARY KEY,
   Username VARCHAR(255) NOT NULL UNIQUE,
-  Password VARCHAR(255) NOT NULL,
+  Password VARCHAR(64) NOT NULL,
   Nome VARCHAR(255),
   Cognome VARCHAR(255),
-  Data_nascita DATE,
+  CF VARCHAR(16),
   Email VARCHAR(255) UNIQUE,
   Tipo ENUM('R','NR','A')
 );
@@ -75,6 +75,14 @@ CREATE TABLE IF NOT EXISTS Abbigliamento (
   Tipo ENUM('Maglietta', 'Pantalone', 'Calzatura'),
   Materiale VARCHAR(255),
   FOREIGN KEY (ID_Prodotto) REFERENCES Prodotto(Nome)
+);
+
+CREATE TABLE IF NOT EXISTS Armatura (
+    ID_Armatura INT PRIMARY KEY AUTO_INCREMENT,
+    Materiale ENUM('Ferro', 'Maglia', 'Cuoio'),
+    Pezzo ENUM('Helmet', 'Chestplate', 'Leggings', 'Boots'),
+    ID_Prodotto VARCHAR(255),
+    FOREIGN KEY (ID_Prodotto) REFERENCES Prodotto(Nome)
 );
 
 

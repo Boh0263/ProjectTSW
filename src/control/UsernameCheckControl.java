@@ -14,7 +14,7 @@ import model.UserDaoImp;
 /**
  * Servlet implementation class UsernameCheckControl
  */
-@WebServlet("/VerifyUsername")
+@WebServlet("/verifyUsername")
 public class UsernameCheckControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static UserDaoImp dao = new UserDaoImp();
@@ -35,6 +35,7 @@ public class UsernameCheckControl extends HttpServlet {
 		try {
 			if (dao.doCheck(username)) {
 				response.getWriter().write("true");
+				response.setStatus(200);
 			} else {
 				response.getWriter().write("false");
 			}

@@ -21,13 +21,16 @@ function validateUsername(username)
 	const pattern = /^[a-zA-Z]+$/;
 	if(!pattern.test(username)) {
 		return false;
+	} else {
+		return true;
 	}
 }
 function validateEmail(email) {
 	const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 	if (!pattern.test(email)) {
-		return false;
-	}
+	 	return false;
+	} 
+	else return true;
 }
 
 function validatePassword(password)
@@ -36,6 +39,8 @@ function validatePassword(password)
 	if(!pattern.test(password))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -45,7 +50,9 @@ function validateNomeProdotto(name)
 	if(!pattern.test(name))
 	{
 		return false;
-	}
+	} else {
+        return true;
+    }
 }
 
 function validateGiacenza(giacenza)
@@ -54,6 +61,8 @@ function validateGiacenza(giacenza)
 	if(!pattern.test(giacenza))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -63,6 +72,8 @@ function validateDescrizione(desc)
 	if(!pattern.test(desc))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -72,6 +83,8 @@ function validatePrezzo(prezzo)
 	if(!pattern.test(prezzo))
 	{
 		return false;
+	} else { 
+		return true;
 	}
 }
 
@@ -81,6 +94,8 @@ function validateIVA(iva)
 	if(!pattern.test(iva))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -99,6 +114,8 @@ function validateGenere(genere)
 	if(!pattern.test(genere))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -108,6 +125,8 @@ function validateMateriale(mat)
 	if(!pattern.test(mat))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -117,6 +136,8 @@ function validatePezzo(pezzo)
 	if(!pattern.test(pezzo))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -126,5 +147,7 @@ function validateUtilizzo(usage)
 	if(!pattern.test(usage))
 	{
 		return false;
+	} else {
+		return true;
 	}
 }

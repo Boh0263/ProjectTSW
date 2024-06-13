@@ -1,6 +1,8 @@
 package control;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,21 +33,29 @@ public class LoginControl extends HttpServlet {
         protected void doPost(HttpServletRequest request, HttpServletResponse response)
                 throws ServletException, IOException {
         	try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
+				String username = request.getParameter("username");
+				String password = request.getParameter("password");
+            
+			if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+				request.setAttribute("Messaggio", "Inserire username e password");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/login-alternative.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
 
-            if (LoginDAO.UserValidation(new LoginInfo(username, password)).equalsIgnoreCase("A")) {
+            if (LoginDAO.UserValidation(new LoginInfo(username, encryptPassword(password))).equalsIgnoreCase("A")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
                 session.setMaxInactiveInterval(200);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
-                //CRSF TOKEN 
                 dispatcher.forward(request, response);
                 response.sendRedirect(request.getContextPath()+"/AdminHome.jsp");
-            } else if (LoginDAO.UserValidation(new LoginInfo(username, password)).equalsIgnoreCase("R")) {
+            } else if (LoginDAO.UserValidation(new LoginInfo(username, encryptPassword(password))).equalsIgnoreCase("R")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
                 session.setMaxInactiveInterval(200);
+               
+                 
                 if(request.getAttribute("forward") != null) {
                 	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(request.getAttribute("forward").toString());
                 	dispatcher.forward(request, response);
@@ -56,7 +66,7 @@ public class LoginControl extends HttpServlet {
                 }
             }
             else  {
-				request.setAttribute("Messaggio", "Credenziali non valide");
+				request.setAttribute("Messaggio", LoginDAO.UserValidation(new LoginInfo(username, password)));
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/login-alternative.jsp");
 				dispatcher.forward(request, response);
             }
@@ -64,4 +74,22 @@ public class LoginControl extends HttpServlet {
         	throw new ServletException("Errore: "+ e.getMessage()); 
         }
     }
+
+		public String encryptPassword(String password) throws ServletException {
+        String hashtext = "";
+        MessageDigest md = null;
+		try {
+            
+			md = MessageDigest.getInstance("SHA-256");
+            byte[] messageDigest = md.digest(password.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            hashtext = no.toString(16);
+            
+        	} catch(Exception e) {
+            	throw new ServletException("Errore: "+ e.getMessage());
+            	}
+            
+             return hashtext;
+		}
+ 
 }

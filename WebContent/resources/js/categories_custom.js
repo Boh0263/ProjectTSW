@@ -301,7 +301,7 @@ jQuery(document).ready(function($)
 			}	
     	}
     }
-
+    
     /* 
 
 	6. Init Isotope Filtering

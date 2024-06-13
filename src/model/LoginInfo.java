@@ -4,23 +4,13 @@ public class LoginInfo  {
 
 	private String username;
 	private String password;
-	
-	
-	public LoginInfo() {	
-	}
-	
-	public LoginInfo(Utente user) throws IllegalArgumentException {
-		super();
-		try {
-			this.username = user.getUsername();
-			this.password = user.getPassword();
-		} catch(Exception e) {
-			throw new IllegalArgumentException("Invalid Parameters");
-		}
+
+	public LoginInfo() {
+		this.username = "";
+		this.password = "";
 	}
 	
 	public LoginInfo(String username, String password) throws IllegalArgumentException {
-		super();
 		try {
 		this.username = username;
 		this.password = password;

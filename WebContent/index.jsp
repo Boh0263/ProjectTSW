@@ -22,6 +22,10 @@
    <!-- <script type="module" resources="./js/scripts.js"></script>  commentato per prima task--> 
 </head>
 <body>
-<jsp:forward page="pages/home.jsp"></jsp:forward>
+ <% 
+ RequestDispatcher rd = request.getRequestDispatcher("pages/home.jsp");
+ request.setAttribute("custom_styles", new String[] { "./resources/styles/main_styles.css","./resources/styles/responsive.css" });
+ rd.forward(request, response);
+ %>
 </body>
 </html>
