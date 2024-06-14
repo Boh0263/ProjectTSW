@@ -47,7 +47,7 @@ function getCartItems() {
 
 function updateCartNumber() {
 	getCartItems().then(function(cartItems) {
-		document.getElementById('checkout-items').innerText = cartItems;
+		document.getElementById('checkout-items').innerText = cartItems + "b";
 	});
 	
 	window.onload = function() {

@@ -282,8 +282,15 @@ public class ProdottoDAOImp implements ProdottoDAO {
 			ps.setString(1, code);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
-				categoria = rs.getString("Categoria");
+				
+				if(rs.getString("ID_Abbigliamento") != null) categoria = "Abbigliamento";
+                else if(rs.getString("ID_Accessorio") != null) categoria = "Accessorio";
+                else if(rs.getString("ID_Arma") != null) categoria = "Arma";
+                else if(rs.getString("ID_Armatura") != null) categoria = "Armatura";
+                else throw new SQLException("Errore nel recupero del prodotto");
+				
 				switch(categoria) {
+				
 				case "Abbigliamento": {
 				  obj = new Abbigliamento(
 						  rs.getString("Nome"),

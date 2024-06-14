@@ -220,7 +220,7 @@
 											<div class="favorite favorite_left"></div>
 											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-<fmt:formatNumber value="<%= (prod.getPrezzo()/100)*30%>" type="number" pattern="0.0"/>$</span></div>
 											<div class="product_info">
-												<h6 class="product_name"><a href="/Prodotto?Nome=<%=prod.getNome()%>"><%=prod.getNome()%></a></h6>
+												<h6 class="product_name"><a href="./Prodotto?Nome=<%=prod.getNome()%>"><%=prod.getNome()%></a></h6>
 												<div class="product_price"><fmt:formatNumber value="<%=prod.getPrezzo()%>" type="number" pattern="0.00" groupingUsed="false"/>$<span><fmt:formatNumber value="<%=((prod.getPrezzo()/100)*130)%>" type="number" pattern="0.00"/>$</span></div> <!--  Possibili problemi di formatting con il filtro per prezzo --> 
 											</div>
 										</div>
@@ -275,6 +275,7 @@
 	</div>
 	<script src="./resources/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript">
+	
 	$(document).ready(function () {
     $(".add_to_cart").submit(function(e) {
         e.preventDefault();
@@ -286,7 +287,7 @@
             url : url,
             data : data,
             success : function(data) {
-                $("#checkout_items").text(data);
+                
 
                 var banner = document.createElement('div');
                 banner.className = 'banner';

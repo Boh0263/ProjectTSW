@@ -25,7 +25,7 @@ public class UserDaoImp implements UserDAO {
 		PreparedStatement ps = null;
 		boolean result = false;	
         // follow the database schema to insert the user
-		        String insertSQL = "INSERT INTO Utente (username, password, email, CF, tipo) VALUES (?, SHA(?,256), ?, ?, ?)";
+		        String insertSQL = "INSERT INTO Utente (username, password, email, CF, tipo) VALUES (?, SHA2(?,256), ?, ?, ?)";
 		     
 		try {
             con = DMConnectionPool.getConnection();

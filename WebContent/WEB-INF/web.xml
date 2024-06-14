@@ -19,11 +19,11 @@
     <url-pattern>/Catalogo</url-pattern>
   </servlet-mapping>
   <servlet>
-  <servlet-name>ProductControl</servlet-name>
-  <servlet-class>control.ProductControl</servlet-class>
+  <servlet-name>ProdottoControl</servlet-name>
+  <servlet-class>control.ProdottoControl</servlet-class>
   </servlet>
 	<servlet-mapping>
-	<servlet-name>ProductControl</servlet-name>
+	<servlet-name>ProdottoControl</servlet-name>
 	<url-pattern>/Prodotto/*</url-pattern>
 	</servlet-mapping>
  

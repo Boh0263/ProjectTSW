@@ -138,7 +138,7 @@
             });
             
 
-            document.getElementById("email").addEventListener("input", function() {
+            function validateEm() {
 
                 var email = document.getElementById("email").value;
 
@@ -149,9 +149,9 @@
                     $.ajax({
                         url: './verifyEmail?email=' + email,
                         type: 'GET',
-                        dataType: 'json',
+                        dataType: 'application/json',
                         success: function(response) {
-                            if (response.available === false) {
+                            if (response.available == false) {
                                 hasErrors = true;
                             } else {
                             	document.getElementById("emailError").textContent = "OK";
@@ -168,11 +168,15 @@
                     hasErrors = true; 
            
                 }
-            });
+            }
+            
+            document.getElementById("email").addEventListener("input", validateEm);
+            document.getElementById("email").addEventListener("focusout", validateEm);
+       
 
             document.getElementById("password").addEventListener("input", function() {
                 var password = document.getElementById("password").value;
-                if (validatePassword(password)) {
+                if (!validatePassword(password)) {
                     document.getElementById("passwordError").textContent = "La password deve: 1. contenere almeno 8 caratteri, 2. contenere almeno una lettera maiuscola, 3. contenere almeno un numero, 4. contenere almeno un carattere speciale";
                     hasErrors = true;
                     return;
@@ -228,7 +232,7 @@
                         dataNascita: dataNascita,
                         telefono: telefono
                     },
-                    dataType: 'json',
+                    dataType: 'application/json',
                     success: function(response) {
                         if (response.success) {
                             window.location.href = "/ProjectTSW/login?Messaggio=Registrazione%20avvenuta%20con%20successo";
