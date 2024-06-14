@@ -11,9 +11,9 @@
     <res-auth>Container</res-auth>
   </resource-ref>
   <servlet>
-  <servlet-name>CatalogoControl</servlet-name>
-  <servlet-class>control.CatalogoControl</servlet-class> 
- </servlet>
+    <servlet-name>CatalogoControl</servlet-name>
+    <servlet-class>control.CatalogoControl</servlet-class> 
+  </servlet>
   <servlet-mapping>
     <servlet-name>CatalogoControl</servlet-name>
     <url-pattern>/Catalogo</url-pattern>
@@ -26,15 +26,37 @@
 	<servlet-name>ProdottoControl</servlet-name>
 	<url-pattern>/Prodotto/*</url-pattern>
 	</servlet-mapping>
+    <servlet-name>ProductControl</servlet-name>
+    <servlet-class>control.ProductControl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductControl</servlet-name>
+    <url-pattern>/Prodotto/*</url-pattern>
+  </servlet-mapping>
+ 
+ <!-- volevo fare 3 jsp separate, ma ho fatto generare il codice per un sola capace di gestire tutto e senza stampe di 'segreti vari' -->
+ 
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>java.lang.Throwable</error-code>
+    <location>/error.jsp</location>
+  </error-page>
  
   <filter>
-  <filter-name>UserSessionFilter</filter-name>
-  <filter-class>control.UserSessionFilter</filter-class>
+    <filter-name>UserSessionFilter</filter-name>
+    <filter-class>control.UserSessionFilter</filter-class>
   </filter>
   <filter-mapping>
-  <filter-name>UserSessionFilter</filter-name>
-  <url-pattern>/AdminControl/*</url-pattern>
-  <url-pattern>/Checkout/*</url-pattern>
-  <url-pattern>/Account/*</url-pattern>
+    <filter-name>UserSessionFilter</filter-name>
+    <url-pattern>/AdminControl/*</url-pattern>
+    <url-pattern>/Checkout/*</url-pattern>
+    <url-pattern>/Account/*</url-pattern>
   </filter-mapping>
 </web-app>
