@@ -59,4 +59,15 @@
     <url-pattern>/Checkout/*</url-pattern>
     <url-pattern>/Account/*</url-pattern>
   </filter-mapping>
+  
+  <filter>
+    <filter-name>SecurityHeadersFilter</filter-name>
+    <filter-class>control.SecurityHeadersFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SecurityHeadersFilter</filter-name>
+    <url-pattern>/AdminControl/*</url-pattern>
+    <url-pattern>/Checkout/*</url-pattern>
+    <url-pattern>/Account/*</url-pattern>
+  </filter-mapping>
 </web-app>
