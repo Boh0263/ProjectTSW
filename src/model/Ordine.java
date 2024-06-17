@@ -15,6 +15,7 @@ public class Ordine implements Serializable {
 	private final String Ragione_Sociale;
 	private final Indirizzo Address;
 	private final String Data_Ordine;
+	private final double Imposta;
 
 	public Ordine() {
 		this.ScontoCoupon = 0.0d;
@@ -22,15 +23,26 @@ public class Ordine implements Serializable {
 		this.Ragione_Sociale = null;
 		this.Address = null;
 		this.Data_Ordine = ZonedDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy.mm.ss"));
+		this.Imposta = 0.22d;
 	}
 	
-	public Ordine(Map<Prodotto, Integer> prodotti, String Ragione_Sociale, double ScontoCoupon, Indirizzo Address) {
+	public Ordine(Map<Prodotto, Integer> prodotti, String Ragione_Sociale, double ScontoCoupon, Indirizzo Address, double Imposta) {
 	    this.prodotti = prodotti;
 	    this.Ragione_Sociale = Ragione_Sociale;
 	    this.ScontoCoupon = ScontoCoupon;
 	    this.Address = Address;
 	    this.Data_Ordine = ZonedDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy.mm.ss"));
+	    this.Imposta = Imposta;
 	  }
+
+	public Ordine(Map<Prodotto, Integer> prodotti, String Ragione_Sociale, double ScontoCoupon, Indirizzo Address,String Data_Ordine, double Imposta) {
+		this.prodotti = prodotti;
+		this.Ragione_Sociale = Ragione_Sociale;
+		this.ScontoCoupon = ScontoCoupon;
+		this.Address = Address;
+		this.Data_Ordine = Data_Ordine;
+		this.Imposta = Imposta;
+	}
 	
 	public Map<Prodotto, Integer> getProdotti() {
 		return prodotti;
@@ -63,6 +75,10 @@ public class Ordine implements Serializable {
 	
 	public double getTotalPrice() {
 		return getSubTotalPrice() - getScontoCoupon();
+	}
+
+	public double getImposta() {
+		return Imposta;
 	}
 
 }

@@ -1,6 +1,7 @@
 package model;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.Collection;
 
 public interface OrdineDAO extends DAO<Ordine> {
-	public List<Ordine> doRetrieveByUser(Utente t); 
+	public Collection<Ordine> doRetrieveByUser(Utente t) throws SQLException;; 
 }

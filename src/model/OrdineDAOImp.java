@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,21 +15,120 @@ public class OrdineDAOImp implements OrdineDAO {
 
 	@Override
 	public Ordine getbyID(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Ordine ordine = null;
+		
+		String select = "SELECT * FROM Ordine WHERE ID = ?";
+		try {
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(select);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				ordine = new Ordine(
+						doRetrieveContent(rs.getInt("ID")),
+						rs.getString("Ragione_sociale"),
+						rs.getDouble("Sconto"),
+						new Indirizzo(rs.getString("Indirizzo_breve")),
+						rs.getString("Data_Ordine"),
+						rs.getDouble("Imposta")
+						);
+			}
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+		return ordine;
 	}
 
 	@Override
 	public Collection<Ordine> doretrieveAll(String stato) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Collection<Ordine> ordini = null;
+		String select = null;
+		if (stato == null || stato.isEmpty()) {
+			select = "SELECT * FROM Ordine";
+		} else {
+		   select = "SELECT * FROM Ordine WHERE Stato = ?";
+		}
+	   try {
+		   con = DMConnectionPool.getConnection();
+		   ps = con.prepareStatement(select);
+		   if (stato != null && !stato.isEmpty()) {
+               ps.setString(1, stato);
+           }
+		   rs = ps.executeQuery();
+		   ordini = new LinkedList<Ordine>();
+		   while(rs.next()) {
+		            ordini.add( new Ordine(
+		            doRetrieveContent(rs.getInt("ID")),
+		            rs.getString("Ragione_sociale"),
+		            rs.getDouble("Sconto"),
+		            new Indirizzo(rs.getString("Indirizzo_breve")),
+		            rs.getString("Data_Ordine"),
+		            rs.getDouble("Imposta")));	  
+		            	  }
+		   } finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+		return ordini;
 	}
+	   
+	
+	public Map<Prodotto, Integer> doRetrieveContent(int ID_Ordine) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ProdottoDAO prodottoDAO = null;
+		HashMap<Prodotto, Integer> contenuto = new HashMap<Prodotto, Integer>();
+		
+		String select = "SELECT * FROM Contenuto WHERE ID_Ordine = ?";
+		try {
+			prodottoDAO = new ProdottoDAOImp();
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(select);
+			ps.setInt(1, ID_Ordine);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+			contenuto.put(prodottoDAO.doRetrieveByKey(rs.getString("ID_Prodotto")), (Integer) rs.getInt("Qta"));	
+			}
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+		return contenuto;
+	}
+
 
 	@Override
 	public boolean doSave(Ordine t) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps1 = null;
 		PreparedStatement ps2 = null;
+		PreparedStatement ps3 = null;
 
 		//Verificare che l'ordine sia coerente al grado minimo.
 		//Per ogni prodotto nella lista dell'ordine, fare una insert nella tabella contenuto
@@ -60,6 +161,12 @@ public class OrdineDAOImp implements OrdineDAO {
 						return false;
 					 };
 					 
+					 ps3 = con.prepareStatement(updateProduct);
+					 ps3.setInt(1, entry.getValue());
+					 if (ps3.executeUpdate() <= 0) {
+							con.rollback();
+							return false;
+					    };
 				}
 			} else {
 				con.rollback();
@@ -97,10 +204,40 @@ public class OrdineDAOImp implements OrdineDAO {
 		return false;
 	}
 
-	@Override
-	public List<Ordine> doRetrieveByUser(Utente t) {
-		// TODO Auto-generated method stub
-		return null;
+    @Override
+	public Collection<Ordine> doRetrieveByUser(Utente t) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Collection<Ordine> ordini = null;
+		String select = "SELECT * FROM Ordine WHERE Ragione_Sociale IN (SELECT CONCAT(?, ' ',?) FROM Utente  WHERE Username = ?)";
+		try {
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(select);
+			ps.setString(1, t.getNome());
+			ps.setString(2, t.getCognome());
+			ps.setString(3, t.getUsername());
+			rs = ps.executeQuery();
+			ordini = new LinkedList<Ordine>();
+			while (rs.next()) {
+				ordini.add(new Ordine(doRetrieveContent(rs.getInt("ID")),
+						rs.getString("Ragione_sociale"),
+						rs.getDouble("Sconto"),
+						new Indirizzo(rs.getString("Indirizzo_breve")),
+						rs.getString("Data_Ordine"),
+						rs.getDouble("Imposta")));
+			}
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+		return ordini;
 	}
 
 }
