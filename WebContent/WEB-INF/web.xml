@@ -4,12 +4,24 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  
+  
   <resource-ref>
     <description>JNDI reference to a data source</description>
     <res-ref-name>jdbc/storage</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
+
+	<servlet>
+	<servlet-name>AdminControl</servlet-name>
+	<servlet-class>control.AdminControl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>AdminControl</servlet-name>
+	<url-pattern>/AdminControl/*</url-pattern>
+	</servlet-mapping>
+ 
   <servlet>
     <servlet-name>CatalogoControl</servlet-name>
     <servlet-class>control.CatalogoControl</servlet-class> 
@@ -26,15 +38,9 @@
 	<servlet-name>ProdottoControl</servlet-name>
 	<url-pattern>/Prodotto/*</url-pattern>
 	</servlet-mapping>
-    <servlet-name>ProductControl</servlet-name>
-    <servlet-class>control.ProductControl</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ProductControl</servlet-name>
-    <url-pattern>/Prodotto/*</url-pattern>
-  </servlet-mapping>
- 
- <!-- volevo fare 3 jsp separate, ma ho fatto generare il codice per un sola capace di gestire tutto e senza stampe di 'segreti vari' -->
+
+
+	<!-- volevo fare 3 jsp separate, ma ho fatto generare il codice per un sola capace di gestire tutto e senza stampe di 'segreti vari' -->
  
   <error-page>
     <error-code>404</error-code>
@@ -45,7 +51,7 @@
     <location>/error.jsp</location>
   </error-page>
   <error-page>
-    <error-code>java.lang.Throwable</error-code>
+    <error-code>403</error-code>
     <location>/error.jsp</location>
   </error-page>
  

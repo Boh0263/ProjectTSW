@@ -15,7 +15,7 @@ public class Indirizzo implements Serializable {
         this.provincia = provincia;
         this.cap = cap;
     }
-	public Indirizzo(String unica) {
+	public Indirizzo(String unica) { //via,citta,provincia,cap TODO
 		String[] parti = unica.split(",");
         this.via = parti[0];
         this.citta = parti[1];

@@ -25,18 +25,25 @@ public class UserDaoImp implements UserDAO {
 		PreparedStatement ps = null;
 		boolean result = false;	
         // follow the database schema to insert the user
-		        String insertSQL = "INSERT INTO Utente (username, password, email, CF, tipo) VALUES (?, SHA2(?,256), ?, ?, ?)";
+		        String insertSQL = "INSERT INTO Utente (username, password, nome, cognome, email, CF, tipo) VALUES (?, SHA2(?,256), ?, ?, ?, ?, ?)";
 		     
 		try {
             con = DMConnectionPool.getConnection();
             ps = con.prepareStatement(insertSQL);
             ps.setString(1, t.getUsername());
 			ps.setString(2, t.getPassword());
-			ps.setString(3, t.getEmail());
-			ps.setString(4, t.getCF());
-			ps.setString(5, "R");
-			ps.executeUpdate();
-			result = true;
+			ps.setString(3, t.getNome());
+			ps.setString(4, t.getCognome());
+			ps.setString(5, t.getEmail());
+			ps.setString(6, t.getCF());
+			ps.setString(7, "R");
+			
+		    int res = ps.executeUpdate();
+		    con.commit();
+			if (res == 1) {
+				result = true;
+			} 
+			
 		} finally {
 			try {
 				if (ps != null)
@@ -69,6 +76,7 @@ public class UserDaoImp implements UserDAO {
 							ps.setString(4, t.getTipo());
 							ps.setString(5, t.getUsername());
 							result = ps.executeUpdate();
+							con.commit();
 						} finally {
 							try {
 								if (ps != null)
@@ -78,7 +86,7 @@ public class UserDaoImp implements UserDAO {
 							}
 							
 	                    }
-		return 0;
+		return result;
 	}
 
 	@Override
@@ -110,7 +118,7 @@ public class UserDaoImp implements UserDAO {
         return true; //TODO
 	}
 
-	public boolean doCheck(String username) throws SQLException {
+	public  boolean doCheck(String username) throws SQLException {
 	Connection con = null;
 	PreparedStatement ps = null;
 	boolean result = false;

@@ -37,7 +37,10 @@
 							<ul class="top_nav_menu">
 
 								<!-- Currency / Language / My Account -->
-
+							<% if (session.getAttribute("username") != null){
+							
+								
+							}%>
 								<li class="account">
 									<a href="#">
 										&nbsp;&nbsp;&nbsp;Account&nbsp;&nbsp;&nbsp;

@@ -16,7 +16,7 @@ public  class LoginDAO {
 		try {
 			con = DMConnectionPool.getConnection();
 			st = con.prepareStatement("SELECT username, password, tipo from Utente WHERE (username = ? AND password = ?)");
-			st.setString(1,userDetails.getUsername());
+			st.setString(1, userDetails.getUsername());
 			st.setString(2, userDetails.getPassword());
 			ResultSet rs= st.executeQuery();
 			if(rs.next()) {
@@ -29,7 +29,7 @@ public  class LoginDAO {
 				DMConnectionPool.releaseConnection(con);
 			}
 		}
-		return userDetails.getUsername();
+		return validStatus;
 	}
  }
 

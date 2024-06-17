@@ -8,6 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
 
 import model.UserDaoImp;
 
@@ -18,6 +25,7 @@ import model.UserDaoImp;
 public class UsernameCheckControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static UserDaoImp dao = new UserDaoImp();
+	private Gson gson = new Gson();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -31,26 +39,39 @@ public class UsernameCheckControl extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		try {
-			if (dao.doCheck(username)) {
-				response.getWriter().write("true");
-				response.setStatus(200);
-			} else {
-				response.getWriter().write("false");
-			}
-		} catch (SQLException | IOException e) {
-			e.printStackTrace(); //TODO log
-		}
+		doPost(request, response);
 		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+		}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
 
+	        JsonObject jsonResponse = new JsonObject();
+
+	        try (BufferedReader reader = request.getReader()) {
+	            JsonObject jsonRequest = JsonParser.parseReader(reader).getAsJsonObject();
+	            String username = jsonRequest.get("username").getAsString();
+
+	            // Check if the username is available
+	            boolean isAvailable = !dao.doCheck(username);
+
+	            jsonResponse.addProperty("available", isAvailable);
+	        } catch (JsonSyntaxException e) {
+	            jsonResponse.addProperty("available", false);
+	            jsonResponse.addProperty("error", "Invalid JSON format");
+	            e.printStackTrace();
+	        } catch (Exception e) {
+	            jsonResponse.addProperty("available", false);
+	            jsonResponse.addProperty("error", "An unexpected error occurred");
+	            e.printStackTrace();
+	        }
+
+	        try (PrintWriter out = response.getWriter()) {
+	            out.print(gson.toJson(jsonResponse));
+	            out.flush();
+	        }
+	    }
 }
+
+

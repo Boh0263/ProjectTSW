@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+why <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@
   <body>
     <div class="container">
     <form id="form" action="${pageContext.request.contextPath}/register" method="post" class="form">
-       
+     <fieldset>  
        <div class="row"> 
         <div class="form-control">
           <label for="username">Username</label>
@@ -75,6 +75,7 @@
 				<span id="telefonoError"></span>
 		    </div>
 		    </div>
+		    </fieldset>
 			<button type="submit" id="Submit" class="actionBtn">Registrati</button>
 			</form>
 		</div>
@@ -102,7 +103,7 @@
 	
 	
 
-            document.getElementById("username").addEventListener("input", function() {
+            document.getElementById("username").addEventListener("focusout", function() {
             	//wait for the user to stop typing before making the request to the server to check if the username is available or not 
             	
          
@@ -110,16 +111,16 @@
                 var username = document.getElementById("username").value;
                 var error = document.getElementById("usernameError");
                 if (validateUsername(username)) {
-                    
-                	$.ajax({
-                        url: './verifyUsername?username=' + username,
-                        type: 'GET',
+                    $.ajax({
+                        url: './verifyUsername',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ username: username }),
                         dataType: 'json',
                         success: function(response) {
-                            if (response.available === false) {
-                            	document.getElementById("usernameError").textContent = "Username non disponibile";
+                            if (response.available == false) {
+                                document.getElementById("usernameError").textContent = "Username non disponibile";
                                 hasErrors = true;
-                                return;
                             } else {
                                 hasErrors = false;
                                 document.getElementById("usernameError").textContent = "OK";
@@ -128,28 +129,29 @@
                         error: function() {
                             hasErrors = true;
                             document.getElementById("usernameError").textContent = "Errore di rete";
-                            return;
                         }
                     });
+                
                 } else { 
                     hasErrors = true; 
                     document.getElementById("usernameError").textContent = "Username non valido";
                 }
+                
             });
             
-
             function validateEm() {
 
                 var email = document.getElementById("email").value;
 
 
-                if (validateEmail(email)) {
+                if (!validateEmail(email)) {
                 	document.getElementById("emailError").textContent = "";
                 	hasErrors = false;
-                    $.ajax({
+                    
+                	$.ajax({
                         url: './verifyEmail?email=' + email,
                         type: 'GET',
-                        dataType: 'application/json',
+                        dataType: 'json',
                         success: function(response) {
                             if (response.available == false) {
                                 hasErrors = true;
@@ -163,6 +165,7 @@
                             hasErrors = true; 
                         }
                     });
+                	
                 } else {
                 	document.getElementById("emailError").textContent =  "Email non valida";
                     hasErrors = true; 
@@ -170,13 +173,12 @@
                 }
             }
             
-            document.getElementById("email").addEventListener("input", validateEm);
             document.getElementById("email").addEventListener("focusout", validateEm);
        
 
             document.getElementById("password").addEventListener("input", function() {
                 var password = document.getElementById("password").value;
-                if (!validatePassword(password)) {
+                if (validatePassword(password)) {
                     document.getElementById("passwordError").textContent = "La password deve: 1. contenere almeno 8 caratteri, 2. contenere almeno una lettera maiuscola, 3. contenere almeno un numero, 4. contenere almeno un carattere speciale";
                     hasErrors = true;
                     return;
@@ -216,33 +218,35 @@
                 const CF = $('#CF').val();
                 const dataNascita = $('#dataNascita').val();
                 const telefono = $('#telefono').val();
+                
+                let data = {
+                	username: username,
+                    email: email,
+                    password: confirmPassword,
+                    Nome: firstName,
+                    Cognome: lastName,
+                    Indirizzo: address,
+                    CF: CF,
+                    dataNascita: dataNascita,
+                    telefono: telefono
+                }
 
                 $.ajax({
                     url: './register',
                     type: 'POST',
-                    data: {
-                        username: username,
-                        email: email,
-                        password: password,
-                        confirmPassword: confirmPassword,
-                        Nome: firstName,
-                        Cognome: lastName,
-                        Indirizzo: address,
-                        CF: CF,
-                        dataNascita: dataNascita,
-                        telefono: telefono
-                    },
-                    dataType: 'application/json',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    encode: true,
                     success: function(response) {
                         if (response.success) {
-                            window.location.href = "/ProjectTSW/login?Messaggio=Registrazione%20avvenuta%20con%20successo";
+                            window.location.href = "/ProjectTSW/login?Messaggio=" + response.message;
                         } else {
-                            window.location.href = "/ProjectTSW/register?Messaggio=Registrazione%20fallita";
+                            window.location.href = "/ProjectTSW/register?Messaggio=" + response.message;
                             return;
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        window.location.href = "/ProjectTSW/register?Messaggio=Registrazione%20fallita:%20Network%20Error";
+                        window.location.href = "/ProjectTSW/register?Messaggio=" + textStatus + ": " + errorThrown;
                         console.error("Error submitting form:", textStatus, errorThrown);
                     }
                 });

@@ -19,7 +19,7 @@ Il campo password deve necessariamente avere:
 function validateUsername(username)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(username)) {
+	if(username.length !== 0 && !pattern.test(username)) {
 		return true;
 	} else {
 		return false;
@@ -27,7 +27,7 @@ function validateUsername(username)
 }
 function validateEmail(email) {
 	const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-	if (!pattern.test(email)) {
+	if (email.length !== 0 && !pattern.test(email)) {
 	 	return true;
 	} 
 	else return false;
