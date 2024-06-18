@@ -2,52 +2,39 @@
 
 ### (Sicurezza)
 
-**Sistema di Error Handling con LOGGER (Opzionale):**
 
 * Gestisce tutti gli errori lanciati dalle servlet.
 * Reindirizza l'utente a una pagina di errore per ogni JSP che può generare errori.
-* Nasconde all'utente i dettagli dell'errore.
 
 **Prevenzione da SQLi:**
 
-* Sanifica i campi per l'inserimento di nuovi prodotti in `add.jsp`.
-* Sanifica i campi in `login.jsp`.
+* -Sanifica i campi in `login.jsp`.
 * Evita la manipolazione di URL da parte dell'admin.
 * Ricostruisce la funzione `UserValidation` in `LoginDAO` per verificare le credenziali senza parametri in chiaro.
 
 **CSRF Token per la verifica della sessione:**
 
-* Anti-CSRF Token per la verifica delle sessioni (Opzionale).
-* Sistema 2FA per admin con accesso da IP diverso (Opzionale) (modifica DB).
 
-**Ricostruzione del caricamento foto per XSS:**
+** (fabio) Ricostruzione del caricamento foto per XSS:**
 
 * Seguire l'esempio della lezione 10 su elearning.
 
 ### (Refactoring)
 
-**Sostituire riferimenti di script e stili:**
-
-* Usare path assoluti o relativi ai contesti delle pagine (usare `PageContext`).
+** - Sostituire riferimenti di script e stili:**
+* CSP policy (usa hash e nonce).
+* Decidere la policy CSP.
 
 **Sostituire riferimenti a pagine JSP:**
 
-* Usare `ServletContext`.
-* Rimuovere riferimenti a pagine non funzionanti.
-
-**Nascondere nomi di Tabelle SQL:**
-
-* Creare variabili statiche, finali e locali da concatenare alle stringhe.
+* +Rimuovere riferimenti a pagine non funzionanti.
 
 **Implementare funzioni mancanti nel DAO:**
 
-* Rimuovere `insert` dai DAO (implementato in `doSave`).
+* Carrello, Catalogo , Ordini.
 
-**Modificare pagine per la sessione utente:**
+**
 
-* Mostrare il numero di prodotti nel carrello.
-* Mostrare username/nome utente nell'header (Opzionale).
-* Creare Pagina alternativa per il carrello vuoto.
 
 ### (Cose Da Implementare)
 
@@ -60,21 +47,38 @@
     * Gestione indirizzi di spedizione salvati.
 
 **Sistema di Gestione Utenti lato Admin:**
+  * OP Admin.
+  * Rimozione Utente.
 
 **Pagina Singolo Prodotto:**
 
-* Aggiungere parametro alla Tabella Prodotto per JSON/XML di attributi aggiuntivi.
-* Aggiungere parametro alla Tabella Prodotto per file di presentazione XHTML/XML.
-* Costruire la pagina `single.jsp` per accettare e mostrare file XHTML specifici.
+* Aggiungere parametro alla Tabelle Categoria per JSON/XML di attributi aggiuntivi.
+
 
 **Sistema di Salvataggio Preferiti:**
-
-* Cookie per preferenze utente generico.
-* Cookie/sessione per oggetti di utente non registrato.
+* Pagina Wishlist.jsp (copiata da ordini.jsp)
 * Sessione per oggetti di utente registrato.
 
 **Sistema Iscrizione Newsletter (Opzionale):**
 
 **Sistema Visualizzazione Ordini lato Utente:**
+ * Da completare.
+ * Generare fattura per ogni ordine.
+ * Possibilità di annullare l'ordine a fattura non emessa.
 
-**Sistema Gestione Ordini lato Admin:**
+**Sistema Gestione Ordini lato Admin:**	
+	* Visualizzare ordini con filtro sullo stato dell'ordine.
+	* Generare la fattura.
+	* Cancellare ordini dal database. 
+	+ Aggiungere un controllo sulla data, con warning.
+	
+**Sistema di ricerca Prodotti in Catalogo.jsp:**
+ 	* Usare Isotope.
+ 		
+**Sistema di checkout:**
+  
+  *Richiedere l'indirizzo di spedizione.
+  *Usare l'API di Paypal Sandbox.	
+  
+  
+  

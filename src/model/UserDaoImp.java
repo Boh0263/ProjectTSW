@@ -1,20 +1,51 @@
 package model;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
 public class UserDaoImp implements UserDAO {
 
 	@Override
-	public Utente getbyID(int id) throws SQLException {
-		return null;
-	}
+    public Utente getbyID(int id) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs;
+        Utente bean = new Utente();
+        String getID = "SELECT * FROM UTENTE WHERE id = ?";
+
+        try {
+            con = DMConnectionPool.getConnection();
+            ps = con.prepareStatement(getID);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            if(rs.next()) {
+                bean.setCF("CF");
+                bean.setCognome("cognome");
+                bean.setEmail("email");
+                bean.setNome("nome");
+                bean.setPassword("password");
+                bean.setUsername("username");
+            }
+            return bean;
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+            } finally {
+                DMConnectionPool.releaseConnection(con);
+            }
+        }
+    }
+	
 
 	@Override
 	public Collection<Utente> doretrieveAll(String order) throws SQLException {
-		// TODO necessario se ci verrà chiesto di gestire gli utenti
+		//TODO
+		
 		return null;
 	}
 
