@@ -4,10 +4,12 @@
 	<%@include file="./generic_header.jsp"%>
 
 	<%  
-		Carrello cart = (Carrello) request.getAttribute("carrello");
+		Carrello cart = (Carrello) session.getAttribute("carrello");
 		int counter = 0;
 		if (cart != null) {
-		Map<Prodotto,Integer> prodotti = cart.getProdotti();
+			
+		Map<Prodotto,Integer> prodotti = cart.getProdotti();     		
+		
 		if (prodotti != null && !prodotti.isEmpty()) {
 		counter = 0;	
 	%>

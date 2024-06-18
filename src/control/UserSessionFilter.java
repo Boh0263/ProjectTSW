@@ -1,6 +1,8 @@
 package control;
 
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -41,15 +43,34 @@ public class UserSessionFilter implements Filter {
 	if (session == null || session.getAttribute("username") == null) {
 		res.sendRedirect(req.getContextPath() + "/login.jsp");
 		return;
+	} else if (session.getAttribute("username") != null) {
+		session.setAttribute("username", session.getAttribute("username"));
+		if (session.getAttribute("role") == null) {
+            res.sendRedirect(req.getContextPath() + "/login.jsp");
+		} else if (session.getAttribute("role").equals("A")) {
+			if (session.getAttribute("atoken") != null && session.getAttribute("atoken") == req.getParameter("atoken")) {
+				session.setAttribute("role", "A");
+				session.setAttribute("atoken", session.getAttribute("atoken"));
+				res.sendRedirect(req.getContextPath() + "/AdminControl");
+			} else {
+				session.invalidate();
+				res.sendRedirect(req.getContextPath() + "/login.jsp");
+			}
+		} else if (session.getAttribute("role").equals("R")) { 
+		    
+		  if(session.getAttribute("ctoken") == req.getParameter("ctoken")) {
+			  session.setAttribute("role", "R");
+			  session.setAttribute("ctoken", session.getAttribute("ctoken"));
+		   } else {
+			  session.invalidate();
+			  res.sendRedirect(req.getContextPath() + "/login.jsp");
+			 }
+		}
 	}
 		chain.doFilter(request, response);
 	}
-
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO 
+		 
 	}
 
 }

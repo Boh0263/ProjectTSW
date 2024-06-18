@@ -21,6 +21,10 @@ public class Carrello implements Serializable {
 	            prodotti.put(prod, prodotti.get(prod) + 1);
 	        }
 	    }
+
+		public void removeProduct(Prodotto prod) {
+			prodotti.computeIfPresent(prod, (key, value) -> value > 1 ? value - 1 : null);
+		}
 	
 	 public void incrementProduct(Prodotto prod, Integer num) {
 	        if (!prodotti.containsKey(prod)) {

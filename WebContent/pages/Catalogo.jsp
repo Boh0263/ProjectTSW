@@ -3,6 +3,7 @@
 	<%@ page import="java.util.*,model.Prodotto" %>
 	<%
 		String categoria = (String) request.getParameter("category");
+		boolean test_session = (session != null & session.getAttribute("username") != null);
 		Collection<?> products = (Collection<?>) request.getAttribute("Prodotto");
 		if (products == null){
 			response.sendRedirect("./pages/home.jsp");
@@ -224,12 +225,18 @@
 												<div class="product_price"><fmt:formatNumber value="<%=prod.getPrezzo()%>" type="number" pattern="0.00" groupingUsed="false"/>$<span><fmt:formatNumber value="<%=((prod.getPrezzo()/100)*130)%>" type="number" pattern="0.00"/>$</span></div> <!--  Possibili problemi di formatting con il filtro per prezzo --> 
 											</div>
 										</div>
-										<form action="./Carrello?action=addProduct&forward=home.jsp" method="post" class="add_to_cart">
+										<% 
+											if (test_session) { %>
+																															%>
+										<form action="./Carrello?action=addProduct" method="post" class="add_to_cart" style="display: none">
+										<%}%>
             								<div class="red_button carrello_button">
               									<input type="hidden" name="prodotto" value="<%=prod.getNome()%>" /> 
-              								    <button type="submit">Add to Cart</button>
+              								    <button <% if(test_session){ %>type="submit" <% } else { %> onclick="dosomethinglol()" <% } %>>Add to Cart</button>
             								</div>
+            							<% if (test_session) { %>
             							</form>
+            							<%}%>
 									</div> 
 								<% }} %>
 				
@@ -274,6 +281,7 @@
 	  </div>
 	</div>
 	<script src="./resources/js/jquery-3.2.1.min.js"></script>
+	<% if(test_session) { %>
 	<script type="text/javascript">
 	
 	$(document).ready(function () {
@@ -287,13 +295,14 @@
             url : url,
             data : data,
             success : function(data) {
-                
-
+         
                 var banner = document.createElement('div');
                 banner.className = 'banner';
                 banner.textContent = 'Prodotto aggiunto al carrello!';
                 document.getElementById('banner-container').appendChild(banner);
+                
                 // dopo 3 secondi il banner scompare.
+                
                 setTimeout(function() {
                     banner.style.opacity = '0';
                     setTimeout(function() {
@@ -316,5 +325,13 @@
         });
     });
 }); 
+	
 </script>
-	<%@include file="./generic_footer.jsp" %>
+<% } else { %>
+<script type="text/javascript">
+//TODO localstorage per salvare i prodotti aggiunti al carrello.
+//NOTA: questa MODIFICA rende la pagina del catalogo inutilizzabile in questo momento. //IGNORA LE MODIFICHE Se ti serve la pagina del catalogo per il testing.
+
+</script>
+	<% } %>
+<%@include file="./generic_footer.jsp" %>

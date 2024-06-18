@@ -37,10 +37,31 @@
 							<ul class="top_nav_menu">
 
 								<!-- Currency / Language / My Account -->
-							<% if (session.getAttribute("username") != null){
+							<% if (session.getAttribute("username") != null) { 
+							  String username = (String) session.getAttribute("username");
+							  String spacing = "&nbsp;&nbsp;&nbsp;";
+							  
+							  if (username.length() <= 5) {
+								  spacing += "&nbsp;&nbsp;";
+							  } 
 							
+							%>
+							
+								<li class="account">
+								<a href="/Account">
+									<%=spacing%><%=username%><%=spacing%>
+									<i class="fa fa-angle-down"></i>
+								</a>
+								<ul class="account_selection">
+								<% String uri = request.getRequestURI(); %>	
+								<li><a href="/Ordini"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Ordini</a></li>
+									<li><a href="/Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
+									<li><a href="/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li>
+									<li><a href="/Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Esci</a></li>
+								</ul>
+							</li>
 								
-							}%>
+					   <% } else { %>
 								<li class="account">
 									<a href="#">
 										&nbsp;&nbsp;&nbsp;Account&nbsp;&nbsp;&nbsp;
@@ -52,6 +73,7 @@
 										<li><a href="./register"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
 									</ul>
 								</li>
+								<% } %>
 							</ul>
 						</div>
 					</div>
@@ -72,9 +94,7 @@
 							<ul class="navbar_menu">
 								<li><a href="./index.jsp">Home</a></li>
 								<li><a href="#">catalogo</a></li>
-								<li><a href="#">promozioni</a></li> <!-- da implementare -->
-								<li><a href="#">pagine</a></li>  <!-- da implementare -->  
-								<li><a href="contact.html">contatti</a></li>
+								<li><a href="#">pagine</a></li>
 							</ul>
 							<ul class="navbar_utente">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
@@ -136,15 +156,21 @@
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_sel">
-						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li> <!-- TODO gestione con la sessione utente -->
-						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
+					<% if(session != null && session.getAttribute("username") != null) { %>
+							<li><a href="/Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
+							<li><a href="/Ordini"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Ordini</a></li>
+							<li><a href="/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li>
+							<li><a href="/Logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Esci</a></li>
+					<%} else { %>
+						<% String uri = request.getRequestURI(); %>	
+						<li><a href="./login?forward=<%= uri.substring(uri.lastIndexOf("/") + 1) %>"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li> <!-- TODO gestione con la sessione utente -->
+						<li><a href="./register"><i class="fa fa-user-plus" aria-hidden="true"></i>Registrati</a></li>
+						<% } %>
 					</ul>
 				</li>
 				<li class="menu_item"><a href="./index.jsp">home</a></li>
 				<li class="menu_item"><a href="/Catalogo?category=All">catalogo</a></li>
-				<li class="menu_item"><a href="#">promozioni</a></li>
 				<li class="menu_item"><a href="#">pagine</a></li>
-				<li class="menu_item"><a href="./pages/contact.html">contatti</a></li>
 			</ul>
 		</div>
 	</div>

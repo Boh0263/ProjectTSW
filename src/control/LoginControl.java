@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,27 +46,33 @@ public class LoginControl extends HttpServlet {
 			}
 
             if (LoginDAO.UserValidation(new LoginInfo(username, encryptPassword(password))).equalsIgnoreCase("A")) {
-                HttpSession session = request.getSession();
+                
+            	HttpSession session = request.getSession();
                 session.setAttribute("username", username);
-                session.setMaxInactiveInterval(200);
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
-                dispatcher.forward(request, response);
-                response.sendRedirect(request.getContextPath()+"/AdminHome.jsp");
+                session.setAttribute("role", "A");
+                session.setAttribute("atoken", generateToken());
+                session.setMaxInactiveInterval(43200);
+                
+                response.sendRedirect(request.getContextPath()+"/AdminControl");
+                
             } else if (LoginDAO.UserValidation(new LoginInfo(username, encryptPassword(password))).equalsIgnoreCase("R")) {
-                HttpSession session = request.getSession();
+                
+            	HttpSession session = request.getSession();
                 session.setAttribute("username", username);
                 session.setAttribute("role", "R");
+                session.setAttribute("ctoken", generateToken());
                 session.setMaxInactiveInterval(86400);
-                
+               
                 if(request.getAttribute("forward") != null) {
                 	response.sendRedirect("/" + (String) request.getAttribute("forward"));
                 }
                 else {
+                	
                  response.sendRedirect(getServletContext().getContextPath());
+                 
                 }
             }
             else  {
-            		System.out.println("Sono qui!");
 				request.setAttribute("Messaggio", LoginDAO.UserValidation(new LoginInfo(username, encryptPassword(password))));
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/login-alternative.jsp");
 				dispatcher.forward(request, response);
@@ -84,8 +91,7 @@ public class LoginControl extends HttpServlet {
             byte[] messageDigest = md.digest(password.getBytes(StandardCharsets.UTF_8));
             BigInteger no = new BigInteger(1, messageDigest);
             hashtext = no.toString(16);
-            
-            System.out.println(hashtext);
+    
             
             while (hashtext.length() < 64) {
                 hashtext = "0" + hashtext;
@@ -96,6 +102,10 @@ public class LoginControl extends HttpServlet {
             	}
             
              return hashtext;
+		}
+		
+		public String generateToken() {
+            return UUID.randomUUID().toString();
 		}
  
 }
