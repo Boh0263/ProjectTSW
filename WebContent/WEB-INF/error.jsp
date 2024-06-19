@@ -19,12 +19,25 @@
 			if (statusCode != null) {
 				out.println("Codice errore: " + statusCode);
 				switch (statusCode) {
+					case 401:
+						out.println("<p>Non autorizzato: Accesso negato.</p>");
+						break;
+					<%--
+					case 403:
+						out.println("<p>Proibito: Non hai il permesso di accedere a questa risorsa.</p>");
+						break;
+					%>
 					case 404:
 						out.println("<p>Pagina non trovata: " + requestUri + "</p>");
 						break;
 					case 500:
 						out.println("<p>Errore interno del server.</p>");
 						break;
+					<%--
+					case 503:
+						out.println("<p>Servizio non disponibile: Il server è temporaneamente sovraccarico o in manutenzione.</p>");
+						break;
+					%>
 					default:
 						out.println("<p>Si è verificato un errore.</p>");
 						break;
