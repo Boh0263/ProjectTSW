@@ -227,8 +227,8 @@
 										</div>
 										<% 
 											if (test_session) { %>
-																															%>
-										<form action="./Carrello?action=addProduct" method="post" class="add_to_cart" style="display: none">
+																															
+										<form action="./Carrello?action=addProduct" method="post" class="add_to_cart">
 										<%}%>
             								<div class="red_button carrello_button">
               									<input type="hidden" name="prodotto" value="<%=prod.getNome()%>" /> 
