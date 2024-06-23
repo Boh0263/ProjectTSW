@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,6 +19,8 @@ import com.google.gson.JsonSyntaxException;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.util.Map;
+import java.util.UUID;
+
 import model.Indirizzo;
 
 
@@ -39,6 +43,11 @@ public class RegistrationControl extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+    	session.setAttribute("ctoken", generateToken());
+    	session.setMaxInactiveInterval(300);
+    	
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/Registration.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -111,6 +120,10 @@ public class RegistrationControl extends HttpServlet {
 
         out.print(gson.toJson(jsonResponse));
         out.flush();
+	}
+	
+	public String generateToken() {
+        return UUID.randomUUID().toString();
 	}
 		
 		

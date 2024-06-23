@@ -39,6 +39,14 @@
 <script src="./resources/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="./resources/js/cart-number.js"></script>
 <script src="./resources/js/categories_custom.js"></script>
+<script type="text/javascript">
+ $(document).ready(function() {
+		 document.getElementById('checkout_items').innerHTML = localStorage.getItem('CartCounter');
+		 if(localStorage.getItem('CartCounter') == 0 || localStorage.getItem('CartCounter') == null) {
+			document.getElementById('checkout_items').style.display = "none";
+		 } 
+  });
+</script>
 
 </body>
 

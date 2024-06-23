@@ -159,7 +159,7 @@
 					<% if(session != null && session.getAttribute("username") != null) { %>
 							<li><a href="${pageContext.request.contextPath}/Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
 							<li><a href="${pageContext.request.contextPath}/Ordini"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Ordini</a></li>
-							<li><a href="${ }}/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li>
+							<li><a href="${pageContext.request.contextPath}/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li>
 							<li><a href="./logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Esci</a></li>
 					<%} else { %>
 						<% String uri = request.getRequestURI(); %>	

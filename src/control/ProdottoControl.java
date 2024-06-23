@@ -2,12 +2,22 @@ package control;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import model.Prodotto;
 import model.ProdottoDAOImp;
@@ -43,13 +53,11 @@ public class ProdottoControl extends HttpServlet {
             	Object obj = (Prodotto) dao.doRetrieveByKey(productName);
             	System.out.println(obj.toString());
                 request.setAttribute("prodotto", obj);
-               // System.out.println( ((Prodotto) request.getAttribute("prodotto")).toString());
             } catch (Exception e) {
                 if (e instanceof SQLException) {
                     throw new ServletException("Prodotto non trovato. :"+ e.getMessage());
                 } else {
-                    //throw new ServletException("Errore: " + e.getMessage());
-                	e.printStackTrace();
+                    throw new ServletException("Errore: " + e.getMessage());
                 }
             }
         }
@@ -60,8 +68,57 @@ public class ProdottoControl extends HttpServlet {
         dispatcher.forward(request, response);
         
     }
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String keysParam = request.getParameter("keys");
+        if (keysParam == null || keysParam.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product keys.");
+            return;
+        }
 
+        try {
+            Gson gson = new Gson();
+            TypeToken<HashMap<String, Integer>> type = new TypeToken<HashMap<String, Integer>>(){};
+            Map<String, Integer> cartData = gson.fromJson(keysParam, type.getType()); 
+            Map<Prodotto,Integer> prodotti = new HashMap<>();
+            Prodotto prodotto = null;
+            for (String key : cartData.keySet()) {
+            	try {
+                
+            		prodotto = dao.doRetrieveByKey(key);
+            	
+                if (prodotto != null) {
+                    prodotti.put(prodotto, cartData.get(key));
+                	}
+                } catch (SQLException e) {
+            		continue;
+            	}
+            }
+            
+            
+            gson = new GsonBuilder().create();
+            JsonObject jsonMap = new JsonObject();
+            
+            for(Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
+            	
+            	JsonElement prodottoJson = gson.toJsonTree(entry.getKey());
+            	JsonObject prodottoObject = prodottoJson.getAsJsonObject();
+            	
+            	prodottoObject.addProperty("quantita", entry.getValue());
+            	prodottoObject.addProperty("categoria", entry.getKey().getClass().getSimpleName());
+            	
+            	jsonMap.add(entry.getKey().getNome(), prodottoObject);
+            }
+            
+            String jsonResponse = gson.toJson(jsonMap);
+            
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+        }
+    }
 }

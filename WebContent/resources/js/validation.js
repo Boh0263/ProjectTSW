@@ -16,6 +16,7 @@ Il campo password deve necessariamente avere:
 // const regFloat = /^[+-]?\d+(\.\d+)?$/
 // if(!regFloat.test(floatVal))
 
+
 function validateUsername(username)
 {
 	const pattern = /^[a-zA-Z]+$/;

@@ -21,6 +21,11 @@ public class Carrello implements Serializable {
 	            prodotti.put(prod, prodotti.get(prod) + 1);
 	        }
 	    }
+	 
+		public void setProduct(Prodotto prod, Integer num) {
+			prodotti.put(prod, num);
+		}
+	 
 
 		public void removeProduct(Prodotto prod) {
 			prodotti.computeIfPresent(prod, (key, value) -> value > 1 ? value - 1 : null);
@@ -33,6 +38,10 @@ public class Carrello implements Serializable {
 	        }
 	        prodotti.put(prod, prodotti.get(prod) + num);
 	    }
+	 
+	
+	 
+	 
 	 
 	 public void mergeCarts(Carrello altroCarrello) {
 	        if (altroCarrello == null) {
@@ -71,5 +80,8 @@ public class Carrello implements Serializable {
 	      totalItems += entry.getValue();
 	    }
 	    return totalItems;
-	  }  
+	  }
+	
 }
+
+

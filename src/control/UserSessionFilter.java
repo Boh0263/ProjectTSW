@@ -41,12 +41,12 @@ public class UserSessionFilter implements Filter {
 	HttpSession session = req.getSession(false);
 	
 	if (session == null || session.getAttribute("username") == null) {
-		res.sendRedirect(req.getContextPath() + "/login.jsp");
+		res.sendRedirect(req.getContextPath() + "/login-alternative.jsp");
 		return;
 	} else if (session.getAttribute("username") != null) {
 		session.setAttribute("username", session.getAttribute("username"));
 		if (session.getAttribute("role") == null) {
-            res.sendRedirect(req.getContextPath() + "/login.jsp");
+            res.sendRedirect(req.getContextPath() + "/login-alternative.jsp");
 		} else if (session.getAttribute("role").equals("A")) {
 			if (session.getAttribute("atoken") != null && session.getAttribute("atoken") == req.getParameter("atoken")) {
 				session.setAttribute("role", "A");
@@ -54,7 +54,7 @@ public class UserSessionFilter implements Filter {
 				res.sendRedirect(req.getContextPath() + "/AdminControl");
 			} else {
 				session.invalidate();
-				res.sendRedirect(req.getContextPath() + "/login.jsp");
+				res.sendRedirect(req.getContextPath() + "/login-alternative.jsp");
 			}
 		} else if (session.getAttribute("role").equals("R")) { 
 		    
@@ -63,7 +63,7 @@ public class UserSessionFilter implements Filter {
 			  session.setAttribute("ctoken", session.getAttribute("ctoken"));
 		   } else {
 			  session.invalidate();
-			  res.sendRedirect(req.getContextPath() + "/login.jsp");
+			  res.sendRedirect(req.getContextPath() + "/login-alternative.jsp");
 			 }
 		}
 	}

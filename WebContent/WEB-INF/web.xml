@@ -71,16 +71,26 @@
   <filter-mapping>
     <filter-name>UserSessionFilter</filter-name>
     <url-pattern>/AdminControl/*</url-pattern>
-    <url-pattern>/Checkout/*</url-pattern>
+    <url-pattern>/Checkout/*</url-pattern> <!--  TODO Gestire le POST AJAX -->
     <url-pattern>/Account/*</url-pattern>
   </filter-mapping>
+  
+    <filter>
+        <filter-name>UserPOSTSessionFilter</filter-name>
+        <filter-class>control.UserPOSTSessionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserPOSTSessionFilter</filter-name>
+        <url-pattern>/Catalogo/*</url-pattern> 
+      <!--   <url-pattern>/Prodotto/*</url-pattern> --> <!--  TODO Gestire le POST AJAX -->
+    </filter-mapping>
   
   <filter>
     <filter-name>SecurityHeadersFilter</filter-name>
     <filter-class>control.SecurityHeadersFilter</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>SecurityHeadersFilter</filter-name>
+    <filter-name>SecurityHeadersFilter</filter-name> <!-- idealmente da applicare a tutto <url-pattern>/*</url-pattern> -->
     <url-pattern>/AdminControl/*</url-pattern>
     <url-pattern>/Checkout/*</url-pattern>
     <url-pattern>/Account/*</url-pattern>

@@ -76,6 +76,7 @@
 		    </div>
 		    </div>
 		    </fieldset>
+		    <input type="hidden" name="ctoken" value="<%=session.getAttribute("ctoken")%>" />
 			<button type="submit" id="Submit" class="actionBtn">Registrati</button>
 			</form>
 		</div>
@@ -112,7 +113,7 @@
                 var error = document.getElementById("usernameError");
                 if (validateUsername(username)) {
                     $.ajax({
-                        url: './verifyUsername',
+                        url: './verifyUsername&ctoken=' + $('#ctoken').val()',
                         type: 'POST',
                         contentType: 'application/json',
                         data: JSON.stringify({ username: username }),
@@ -149,20 +150,23 @@
                 	hasErrors = false;
                     
                 	$.ajax({
-                        url: './verifyEmail?email=' + email,
-                        type: 'GET',
+                        url: './verifyEmail?ctoken=' + $('#ctoken').val(),
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ email: email }),
                         dataType: 'json',
                         success: function(response) {
-                            if (response.available == false) {
+                            if (response.trim() === false) {
+                                document.getElementById("emailError").textContent = "Email non disponibile";
                                 hasErrors = true;
                             } else {
-                            	document.getElementById("emailError").textContent = "OK";
                                 hasErrors = false;
+                                document.getElementById("emailError").textContent = "OK";
                             }
                         },
                         error: function() {
-                        	document.getElementById("emailError").textContent = "Errore di rete";
-                            hasErrors = true; 
+                            hasErrors = true;
+                            document.getElementById("emailError").textContent = "Errore di rete";
                         }
                     });
                 	

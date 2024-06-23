@@ -23,19 +23,18 @@ public class EmailCheckControl extends HttpServlet {
         super();
         
     }
-
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		if (dao.doEmail(email)) {
-			response.getWriter().write("true");
-		} else {
-			response.getWriter().write("false");
-		}
-	}
-
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+		String email = request.getParameter("email");
+		if (email == null || email.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required.");
+            return;
+        }
 
+		boolean emailExists = dao.doEmail(email);
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(emailExists ? "true" : "false");
+	}
 }

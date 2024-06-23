@@ -304,6 +304,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						  rs.getString("Tipo"),
 						  rs.getString("Materiale")
 						  );
+				  		break;
 
 				}
 				case "Accessorio": {
@@ -317,6 +318,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 							rs.getString("img3"),
 							rs.getInt("ID_Accessorio")
 							  );
+					break;
 				}
 				case "Arma": {
 					obj = new Arma(
@@ -332,6 +334,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 							  rs.getString("Tipo"),
 							  rs.getString("Utilizzo")
 							  );
+					break;
 				}
 				case "Armatura": {
 					obj = new Armatura(
@@ -346,8 +349,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 					  rs.getString("Materiale"),
 					  rs.getString("Pezzo")
 					);
+					break;
 				}
-				default : {obj = null;}
+				default : {obj = null; break;}
 				}
 				
 			}
