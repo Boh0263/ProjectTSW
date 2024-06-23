@@ -1,51 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
-  <display-name>ProjectTSW</display-name>
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  
-  
-  <resource-ref>
-    <description>JNDI reference to a data source</description>
-    <res-ref-name>jdbc/storage</res-ref-name>
-    <res-type>javax.sql.DataSource</res-type>
-    <res-auth>Container</res-auth>
-  </resource-ref>
-  
-    <servlet>
-    <servlet-name>LogoutControl</servlet-name>
-    <servlet-class>control.LogoutControl</servlet-class>
-    </servlet>
-	<servlet-mapping>
-	<servlet-name>LogoutControl</servlet-name>
-	<url-pattern>/Logout</url-pattern>
-	</servlet-mapping>
+<display-name>ProjectTSW</display-name>
+<welcome-file-list>
+	<welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
 
+	<resource-ref>
+		<description>JNDI reference to a data source</description>
+		<res-ref-name>jdbc/storage</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	
 	<servlet>
-	<servlet-name>AdminControl</servlet-name>
-	<servlet-class>control.AdminControl</servlet-class>
+		<servlet-name>LogoutControl</servlet-name>
+		<servlet-class>control.LogoutControl</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	<servlet-name>AdminControl</servlet-name>
-	<url-pattern>/AdminControl/*</url-pattern>
+		<servlet-name>LogoutControl</servlet-name>
+		<url-pattern>/Logout</url-pattern>
 	</servlet-mapping>
- 
-  <servlet>
-    <servlet-name>CatalogoControl</servlet-name>
-    <servlet-class>control.CatalogoControl</servlet-class> 
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>CatalogoControl</servlet-name>
-    <url-pattern>/Catalogo</url-pattern>
-  </servlet-mapping>
-  <servlet>
-  <servlet-name>ProdottoControl</servlet-name>
-  <servlet-class>control.ProdottoControl</servlet-class>
-  </servlet>
+	
+	<servlet>
+		<servlet-name>AdminControl</servlet-name>
+		<servlet-class>control.AdminControl</servlet-class>
+	</servlet>
 	<servlet-mapping>
-	<servlet-name>ProdottoControl</servlet-name>
-	<url-pattern>/Prodotto/*</url-pattern>
+		<servlet-name>AdminControl</servlet-name>
+		<url-pattern>/AdminControl/*</url-pattern>
 	</servlet-mapping>
 
 
@@ -95,4 +77,53 @@
     <url-pattern>/Checkout/*</url-pattern>
     <url-pattern>/Account/*</url-pattern>
   </filter-mapping>
+	
+	<servlet>
+		<servlet-name>CatalogoControl</servlet-name>
+		<servlet-class>control.CatalogoControl</servlet-class> 
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CatalogoControl</servlet-name>
+		<url-pattern>/Catalogo</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ProdottoControl</servlet-name>
+		<servlet-class>control.ProdottoControl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProdottoControl</servlet-name>
+		<url-pattern>/Prodotto/*</url-pattern>
+	</servlet-mapping>
+	
+	<error-page>
+		<error-code>401</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<!-- non lo gestiamo nello specifico
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error.jsp</location>
+		</error-page>
+	-->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<!-- non lo gestiamo nello specifico
+	<error-page>
+		<error-code>503</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	-->
+	<!-- per qualsiasi altro errore non specificato sopra -->
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error.jsp</location>
+	</error-page>
+	
 </web-app>
