@@ -29,54 +29,39 @@
 		<servlet-name>AdminControl</servlet-name>
 		<url-pattern>/AdminControl/*</url-pattern>
 	</servlet-mapping>
-
-
-	<!-- volevo fare 3 jsp separate, ma ho fatto generare il codice per un sola capace di gestire tutto e senza stampe di 'segreti vari' -->
- 
-  <error-page>
-    <error-code>404</error-code>
-    <location>/error.jsp</location>
-  </error-page>
-  <error-page>
-    <error-code>500</error-code>
-    <location>/error.jsp</location>
-  </error-page>
-  <error-page>
-    <exception-type>java.lang.Throwable</exception-type>
-    <location>/error.jsp</location>
-  </error-page>
- 
-  <filter>
-    <filter-name>UserSessionFilter</filter-name>
-    <filter-class>control.UserSessionFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>UserSessionFilter</filter-name>
-    <url-pattern>/AdminControl/*</url-pattern>
-    <url-pattern>/Checkout/*</url-pattern> <!--  TODO Gestire le POST AJAX -->
-    <url-pattern>/Account/*</url-pattern>
-  </filter-mapping>
-  
-    <filter>
-        <filter-name>UserPOSTSessionFilter</filter-name>
-        <filter-class>control.UserPOSTSessionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>UserPOSTSessionFilter</filter-name>
-        <url-pattern>/Catalogo/*</url-pattern> 
-      <!--   <url-pattern>/Prodotto/*</url-pattern> --> <!--  TODO Gestire le POST AJAX -->
-    </filter-mapping>
-  
-  <filter>
-    <filter-name>SecurityHeadersFilter</filter-name>
-    <filter-class>control.SecurityHeadersFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>SecurityHeadersFilter</filter-name> <!-- idealmente da applicare a tutto <url-pattern>/*</url-pattern> -->
-    <url-pattern>/AdminControl/*</url-pattern>
-    <url-pattern>/Checkout/*</url-pattern>
-    <url-pattern>/Account/*</url-pattern>
-  </filter-mapping>
+	
+	<filter>
+		<filter-name>UserSessionFilter</filter-name>
+		<filter-class>control.UserSessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UserSessionFilter</filter-name>
+		<url-pattern>/AdminControl/*</url-pattern>
+		<url-pattern>/Checkout/*</url-pattern> <!-- TODO Gestire le POST AJAX -->
+		<url-pattern>/Account/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>UserPOSTSessionFilter</filter-name>
+		<filter-class>control.UserPOSTSessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UserPOSTSessionFilter</filter-name>
+		<url-pattern>/Catalogo/*</url-pattern> 
+		<!-- <url-pattern>/Prodotto/*</url-pattern> --> <!--  TODO Gestire le POST AJAX -->
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>SecurityHeadersFilter</filter-name>
+		<filter-class>control.SecurityHeadersFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecurityHeadersFilter</filter-name>
+		<!-- idealmente da applicare a tutto <url-pattern>/*</url-pattern> -->
+		<url-pattern>/AdminControl/*</url-pattern>
+		<url-pattern>/Checkout/*</url-pattern>
+		<url-pattern>/Account/*</url-pattern>
+	</filter-mapping>
 	
 	<servlet>
 		<servlet-name>CatalogoControl</servlet-name>
