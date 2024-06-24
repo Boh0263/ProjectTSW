@@ -10,7 +10,7 @@
 <body>
 	<%@ include file="admin_header.jsp" %>
 	<%
-		String productId = request.getParameter("prodId");  // Assuming this is done in the servlet
+		String productId = request.getParameter("prodId");  <%-- Assuming this is done in the servlet %>
 	    ProdottoDAOImp dao = new ProdottoDAOImp();
 		Prodotto product = dao.doRetrieveByKey(productId);
 		
@@ -54,7 +54,7 @@
 				<tr>
 				<td>Categoria</td>
 				<td>
-				<select name="prodCategory" disabled> <!-- Al momento il cambio di categoria non è gestito. -->       
+				<select name="prodCategory" disabled> <%-- Al momento il cambio di categoria non è gestito. --%>       
                 <option value="Abbigliamento" selected="<%= product instanceof Abbigliamento %>">Abbigliamento</option>
                 <option value="Armatura" selected="<%= product instanceof Armatura %>">Armatura</option>
                 <option value="Arma" selected="<%= product instanceof Arma %>">Arma</option>
