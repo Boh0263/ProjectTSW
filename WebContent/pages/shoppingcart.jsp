@@ -90,79 +90,87 @@
             	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <script type="text/javascript" src="./resources/js/cart-custom.js"></script>
                 <script type="text/javascript">
-                    $(document).ready(function() {
-                        var cartData = localStorage.getItem('prodotti');
-                        if (cartData && cartData.length > 0) {
-                            $.ajax({
-                                url: './Prodotto',
-                                method: 'POST',
-                                data: { keys: cartData },
-                                success: function(prodotti) {
-                                    if (prodotti && Object.keys(prodotti).length > 0) {
-                                        var cartHtml = '';
-                                        var totalItems = 0;
-                                        var totalPrice = 0.0;
-                                        Object.entries(prodotti).forEach(function([key, prodotto]) {
-                                            totalItems += prodotto.quantita;
-                                            totalPrice += prodotto.prezzo * prodotto.quantita;
-                                            cartHtml += `
-                                                <div class="row cart_row border-top border-bottom">
-                                                    <div class="row cart_row main cart_main align-items-center">
-                                                        <div class="col-2 cart_col"><img class="img-fluid cart_img" src="${prodotto.img1}"></div>
-                                                        <div class="col cart_col">
-                                                            <div class="row cart_row text-muted">${prodotto.categoria}</div>
-                                                            <div class="row cart_row">${prodotto.Nome}</div>
-                                                        </div>
-                                                        <div class="col cart_col">
-                                                            <a href="#">-</a><a href="#" class="border">${prodotto.quantita}</a><a href="#">+</a>
-                                                        </div>
-                                                        <div class="col cart_col">
-                                                            &euro; ${prodotto.prezzo.toFixed(2)} <span class="close cart_close">&#10005;</span>
-                                                        </div>
+                $(document).ready(function() {
+                    var cartData = localStorage.getItem('prodotti');
+                    console.log('Retrieved cartData from localStorage:', cartData); // Debug log
+
+                    if (cartData && cartData.length > 0) {
+                        $.ajax({
+                            url: './Prodotto',
+                            method: 'POST',
+                            data: { keys: cartData },
+                            success: function(prodotti) {
+                                console.log('Received prodotti from server:', prodotti); // Debug log
+
+                                if (prodotti && Object.keys(prodotti).length > 0) {
+                                    var cartHtml = '';
+                                    var totalItems = 0;
+                                    var totalPrice = 0.0;
+                                    Object.entries(prodotti).forEach(function([key, prodotto]) {
+                                        console.log('Processing prodotto:', prodotto); // Debug log
+
+                                        totalItems += prodotto.quantita;
+                                        totalPrice += prodotto.Prezzo * prodotto.quantita;
+
+                                        cartHtml += `
+                                            <div class="row cart_row border-top border-bottom">
+                                                <div class="row cart_row main cart_main align-items-center">
+                                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src="${prodotto.img1}"></div>
+                                                    <div class="col cart_col">
+                                                        <div class="row cart_row text-muted">${prodotto.categoria}</div>
+                                                        <div class="row cart_row">${prodotto.Nome}</div>
+                                                    </div>
+                                                    <div class="col cart_col">
+                                                        <a href="#">-</a><a href="#" class="border">${prodotto.quantita}</a><a href="#">+</a>
+                                                    </div>
+                                                    <div class="col cart_col">
+                                                        &euro; ${prodotto.Prezzo.toFixed(2)} <span class="close cart_close">&#10005;</span>
                                                     </div>
                                                 </div>
-                                            `;
-                                        });
-                                        $('.cart_content').html(cartHtml);
-                                        $('.cart_title .cart_col').append(`<span>${totalItems}</span>`);
-                                        $('.summary .row .col.text-right').text('€ ' + totalPrice.toFixed(2));
-                                        $('.summary .row .col#totalWithShipping').text('€ ' + (totalPrice + 5.00).toFixed(2));
-                                        $('.cart').append(`
-                                            <div class="col-md-4 summary cart_summary">
-                                                <div><h5><b>Summary</b></h5></div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col" style="padding-left:0;">ITEMS ${totalItems}</div>
-                                                    <div class="col text-right">&euro; ${totalPrice.toFixed(2)}</div>
-                                                </div>
-                                                <form method="post" action="./Carrello">
-                                                    <p>SHIPPING</p>
-                                                    <select>
-                                                        <option class="text-muted" selected>Standard-Delivery- &euro;5.00</option>
-                                                        <option class="text-muted">Express-Delivery- &euro;10.00</option>
-                                                    </select>
-                                                    <p>GIVE CODE</p>
-                                                    <input id="code" placeholder="Enter your code">
-                                                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                                                        <div class="col">TOTAL PRICE</div>
-                                                        <div class="col text-right">&euro; ${(totalPrice + 5.00)}</div>
-                                                    </div>
-                                                    <button class="btn cart_btn" type="submit" name="action" value="proceedToCheckout">CHECKOUT</button>
-                                                </form>
                                             </div>
-                                        `);
-                                    } else {
-                                        $('.cart_content').html('<p class="empty-cart text-center">Il carrello è vuoto</p>');
-                                    }
-                                },
-                                error: function() {
-                                    $('.cart_content').html('<p class="empty-cart text-center">Si è verificato un errore, riprovare più tardi.</p>');
+                                        `;
+                                    });
+
+                                    $('.cart_content').html(cartHtml);
+                                    $('.cart_title .cart_col').append(`<span>${totalItems}</span>`);
+                                    $('.summary .row .col.text-right').text('€ ' + totalPrice.toFixed(2));
+                                    $('.summary .row .col#totalWithShipping').text('€ ' + (totalPrice + 5.00).toFixed(2));
+                                    $('.cart').append(`
+                                        <div class="col-md-4 summary cart_summary">
+                                            <div><h5><b>Summary</b></h5></div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col" style="padding-left:0;">ITEMS ${totalItems}</div>
+                                                <div class="col text-right">&euro; ${totalPrice.toFixed(2)}</div>
+                                            </div>
+                                            <form method="post" action="./Carrello">
+                                                <p>SHIPPING</p>
+                                                <select>
+                                                    <option class="text-muted" selected>Standard-Delivery- &euro;5.00</option>
+                                                    <option class="text-muted">Express-Delivery- &euro;10.00</option>
+                                                </select>
+                                                <p>GIVE CODE</p>
+                                                <input id="code" placeholder="Enter your code">
+                                                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                                                    <div class="col">TOTAL PRICE</div>
+                                                    <div class="col text-right">&euro; ${(totalPrice + 5.00)}</div>
+                                                </div>
+                                                <button class="btn cart_btn" type="submit" name="action" value="proceedToCheckout">CHECKOUT</button>
+                                            </form>
+                                        </div>
+                                    `);
+                                } else {
+                                    $('.cart_content').html('<p class="empty-cart text-center">Il carrello è vuoto</p>');
                                 }
-                            });
-                        } else {
-                        	$('.cart_content').html('<p class="empty-cart text-center">Il carrello è vuoto</p>');
-                        }
-                    });
+                            },
+                            error: function() {
+                                $('.cart_content').html('<p class="empty-cart text-center">Si è verificato un errore, riprovare più tardi.</p>');
+                            }
+                        });
+                    } else {
+                        $('.cart_content').html('<p class="empty-cart text-center">Il carrello è vuoto</p>');
+                    }
+                });
                 </script>
                
             <% } %>
