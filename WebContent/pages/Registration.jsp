@@ -105,15 +105,12 @@
 	
 
             document.getElementById("username").addEventListener("focusout", function() {
-            	//wait for the user to stop typing before making the request to the server to check if the username is available or not 
-            	
-         
             										
                 var username = document.getElementById("username").value;
                 var error = document.getElementById("usernameError");
                 if (validateUsername(username)) {
                     $.ajax({
-                        url: './verifyUsername&ctoken=' + $('#ctoken').val()',
+                        url: './verifyUsername',
                         type: 'POST',
                         contentType: 'application/json',
                         data: JSON.stringify({ username: username }),
@@ -129,13 +126,13 @@
                         },
                         error: function() {
                             hasErrors = true;
-                            document.getElementById("usernameError").textContent = "Errore di rete";
+                            document.getElementById("usernameError").textContent = response.message;
                         }
                     });
                 
                 } else { 
                     hasErrors = true; 
-                    document.getElementById("usernameError").textContent = "Username non valido";
+                    document.getElementById("usernameError").textContent = username ? "Username non valido" : "";
                 }
                 
             });
@@ -145,18 +142,18 @@
                 var email = document.getElementById("email").value;
 
 
-                if (!validateEmail(email)) {
+                if ( email  && !validateEmail(email)) {
                 	document.getElementById("emailError").textContent = "";
                 	hasErrors = false;
                     
                 	$.ajax({
-                        url: './verifyEmail?ctoken=' + $('#ctoken').val(),
+                        url: './verifyEmail',
                         type: 'POST',
                         contentType: 'application/json',
                         data: JSON.stringify({ email: email }),
                         dataType: 'json',
                         success: function(response) {
-                            if (response.trim() === false) {
+                            if (response === false) {
                                 document.getElementById("emailError").textContent = "Email non disponibile";
                                 hasErrors = true;
                             } else {
@@ -164,14 +161,14 @@
                                 document.getElementById("emailError").textContent = "OK";
                             }
                         },
-                        error: function() {
+                        error: function(response) {
                             hasErrors = true;
-                            document.getElementById("emailError").textContent = "Errore di rete";
+                            document.getElementById("emailError").textContent = response.message;
                         }
                     });
                 	
                 } else {
-                	document.getElementById("emailError").textContent =  "Email non valida";
+                	document.getElementById("emailError").textContent =  email ? "Email non valida" : "";
                     hasErrors = true; 
            
                 }

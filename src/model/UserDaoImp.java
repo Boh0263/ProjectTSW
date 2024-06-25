@@ -142,12 +142,35 @@ public class UserDaoImp implements UserDAO {
 		return (result != 0);
 	}
 	
-	public boolean doEmail(String email) {
+	public boolean doEmail(String email) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		boolean result = false;
-        return true; //TODO
+		ResultSet result = null;
+		boolean exists = false;
+        
+		String checkSQL = "SELECT * FROM Utente WHERE Utente.email = ?";
+		try {
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(checkSQL);
+			ps.setString(1, email);
+			result = ps.executeQuery();
+			if (result.next()) {
+				exists = true;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+		return exists;
 	}
+	
 
 	public  boolean doCheck(String username) throws SQLException {
 	Connection con = null;

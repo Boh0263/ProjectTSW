@@ -30,8 +30,9 @@ function validateEmail(email) {
 	const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 	if (email.length !== 0 && !pattern.test(email)) {
 	 	return true;
-	} 
-	else return false;
+	} else { 
+		return false;
+	}
 }
 
 function validatePassword(password)
