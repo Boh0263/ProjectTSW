@@ -54,10 +54,10 @@
 								</a>
 								<ul class="account_selection">
 								<% String uri = request.getRequestURI(); %>	
-								<li><a href="/Ordini"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Ordini</a></li>
-									<li><a href="/Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
-									<li><a href="/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li>
-									<li><a href="/Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Esci</a></li>
+								<li><a href="./Ordini"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Ordini</a></li>
+									<li><a href="./Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
+									<li><a href="./Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li>
+									<li><a href="./Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Esci</a></li>
 								</ul>
 							</li>
 								
@@ -160,7 +160,7 @@
 							<li><a href="${pageContext.request.contextPath}/Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
 							<li><a href="${pageContext.request.contextPath}/Ordini"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Ordini</a></li>
 							<li><a href="${pageContext.request.contextPath}/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li>
-							<li><a href="./logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Esci</a></li>
+							<li><a href="./Logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Esci</a></li>
 					<%} else { %>
 						<% String uri = request.getRequestURI(); %>	
 						<li><a href="./login?forward=<%= uri.substring(uri.lastIndexOf("/") + 1) %>"><i class="fa fa-sign-in" aria-hidden="true"></i>Entra</a></li> <!-- TODO gestione con la sessione utente -->

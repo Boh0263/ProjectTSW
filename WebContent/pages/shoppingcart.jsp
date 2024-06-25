@@ -88,9 +88,8 @@
                 </div>
             <% } else if (!isLoggedIn) { %>
             	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-                <script type="text/javascript">
                 <script type="text/javascript" src="./resources/js/cart-custom.js"></script>
-                <script>
+                <script type="text/javascript">
                     $(document).ready(function() {
                         var cartData = localStorage.getItem('prodotti');
                         if (cartData && cartData.length > 0) {

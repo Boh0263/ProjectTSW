@@ -8,7 +8,7 @@ import java.util.Collection;
 public class UserDaoImp implements UserDAO {
 
 	@Override
-    public Utente getbyID(int id) throws SQLException {
+    public Utente doRetrieveByKey(int id) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs;

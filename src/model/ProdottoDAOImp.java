@@ -15,7 +15,7 @@ import model.Accessorio;
 public class ProdottoDAOImp implements ProdottoDAO {
 
 	@Override
-	public Prodotto getbyID(int id) throws SQLException {
+	public Prodotto doRetrieveByKey(int id) throws SQLException {
 		// TODO 
 		return null;
 	}
@@ -395,7 +395,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 			PreparedStatement ps = null;
 			int result = 0;
 			
-			String deleteSQL = "DELETE FROM Prodotto WHERE Prodotto.ID = ?";
+			String deleteSQL = "DELETE FROM Prodotto WHERE Prodotto.Nome = ?";
 				try {
 					con = DMConnectionPool.getConnection();
 					ps = con.prepareStatement(deleteSQL);

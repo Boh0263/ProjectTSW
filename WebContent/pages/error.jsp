@@ -6,7 +6,7 @@
 	<title>Errore</title>
 </head>
 <body>
-	<h1>Si Ã¨ verificato un errore!</h1>
+	<h1>Si è verificato un errore!</h1>
 	<p>
 		<% 
 			Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
@@ -52,6 +52,7 @@
 			}
 		%>
 	</p>
-	<p>Per favore, torna alla <a href="<%= request.getContextPath() %>/">homepage</a> e riprova.</p>
+	<p>Per favore, torna alla <a href="<%= request.getContextPath() %>/">homepage</a> e riprova.</p> --%>
+	</p>
 </body>
 </html>

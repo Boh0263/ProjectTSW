@@ -40,12 +40,22 @@
 					<td>IVA</td>
 					<td><input type="text" name="prodIVA" size="20" class="productTextField"/></td>
 				</tr>
-				
 				<tr>
-				<td>Categoria</td>
+					<td>Img 1</td>
+					<td><input type="image" name="prodImg1" size="20" class="productTextField" /></td>
+				</tr>
+				<tr>
+					<td>Img 2</td>
+					<td><input type="image" name="prodImg2" size="20" class="productTextField" /></td>
+				<tr>
+					<td>Img 3</td>
+					<td><input type="image" name="prodImg3" size="20" class="productTextField" /></td>
+				</tr>
+				<tr>	
+					<td>Categoria</td>
 				<td>
 				<select name="prodCategory" id="prodCategory">        
-                <option value="Abbigliamento" selected="true">Abbigliamento</option>
+                <option value="Abbigliamento" selected>Abbigliamento</option>
                 <option value="Armatura" >Armatura</option>
                 <option value="Arma">Arma</option>
                 <option value="Accessorio">Accessorio</option>
@@ -95,5 +105,7 @@
 		</form>
 	</div>
 </body>
-<script src="/resources/js/add_custom.js" type="text/javascript"></script>
+<script src="./resources/js/jquery-3.2.1.min.js"></script>
+<script src="./resources/js/add_custom.js" type="text/javascript"></script>
+<%@include file="admin_footer.jsp" %>
 </html>

@@ -3,24 +3,52 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" type="text/css" href="./resources/styles/bootstrap4/bootstrap.min.css">
+ 
+ <%@ include file="../custom_styles.jsp" %>
 </head>
 <body>
-	<%
-	if(session.getAttribute("username") == null)
-	{
-		response.sendRedirect("login.jsp"); 
-	}
-	%>
-	<nav class="admin-navbar">
-		<ul class="admin-navbar-nav">
-			<li><a href="AdminHome.jsp">Home</a></li>
-			<li><a href="addProduct.jsp">Add Product</a></li>
-			<li><a href="viewProducts.jsp">View Products</a></li>
-			<li><a href="searchProduct.jsp">Search Product</a></li>
-			<li style="float:right;margin-right:10px"><a href="logout.jsp">Logout</a></li>
-		</ul>
-	</nav>
-	<script src="./resources/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+	
+	<nav class="admin-navbar navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="AdminControl">HOME</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Prodotti
+                </a>
+                <div class="dropdown-menu" aria-labelledby="productsDropdown">
+                    <a class="dropdown-item nav-link" href="./AdminControl?action=addProduct">Aggiungi Prodotto</a>
+                    <a class="dropdown-item nav-link" href="./AdminControl?action=searchProduct">Cerca/Modifica Prodotti</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="ordersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Ordini
+                </a>
+                <div class="dropdown-menu" aria-labelledby="ordersDropdown">
+                    <a class="dropdown-item nav-link" href="./AdminControl?action=searchOrder">Cerca/Modifica Ordine</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="usersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Utenti
+                </a>
+                <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                    <a class="dropdown-item nav-link" href="./AdminControl?action=addUser">Aggiungi Utente</a>
+                    <a class="dropdown-item nav-link" href="./AdminControl?action=searchUser">Cerca/Modifica Utenti</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="Logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 </body>
 </html>

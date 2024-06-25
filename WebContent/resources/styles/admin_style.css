@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+body {
+		font-family: Arial, sans-serif;
+		background-color: #f4f4f4;
+	}
+	
+.admin-navbar {
+        background-color: #333;
+    }
+    .admin-navbar .nav-link {
+        color: white !important;
+    }
+    .admin-navbar .nav-link:hover, .admin-navbar .dropdown-menu .nav-link:hover {
+        background-color: #ddd !important;
+        color: black !important;
+    }
+    .admin-navbar .dropdown-menu {
+        background-color: #333;
+    }
+    .admin-navbar .dropdown-menu .nav-link {
+        color: white !important;
+    }
+    .admin-navbar .dropdown-menu .nav-link:hover {
+        background-color: #ddd !important;
+        color: black !important;
+    }
+  
+.productTable {
+	padding-top: 25px;
+	border-spacing: 0px;
+	}
+	
+.productTable thead tr th {
+		background-color: #374561;
+		color: #fff;
+		padding: 15px;
+		font-size: 15px;
+	}
+	
+.productTable tbody tr td {
+	padding: 13px;
+	font-size: 13px;
+}
+
+.productTable tbody tr:nth-child(even) {
+	background-color: #e4e4e4;
+}
+
+.productTable tbody tr:nth-child(odd) {
+	background-color: white;
+}
+
+.actionBtn {
+	
+	background-color: #1c54b5;
+	padding: 10px;
+	color: white;
+	border: none;
+	width: 75px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.actionBtn:hover {
+	background-color: #3d74d2;
+}
+	
+.searchTextField {
+ 	height: 25px;
+ 	border-radius: 5px;
+ 	padding-left: 10px;
+ }

@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,7 +74,15 @@ public class LoginControl extends HttpServlet {
                 session.setAttribute("atoken", generateToken());
                 session.setMaxInactiveInterval(43200);
                 
-                response.sendRedirect(request.getContextPath()+"/AdminControl");
+                //set a samesite cookie for csrf protection
+                Cookie csrfCookie = new Cookie("CSRF-TOKEN", session.getAttribute("atoken").toString());
+                csrfCookie.setPath("/");
+                csrfCookie.setHttpOnly(true);
+                csrfCookie.setSecure(true);
+                csrfCookie.setMaxAge(-1);
+                response.addCookie(csrfCookie);
+                
+               response.sendRedirect(request.getContextPath() + "/AdminControl");
                 
             } else if (LoginDAO.UserValidation(new LoginInfo(username, encryptPassword(password))).equalsIgnoreCase("R")) {
                 
@@ -82,6 +91,14 @@ public class LoginControl extends HttpServlet {
             	session.setAttribute("username", username);
                 session.setAttribute("role", "R");
                 session.setAttribute("ctoken", generateToken());
+                
+                Cookie csrfCookie = new Cookie("CSRF-TOKEN", session.getAttribute("ctoken").toString());
+                csrfCookie.setPath("/");
+                csrfCookie.setHttpOnly(true);
+                csrfCookie.setSecure(true);
+                csrfCookie.setMaxAge(-1);
+                response.addCookie(csrfCookie);
+                
                 session.setMaxInactiveInterval(86400);
                 
 				if (request.getParameter("cart") != null) {
@@ -91,16 +108,14 @@ public class LoginControl extends HttpServlet {
 				}
                
                 if(request.getAttribute("forward") != null) {
-                	response.sendRedirect("/" + (String) request.getAttribute("forward"));
+                	response.sendRedirect(request.getContextPath() + "/" + request.getAttribute("forward"));
                 }
                 else {
-                	
-                 response.sendRedirect(getServletContext().getContextPath());
-                 
+                	response.sendRedirect(request.getContextPath());
                 }
             }
             else  {
-				request.setAttribute("Messaggio", LoginDAO.UserValidation(new LoginInfo(username, encryptPassword(password))));
+				request.setAttribute("Messaggio", "Username o password errati");
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pages/login-alternative.jsp");
 				dispatcher.forward(request, response);
             }

@@ -13,10 +13,11 @@
 String userName = (String)session.getAttribute("username");
 %>
 
-<div align="center">
-<h2>Product Management System</h2>
-<label>Welcome <%= userName %></label>
+<div class="container mt-4 text-center">
+<h2>Kiitz Management System </h2>
+<label>Benvenuto <%= userName %>!</label>
 </div>
 
 </body>
+<%@ include file="admin_footer.jsp" %>
 </html>

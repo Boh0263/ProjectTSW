@@ -1,0 +1,13 @@
+@charset "UTF-8";
+    .table-container {
+        max-height: 70vh;
+        overflow-y: auto;
+        margin-top: 20px;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+    .actionBtn {
+        margin: 2px;
+    }

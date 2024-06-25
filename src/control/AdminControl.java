@@ -8,56 +8,157 @@ import java.util.Enumeration;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.*;
 
-@WebServlet("/AdminControl")
 public class AdminControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static ProdottoDAOImp dao = new ProdottoDAOImp();
+	static ProdottoDAOImp pdao = new ProdottoDAOImp();
+	static OrdineDAOImp odao = new OrdineDAOImp();
+    static UserDaoImp udao = new UserDaoImp();
        
   
     public AdminControl() {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    	      throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	    String action = request.getParameter("action");
     	    RequestDispatcher rd = null;
     	    if (action != null) {
-    	      rd = request.getRequestDispatcher(getServletContext().getRealPath("/" + action + ".jsp"));
-    	      rd.forward(request, response);
+    	      request.setAttribute("custom_styles", new String[] { "./resources/styles/admin_style.css"} );
+    	      
+				switch (action) {
+				case "searchProduct": {
+					try {
+						request.setAttribute("prodAll", pdao.doretrieveAll(null));
+					} catch (SQLException e) {
+						System.out.println("Errore: " + e.getMessage()); 
+					}
+					rd = getServletContext().getRequestDispatcher("/pages/A-pages/searchProduct.jsp");
+					break;
+				}
+					
+				case "addProduct": {
+					rd = getServletContext().getRequestDispatcher("/pages/A-pages/add.jsp");
+					break;
+				}
+				
+				case "editProduct": {
+					String  name = request.getParameter("prodName");
+					if (name != null) {
+					try {
+						request.setAttribute("prodtbe", pdao.doRetrieveByKey(name));
+						rd = getServletContext().getRequestDispatcher("/pages/A-pages/editProduct.jsp");
+					 } catch (SQLException e) {
+						System.out.println("Errore: " + e.getMessage()); 
+						rd = getServletContext().getRequestDispatcher("/pages/A-pages/searchProduct.jsp");
+					 }
+				  } else {
+					    rd = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
+				  }
+					break;
+				}
+				
+				case "editOrder": {
+					String id = request.getParameter("ordID");
+					if (id != null && !id.isEmpty()) {
+					try {
+						request.setAttribute("ordtbe", odao.doRetrieveByKey(Integer.parseInt(id)));
+						rd = getServletContext().getRequestDispatcher("/pages/A-pages/editOrder.jsp");
+					  } catch (SQLException e) {
+						  System.out.println("Errore: " + e.getMessage()); 
+						  rd = getServletContext().getRequestDispatcher("/pages/A-pages/searchOrder.jsp");
+					   }
+				    } else {
+					    rd = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
+				    }
+					break;
+				}
+				case "searchOrder": {
+					 try {
+						 request.setAttribute("ordAll", odao.doretrieveAll(null));
+						} catch (SQLException e) {
+							System.out.println("Errore: " + e.getMessage()); 
+							rd = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
+						}
+					rd = getServletContext().getRequestDispatcher("/pages/A-pages/searchOrder.jsp");
+					break;
+				}
+				
+				case "searchUser": {
+					try {
+						request.setAttribute("userAll", udao.doretrieveAll(null));
+					} catch (SQLException e) {
+						System.out.println("Errore: " + e.getMessage()); 
+						rd = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
+					}
+					rd = getServletContext().getRequestDispatcher("/pages/A-pages/searchUser.jsp");
+					break;
+				}
+				
+				case "editUser": {
+					String userID = request.getParameter("userID");
+					if (userID != null && !userID.isEmpty()) {
+						try {
+							request.setAttribute("usertbe", udao.doRetrieveByKey(Integer.parseInt(userID)));
+							rd = getServletContext().getRequestDispatcher("/pages/A-pages/editUser.jsp");
+						} catch (SQLException e) {
+							System.out.println("Errore: " + e.getMessage()); 
+							rd = getServletContext().getRequestDispatcher("/pages/A-pages/searchUser.jsp");
+						}
+					} else {
+						rd = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
+					}
+					break;
+				}
+				
+				default:
+					rd = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
+					break;
+				}
+				
+				rd.forward(request, response);
+    	      
     	    } else {
-    	      rd = request.getRequestDispatcher(getServletContext().getRealPath("/AdminHome.jsp"));
+    	      request.setAttribute("custom_styles", new String[] { "./resources/styles/admin_style.css"} );
+    	      rd = getServletContext().getRequestDispatcher("/pages/A-pages/AdminHome.jsp");
     	      rd.forward(request, response);
     	    }
     	  }
 	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    	      throws ServletException, IOException {
-    	    String action = request.getParameter("action");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	    
+    	String action = request.getParameter("action");
+    	
     	    if (action != null) {
+    	    	
     	      switch (action) {
-    	        case "edit":
-    	          processEdit(request, response);
+    	      
+    	        case "editProduct":
+    	          processEditProduct(request, response);
     	          break;
-    	        case "add":
-    	          processAdd(request, response);
+    	        case "addProduct":
+    	          processAddProduct(request, response);
     	          break;
-    	        case "delete":
-    	          processDelete(request, response);
+    	        case "deleteProduct":
+    	          processDeleteProduct(request, response);
     	          break;
-    	        case "view":
-    	          processView(request, response);
-    	          break;
-    	        case "search":
-    	          processSearch(request, response);
-    	          break;
+    	        case "editOrder":
+    	          processEditOrder(request, response);
+    	           break;
+				case "deleteOrder":
+				  processDeleteOrder(request, response);
+					break;
+				case "editUser":
+					processEditUser(request, response);
+					break;
+				case "deleteUser":
+					processDeleteUser(request, response);
+					break;	
     	        default:
     	        	processError(request, response);
     	        	break;
@@ -67,63 +168,40 @@ public class AdminControl extends HttpServlet {
     	    }
     }
     
-	protected void processEdit(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void processEditProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	}
 	
-		Prodotto tbe = null;
+	protected void processAddProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	}
+	
+	protected void processDeleteProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		try {
-			tbe = parseProdotto(req);
-			dao.update(tbe);
+			pdao.doDeletebyID(req.getParameter("prodNome"));
 		} catch (SQLException e) {
 			System.out.println("Errore: "+ e.getMessage()); //Handle Error with redirection to jsp error page with Dispatcher
 		}
 	}
 	
-	protected void processAdd(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		Prodotto tba = null;
-		try {
-			tba = parseProdotto(req);
-			dao.doSave(tba);
-		} catch(SQLException e) {
-			System.out.println("Errore: "+ e.getMessage()); //Handle Error with redirection to jsp error page with Dispatcher
-		}
+	protected void processEditOrder(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	}
 	
-	protected void processDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		try {
-			dao.doDeletebyID(req.getParameter("prodNome"));
-		} catch (SQLException e) {
-			System.out.println("Errore: "+ e.getMessage()); //Handle Error with redirection to jsp error page with Dispatcher
-		}
+	protected void processDeleteOrder(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	
 	}
 	
-	protected void processView(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException {
-		try {
-			req.removeAttribute("Prodotto");
-			if(req.getParameter("sort").isEmpty()){
-			req.setAttribute("Prodotto", dao.doretrieveAll(null));
-			} else {
-				req.setAttribute("Prodotto", dao.doretrieveAll(req.getParameter("sort")));
-			}
-		} catch(SQLException e ) {
-			System.out.println("Errore: "+ e.getMessage()); //Handle Error with redirection to jsp error page with Dispatcher
-		}
+	protected void processEditUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	}
 	
-	protected void processSearch(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException {
-		try {
-			req.removeAttribute("Prodotto");
-			req.setAttribute("Prodotto", dao.doRetrieveByKey(req.getParameter("prodNome")));
-			
-		} catch(SQLException e ) {
-			System.out.println("Errore: "+ e.getMessage()); //Handle Error with redirection to jsp error page with Dispatcher
-		}
+	protected void processDeleteUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	
 	}
 	
 	protected void processError(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		//TODO
+		return;
 	}
 	
-	private Prodotto parseProdotto(HttpServletRequest req) throws ServletException, IOException {
+	/*private Prodotto parseProdotto(HttpServletRequest req) throws ServletException, IOException {
 			  Enumeration<String> parameterNames = req.getParameterNames();
 
 			  String productCategoryParam = null;
@@ -181,6 +259,6 @@ public class AdminControl extends HttpServlet {
 			  
 			return product;
 	}
-	
+	*/
 
 }

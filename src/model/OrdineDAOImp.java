@@ -14,7 +14,7 @@ import java.util.Map;
 public class OrdineDAOImp implements OrdineDAO {
 
 	@Override
-	public Ordine getbyID(int id) throws SQLException {
+	public Ordine doRetrieveByKey(int id) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
