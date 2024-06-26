@@ -116,7 +116,7 @@
                         data: JSON.stringify({ username: username }),
                         dataType: 'json',
                         success: function(response) {
-                            if (response.available == false) {
+                            if (response.available === false) {
                                 document.getElementById("usernameError").textContent = "Username non disponibile";
                                 hasErrors = true;
                             } else {

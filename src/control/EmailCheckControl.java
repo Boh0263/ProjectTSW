@@ -47,7 +47,7 @@ public class EmailCheckControl extends HttpServlet {
 		
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(emailExists ? "true" : "false");
+		response.getWriter().write(emailExists ? "false" : "true");
 		} catch (SQLException e) {
 		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error.");
 		  }

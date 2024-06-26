@@ -135,12 +135,20 @@ public class OrdineDAOImp implements OrdineDAO {
 		//Aggiornare il valore della giacenza dei singoli prodotti
 		//Aggiungere un nuovo indirizzo se l'indirizzo immesso dall'utente non esiste: 1. check se indirizzo non esiste (trova un id) 2. aggiungi se non c'era.
 		
-		String insertOrdine = "INSERT INTO Ordine (Ragione_sociale, Indirizzo_breve, Imposta, Sconto, Totale, Stato) VALUES (?,?,?,?,?,'NON EVASO')"; 
+		String insertOrdine = "INSERT INTO Ordine (Ragione_sociale, Indirizzo_breve, Imposta, Sconto, Totale, Stato, Data_Ordine) VALUES (?,?,?,?,?,'NON EVASO',?)"; 
 		String insertContent = "INSERT INTO Contenuto (Prezzo_Lordo, Qta, ID_Ordine, ID_Prodotto) VALUES (?,?,?,?)";
 		String updateProduct = "UPDATE Prodotto SET Giacenza = Giacenza - ?";
 		try {
 			con = DMConnectionPool.getConnection();
 			ps1 = con.prepareStatement(insertOrdine, Statement.RETURN_GENERATED_KEYS);
+			
+			ps1.setString(1, t.getRagione_Sociale());
+			ps1.setString(2, t.getAddress().toString());
+			ps1.setDouble(3, t.getImposta());
+			ps1.setDouble(4, t.getScontoCoupon());
+			ps1.setDouble(5, t.getTotalPrice());
+			ps1.setString(6, t.getData_Ordine());
+			
 			
 			if(ps1.executeUpdate() > 0) {
 				ResultSet gK = ps1.getGeneratedKeys();
