@@ -295,12 +295,12 @@
 	            url: url,
 	            data: data,
 	            success: function(response) {
-	                showBanner('Prodotto aggiunto al carrello!', 'green');
+	                showBanner('Prodotto aggiunto al carrello', 'success');
 	                getCartCounterFromSession();
 	                
 	            },
 	            error: function(xhr, status, error) {
-	                showBanner('Errore durante l\'aggiunta del prodotto al carrello!', 'red');
+	                showBanner('Errore, prodotto non aggiunto', 'error');
 	                console.error("Error: " + status + " " + error);
 	            }
 	        });

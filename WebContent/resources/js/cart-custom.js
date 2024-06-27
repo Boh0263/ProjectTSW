@@ -76,16 +76,21 @@ function sendCartToServlet() {
 }
 
 function showBanner(message, color) {
-    var banner = document.createElement('div');
-    banner.className = 'banner';
-    banner.textContent = message;
-    banner.style.backgroundColor = color;
-    document.getElementById('banner-container').appendChild(banner);
-
-    setTimeout(function() {
-        banner.style.opacity = '0';
-        setTimeout(function() {
-            banner.remove();
-        }, 500);
-    }, 3000);
+	const banner = document.createElement('div');
+	banner.className = 'notification-banner ' + type;
+	banner.textContent = message;
+	
+	const container = document.getElementById('notification-container');
+	container.appendChild(banner);
+	
+	setTimeout(() => {
+		banner.classList.add('show');
+	}, 10);
+	
+	setTimeout(() => {
+		banner.classList.remove('show');
+		setTimeout(() => {
+			banner.remove();
+		}, 500); // Tempo corrispondente alla transizione CSS
+	}, 3000);
 }

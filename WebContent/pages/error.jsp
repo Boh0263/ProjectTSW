@@ -39,11 +39,11 @@
 						break;
 					%>
 					default:
-						out.println("<p>Si Ã¨ verificato un errore.</p>");
+						out.println("<p>Si è verificato un errore.</p>");
 						break;
 				}
 			} else {
-				out.println("<p>Si Ã¨ verificato un errore</p>");
+				out.println("<p>Si è verificato un errore</p>");
 			}
 			
 			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
@@ -53,6 +53,5 @@
 		%>
 	</p>
 	<p>Per favore, torna alla <a href="<%= request.getContextPath() %>/">homepage</a> e riprova.</p> --%>
-	</p>
 </body>
 </html>
