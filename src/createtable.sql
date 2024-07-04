@@ -40,9 +40,12 @@ CREATE TABLE IF NOT EXISTS Prodotto (
  IVA DECIMAL(10,2) NOT NULL,
  Giacenza INT DEFAULT 0,
  Descrizione VARCHAR(255) NOT NULL,
- img1 VARCHAR(255) NOT NULL,
- img2 VARCHAR(255) NOT NULL,
- img3 VARCHAR(255) NOT NULL
+ img1 INT NOT NULL,
+ img2 INT NOT NULL,
+ img3 INT NOT NULL,
+ FOREIGN KEY (img1) REFERENCES Immagine(ID) ON DELETE RESTRICT ON UPDATE CASCADE,
+ FOREIGN KEY (img2) REFERENCES Immagine(ID) ON DELETE RESTRICT ON UPDATE CASCADE,
+ FOREIGN KEY (img3) REFERENCES Immagine(ID) ON DELETE RESTRICT ON UPDATE CASCADE
  );
  
 CREATE TABLE IF NOT EXISTS Contenuto (
@@ -86,4 +89,22 @@ CREATE TABLE IF NOT EXISTS Armatura (
     FOREIGN KEY (ID_Prodotto) REFERENCES Prodotto(Nome)
 );
 
+CREATE TABLE IF NOT EXISTS Recensione (
+	ID_Recensione int NOT NULL AUTO_INCREMENT,
+    ID_Prodotto int NOT NULL,
+    Email_Utente varchar(255) NOT NULL,
+    Votazione tinyint unsigned NOT NULL,
+    Commento text,
+    Data_Recensione date NOT NULL,
+    PRIMARY KEY(ID_Recensione, ID_Prodotto),
+    FOREIGN KEY(ID_Prodotto) REFERENCES Prodotto(Nome) ON UPDATE cascade ON DELETE cascade,
+    FOREIGN KEY(emailCliente) REFERENCES Utente(Email) ON UPDATE cascade ON DELETE cascade
+);
+
+CREATE TABLE IF NOT EXISTS Immagine (
+	ID INT PRIMARY KEY AUTO_INCREMENT,
+	Placeholder VARCHAR(30) NOT NULL,
+	Content MEDIUMBLOB NOT NULL
+	);
+	
 

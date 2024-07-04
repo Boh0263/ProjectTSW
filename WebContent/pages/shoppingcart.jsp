@@ -108,31 +108,34 @@
                                     var totalPrice = 0.0;
                                     Object.entries(prodotti).forEach(function([key, prodotto]) {
                                         console.log('Processing prodotto:', prodotto); // Debug log
+                                        console.log(prodotto.quantita + " " + prodotto.Prezzo);
 
                                         totalItems += prodotto.quantita;
                                         totalPrice += prodotto.Prezzo * prodotto.quantita;
+                                        
+                                        console.log(totalPrice);
 
                                         cartHtml += `
                                             <div class="row cart_row border-top border-bottom">
-                                                <div class="row cart_row main cart_main align-items-center">
-                                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src="${prodotto.img1}"></div>
+                                                <div class="row cart_row main cart_main align-items-center"> 
+                                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src=` + prodotto.img +  `></div>
                                                     <div class="col cart_col">
-                                                        <div class="row cart_row text-muted">${prodotto.categoria}</div>
-                                                        <div class="row cart_row">${prodotto.Nome}</div>
+                                                        <div class="row cart_row text-muted">` + prodotto.categoria +  `</div>
+                                                        <div class="row cart_row">` + prodotto.Nome +  `</div>
                                                     </div>
                                                     <div class="col cart_col">
-                                                        <a href="#">-</a><a href="#" class="border">${prodotto.quantita}</a><a href="#">+</a>
+                                                        <a href="#">-</a><a href="#" class="border">` + prodotto.quantita + `</a><a href="#">+</a>
                                                     </div>
                                                     <div class="col cart_col">
-                                                        &euro; ${prodotto.Prezzo.toFixed(2)} <span class="close cart_close">&#10005;</span>
+                                                        &euro; ` + prodotto.Prezzo.toFixed(2) + `<span class="close cart_close">&#10005;</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         `;
-                                    });
+                                      });
 
                                     $('.cart_content').html(cartHtml);
-                                    $('.cart_title .cart_col').append(`<span>${totalItems}</span>`);
+                                    $('.cart_title .cart_col').append(`<span>` + totalItems + `</span>`);
                                     $('.summary .row .col.text-right').text('€ ' + totalPrice.toFixed(2));
                                     $('.summary .row .col#totalWithShipping').text('€ ' + (totalPrice + 5.00).toFixed(2));
                                     $('.cart').append(`
@@ -140,8 +143,8 @@
                                             <div><h5><b>Summary</b></h5></div>
                                             <hr>
                                             <div class="row">
-                                                <div class="col" style="padding-left:0;">ITEMS ${totalItems}</div>
-                                                <div class="col text-right">&euro; ${totalPrice.toFixed(2)}</div>
+                                                <div class="col" style="padding-left:0;">ITEMS ` + totalItems + `</div>
+                                                <div class="col text-right">&euro; ` + totalPrice.toFixed(2) + `</div>
                                             </div>
                                             <form method="post" action="./Carrello">
                                                 <p>SHIPPING</p>
@@ -153,7 +156,7 @@
                                                 <input id="code" placeholder="Enter your code">
                                                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                                                     <div class="col">TOTAL PRICE</div>
-                                                    <div class="col text-right">&euro; ${(totalPrice + 5.00)}</div>
+                                                    <div class="col text-right">&euro;` +  (totalPrice + 5.00).toFixed(2) + `</div>
                                                 </div>
                                                 <button class="btn cart_btn" type="submit" name="action" value="proceedToCheckout">CHECKOUT</button>
                                             </form>
