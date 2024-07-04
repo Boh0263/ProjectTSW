@@ -118,7 +118,7 @@
                                         cartHtml += `
                                             <div class="row cart_row border-top border-bottom">
                                                 <div class="row cart_row main cart_main align-items-center"> 
-                                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src=` + prodotto.img +  `></div>
+                                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src=` + "./resources/static/images/Abbigliamento.jpg" +  `></div>
                                                     <div class="col cart_col">
                                                         <div class="row cart_row text-muted">` + prodotto.categoria +  `</div>
                                                         <div class="row cart_row">` + prodotto.Nome +  `</div>
@@ -136,10 +136,10 @@
 
                                     $('.cart_content').html(cartHtml);
                                     $('.cart_title .cart_col').append(`<span>` + totalItems + `</span>`);
-                                    $('.summary .row .col.text-right').text('€ ' + totalPrice.toFixed(2));
+                                    $('.summary .row  .col.text-right').text('€ ' + totalPrice.toFixed(2));
                                     $('.summary .row .col#totalWithShipping').text('€ ' + (totalPrice + 5.00).toFixed(2));
-                                    $('.cart').append(`
-                                        <div class="col-md-4 summary cart_summary">
+                                    $('.cart_content').append(`
+                                        <div class="col-md-4 cart_summary summary ">
                                             <div><h5><b>Summary</b></h5></div>
                                             <hr>
                                             <div class="row">

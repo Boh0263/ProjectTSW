@@ -14,14 +14,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-import model.UserDaoImp;
+import model.UserDAOImp;
 
 
 
 @WebServlet("/verifyEmail")
 public class EmailCheckControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static UserDaoImp dao = new UserDaoImp();
+	private static UserDAOImp dao = new UserDAOImp();
        
    
     public EmailCheckControl() {

@@ -16,7 +16,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 
-import model.UserDaoImp;
+import model.UserDAOImp;
 
 /**
  * Servlet implementation class UsernameCheckControl
@@ -24,7 +24,7 @@ import model.UserDaoImp;
 @WebServlet("/verifyUsername")
 public class UsernameCheckControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static UserDaoImp dao = new UserDaoImp();
+	private static UserDAOImp dao = new UserDAOImp();
 	private Gson gson = new Gson();
        
     /**

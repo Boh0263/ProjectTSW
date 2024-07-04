@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class UserDaoImp implements UserDAO {
+public class UserDAOImp implements UserDAO {
 
 	@Override
     public Utente doRetrieveByKey(int id) throws SQLException {
@@ -22,14 +22,16 @@ public class UserDaoImp implements UserDAO {
 
             rs = ps.executeQuery();
 
-            if(rs.next()) {
-                bean.setCF("CF");
-                bean.setCognome("cognome");
-                bean.setEmail("email");
-                bean.setNome("nome");
-                bean.setPassword("password");
-                bean.setUsername("username");
-            }
+            if (rs.next()) {
+				bean = new Utente(
+						rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("nome"),
+                        rs.getString("cognome"),
+                        rs.getString("email"),
+                        rs.getString("CF")
+                        );
+			}
             return bean;
         } finally {
             try {
@@ -40,6 +42,41 @@ public class UserDaoImp implements UserDAO {
             }
         }
     }
+    
+	public Utente doRetrieveByKey(String username) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs;
+		Utente bean = null;
+		String getID = "SELECT * FROM Utente WHERE Username = ?";
+
+		try {
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(getID);
+			ps.setString(1, username);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				bean = new Utente(
+						rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("nome"),
+                        rs.getString("cognome"),
+                        rs.getString("email"),
+                        rs.getString("CF")
+                        );
+			}
+			return bean;
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+	}
 	
 
 	@Override

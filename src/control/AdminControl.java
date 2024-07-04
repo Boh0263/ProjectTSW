@@ -18,7 +18,7 @@ public class AdminControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static ProdottoDAOImp pdao = new ProdottoDAOImp();
 	static OrdineDAOImp odao = new OrdineDAOImp();
-    static UserDaoImp udao = new UserDaoImp();
+    static UserDAOImp udao = new UserDAOImp();
        
   
     public AdminControl() {

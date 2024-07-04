@@ -24,7 +24,7 @@ import java.util.UUID;
 import model.Indirizzo;
 
 
-import model.UserDaoImp;
+import model.UserDAOImp;
 import model.Utente;
 
 /**
@@ -33,7 +33,7 @@ import model.Utente;
 @WebServlet("/register")
 public class RegistrationControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static UserDaoImp dao = new UserDaoImp();
+	private static UserDAOImp dao = new UserDAOImp();
 	private Gson gson = new Gson();
        
     public RegistrationControl() {

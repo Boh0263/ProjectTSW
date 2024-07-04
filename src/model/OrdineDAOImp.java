@@ -218,7 +218,7 @@ public class OrdineDAOImp implements OrdineDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Collection<Ordine> ordini = null;
-		String select = "SELECT * FROM Ordine WHERE Ragione_Sociale IN (SELECT CONCAT(?, ' ',?) FROM Utente  WHERE Username = ?)";
+		String select = "SELECT * FROM Ordine WHERE Ragione_Sociale IN (SELECT CONCAT(?,' ',?) FROM Utente  WHERE Username = ?)";
 		try {
 			con = DMConnectionPool.getConnection();
 			ps = con.prepareStatement(select);

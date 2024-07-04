@@ -83,6 +83,15 @@
 		<url-pattern>/Prodotto/*</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>OrdineControl</servlet-name>
+		<servlet-class>control.OrdineControl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>OrdineControl</servlet-name>
+	<url-pattern>/Ordini/*</url-pattern>
+	</servlet-mapping>
+	
 	<error-page>
 		<error-code>401</error-code>
 		<location>/error.jsp</location>
