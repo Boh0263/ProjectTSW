@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import= boh%>
-<!DOCTYPE html>
+<%@page import= idk_forse_non_serve_nulla%>
 
-<!-- Controllo per verificare che l'utente abbia effettuato il login, altrimenti redirect-->
+<!-- Controllo per verificare che l'utente abbia effettuato il login, altrimenti redirect ??-->
 
 <%@ include file="generic_header.jsp"%>
 
@@ -58,16 +57,3 @@
 	</div>
 	
 <%@ include file="generic_footer.jsp"%>
-
-
-CREATE TABLE IF NOT EXISTS Recensione (
-	codiceRecensione int NOT NULL AUTO_INCREMENT,
-    codiceProdotto int NOT NULL,
-    emailCliente varchar(255) NOT NULL,
-    votazione tinyint unsigned NOT NULL,
-    testo text,
-    dataRecensione date NOT NULL,
-    PRIMARY KEY(codiceRecensione, codiceProdotto),
-    FOREIGN KEY(codiceProdotto) REFERENCES Prodotto(nome) ON UPDATE cascade ON DELETE cascade,
-    FOREIGN KEY(emailCliente) REFERENCES Cliente(Email) ON UPDATE cascade ON DELETE cascade
-);
