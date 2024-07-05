@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class ImageDAO {
 	private static final String INSERT_IMAGE_SQL = "INSERT INTO Immagine (Placeholder, Content) VALUES (?, ?)";
-    private static final String SELECT_IMAGE_BY_ID = "SELECT Placeholder, Content FROM Immagine WHERE ID = ?";
+    private static final String SELECT_IMAGE_BY_ID = "SELECT Placeholder, Content, MimeType  FROM Immagine WHERE ID = ?";
     
 	public ImageDAO() {
 	}
@@ -50,7 +50,7 @@ public class ImageDAO {
 			rs = st.executeQuery();
 
 			if (rs.next()) {
-			immagine = new Immagine(rs.getString("Placeholder"), rs.getBytes("Content"));
+			immagine = new Immagine(rs.getString("Placeholder"), rs.getBytes("Content"), rs.getString("MimeType"));
 			}
 			
 		} finally {

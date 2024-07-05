@@ -71,6 +71,9 @@ public class RegistrationControl extends HttpServlet {
             String firstName = jsonRequest.get("Nome").getAsString();
             String lastName = jsonRequest.get("Cognome").getAsString();
             String address = jsonRequest.get("Indirizzo").getAsString();
+            String Citta = jsonRequest.get("citta").getAsString();
+            String CAP = jsonRequest.get("CAP").getAsString();
+            String Provincia = jsonRequest.get("provincia").getAsString();
             String CF = jsonRequest.get("CF").getAsString();
             String dataNascita = jsonRequest.get("dataNascita").getAsString();
             String telefono = jsonRequest.get("telefono").getAsString();
@@ -92,7 +95,7 @@ public class RegistrationControl extends HttpServlet {
                         "R",
                         dataNascita,
                         telefono,
-                        new Indirizzo(address)
+                        new Indirizzo(address, Citta, Provincia, CAP)
                 		));
 
                 if (isRegistered) {
@@ -111,11 +114,9 @@ public class RegistrationControl extends HttpServlet {
         } catch (JsonSyntaxException e) {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "Registrazione fallita: Invalid JSON format");
-            e.printStackTrace();
         } catch (Exception e) {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "Registrazione fallita: Network Error");
-            e.printStackTrace();
         }
 
         out.print(gson.toJson(jsonResponse));

@@ -19,7 +19,7 @@
 	<filter-mapping>
 		<filter-name>SecurityHeadersFilter</filter-name>
 		<!-- idealmente da applicare a tutto <url-pattern>/*</url-pattern> -->
-		<url-pattern>/AdminControl/*</url-pattern>
+		<!--  <url-pattern>/AdminControl/*</url-pattern> --> <!-- TODO testing -->
 		<url-pattern>/Checkout/*</url-pattern>
 		<url-pattern>/Account/*</url-pattern>
 	</filter-mapping>
@@ -34,7 +34,6 @@
 		<url-pattern>/Checkout/*</url-pattern> <!-- TODO Gestire le POST AJAX -->
 		<url-pattern>/Account/*</url-pattern>
 	</filter-mapping>
-	
 	<filter>
 		<filter-name>UserPOSTSessionFilter</filter-name>
 		<filter-class>control.UserPOSTSessionFilter</filter-class>
@@ -43,6 +42,15 @@
 		<filter-name>UserPOSTSessionFilter</filter-name>
 		<url-pattern>/Catalogo/*</url-pattern> 
 		<!-- <url-pattern>/Prodotto/*</url-pattern> --> <!--  TODO Gestire le POST AJAX -->
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>FileUploadFilter</filter-name>
+		<filter-class>control.FileUploadFilter</filter-class>	
+	</filter>
+	<filter-mapping>
+		<filter-name>FileUploadFilter</filter-name>
+		<url-pattern>/upload/*</url-pattern>
 	</filter-mapping>
 	
 	<servlet>

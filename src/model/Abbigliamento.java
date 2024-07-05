@@ -7,7 +7,7 @@ public class Abbigliamento extends Prodotto {
 	private String Tipo; //da fare l' enum
 	private String Genere; //da fare l'enum; 
 	
-	public Abbigliamento(String Nome, double Prezzo, String Descrizione, int Giacenza, String img1, String img2, String img3, int ID_Abbigliamento, String Tipo, String Genere) {
+	public Abbigliamento(String Nome, double Prezzo, String Descrizione, int Giacenza, int img1, int img2, int img3, int ID_Abbigliamento, String Tipo, String Genere) {
 		super(Nome, Prezzo, Descrizione, Giacenza, img1, img2, img3);
 		this.ID_Abbigliamento = ID_Abbigliamento;
 		this.Tipo = Tipo;

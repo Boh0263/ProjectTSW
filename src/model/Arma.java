@@ -22,7 +22,7 @@ public class Arma extends Prodotto {
 		this.Utilizzo = "";
 	}
 	
-	public Arma(String ID, double Prezzo, String Descrizione, int Giacenza, String img1, String img2, String img3, int ID_Arma, String Materiale, String Tipo, String Utilizzo) {
+	public Arma(String ID, double Prezzo, String Descrizione, int Giacenza, int img1, int img2, int img3, int ID_Arma, String Materiale, String Tipo, String Utilizzo) {
 		super(ID, Prezzo, Descrizione, Giacenza, img1, img2, img3);
 		this.ID_Arma = ID_Arma;
 		this.Materiale = Materiale;

@@ -11,7 +11,7 @@ public class Accessorio extends Prodotto {
 	public Accessorio() {
 		this.ID_Accessorio = -1;
 	}
-	public Accessorio (String ID, double Prezzo, String Descrizione, int Giacenza, String img1, String img2, String img3, int ID_Accessorio) {
+	public Accessorio (String ID, double Prezzo, String Descrizione, int Giacenza, int img1, int img2, int img3, int ID_Accessorio) {
 		super(ID, Prezzo, Descrizione, Giacenza, img1, img2, img3);
 		this.ID_Accessorio = ID_Accessorio;
 	}

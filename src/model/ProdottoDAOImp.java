@@ -45,9 +45,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 			ps.setDouble(2, t.getIVA());
 			ps.setInt(3, t.getGiacenza());
 			ps.setString(4, t.getDescrizione());
-			ps.setString(5, t.getImg1());
-			ps.setString(6, t.getImg2());
-			ps.setString(7, t.getImg3());
+			ps.setInt(5, t.getImg1());
+			ps.setInt(6, t.getImg2());
+			ps.setInt(7, t.getImg3());
 			ps.setString(8, t.getNome());
 			
 			modifiche += ps.executeUpdate();
@@ -106,9 +106,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						rs.getDouble("Prezzo"),
 						rs.getString("Descrizione"),
 						rs.getInt("Giacenza"),
-						rs.getString("img1"),
-						rs.getString("img2"),
-						rs.getString("img3"),
+						rs.getInt("img1"),
+						rs.getInt("img2"),
+						rs.getInt("img3"),
 						rs.getInt("ID_Abbigliamento"),
 						rs.getString("Tipo"),
 						rs.getString("Materiale")
@@ -125,9 +125,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						rs.getDouble("Prezzo"),
 						rs.getString("Descrizione"),
 						rs.getInt("Giacenza"),
-						rs.getString("img1"),
-						rs.getString("img2"),
-						rs.getString("img3"),
+						rs.getInt("img1"),
+						rs.getInt("img2"),
+						rs.getInt("img3"),
 						rs.getInt("ID_Accessorio")
 						);
 				prodotti.add(prod);
@@ -141,9 +141,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						rs.getDouble("Prezzo"),
 						rs.getString("Descrizione"),
 						rs.getInt("Giacenza"),
-						rs.getString("img1"),
-						rs.getString("img2"),
-						rs.getString("img3"),
+						rs.getInt("img1"),
+						rs.getInt("img2"),
+						rs.getInt("img3"),
 						rs.getInt("ID_Arma"),
 						rs.getString("Materiale"),
 						rs.getString("Tipo"),
@@ -160,9 +160,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						rs.getDouble("Prezzo"),
 						rs.getString("Descrizione"),
 						rs.getInt("Giacenza"),
-						rs.getString("img1"),
-						rs.getString("img2"),
-						rs.getString("img3"),
+						rs.getInt("img1"),
+						rs.getInt("img2"),
+						rs.getInt("img3"),
 						rs.getInt("ID_Armatura"),
 						rs.getString("Materiale"),
 						rs.getString("Prezzo") 
@@ -206,16 +206,16 @@ public class ProdottoDAOImp implements ProdottoDAO {
 			ps.setInt(3, t.getGiacenza());
 			ps.setDouble(4, t.getIVA());
 			ps.setString(5, t.getDescrizione());
-			ps.setString(6, t.getImg1());
+			ps.setInt(6, t.getImg1());
 			
-			if (!t.getImg2().isEmpty()) {
-				ps.setString(7, t.getImg2());
+			if (t.getImg2() != 1) {
+				ps.setInt(7, t.getImg2());
 				} else {
 					ps.setNull(8, java.sql.Types.NULL);
 			}
 			
-			if (!t.getImg3().isEmpty()) {
-				ps.setString(8, t.getImg3());
+			if (t.getImg3() != 1) {
+				ps.setInt(8, t.getImg3());
 				} else {
 					ps.setNull(8, java.sql.Types.NULL);
 			}
@@ -297,9 +297,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						  rs.getDouble("Prezzo"),
 						  rs.getString("Descrizione"),
 						  rs.getInt("Giacenza"),
-						  rs.getString("img1"),
-						  rs.getString("img2"),
-						  rs.getString("img3"),
+						  rs.getInt("img1"),
+						  rs.getInt("img2"),
+						  rs.getInt("img3"),
 						  rs.getInt("ID_Abbigliamento"),
 						  rs.getString("Tipo"),
 						  rs.getString("Materiale")
@@ -313,9 +313,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 							rs.getDouble("Prezzo"),
 							rs.getString("Descrizione"),
 							rs.getInt("Giacenza"),
-							rs.getString("img1"),
-							rs.getString("img2"),
-							rs.getString("img3"),
+							rs.getInt("img1"),
+							rs.getInt("img2"),
+							rs.getInt("img3"),
 							rs.getInt("ID_Accessorio")
 							  );
 					break;
@@ -326,9 +326,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 							  rs.getDouble("Prezzo"),
 							  rs.getString("Descrizione"),
 							  rs.getInt("Giacenza"),
-							  rs.getString("img1"),
-							  rs.getString("img2"),
-							  rs.getString("img3"),
+							  rs.getInt("img1"),
+							  rs.getInt("img2"),
+							  rs.getInt("img3"),
 							  rs.getInt("ID_Arma"),
 							  rs.getString("Materiale"),
 							  rs.getString("Tipo"),
@@ -342,9 +342,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 					  rs.getDouble("Prezzo"),
 					  rs.getString("Descrizione"),
 					  rs.getInt("Giacenza"),
-					  rs.getString("img1"),
-					  rs.getString("img2"),
-					  rs.getString("img3"),
+					  rs.getInt("img1"),
+					  rs.getInt("img2"),
+					  rs.getInt("img3"),
 					  rs.getInt("ID_Armatura"),
 					  rs.getString("Materiale"),
 					  rs.getString("Pezzo")
@@ -432,9 +432,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						  rs.getDouble("Prezzo"),
 						  rs.getString("Descrizione"),
 						  rs.getInt("Giacenza"),
-						  rs.getString("img1"),
-						  rs.getString("img2"),
-						  rs.getString("img3"),
+						  rs.getInt("img1"),
+						  rs.getInt("img2"),
+						  rs.getInt("img3"),
 						  rs.getInt("ID_Abbigliamento"),
 						  rs.getString("Tipo"),
 						  rs.getString("Genere")
@@ -449,9 +449,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 							rs.getDouble("Prezzo"),
 							rs.getString("Descrizione"),
 							rs.getInt("Giacenza"),
-							rs.getString("img1"),
-							rs.getString("img2"),
-							rs.getString("img3"),
+							rs.getInt("img1"),
+							rs.getInt("img2"),
+							rs.getInt("img3"),
 							rs.getInt("ID_Accessorio")
 						  ));
 				       }
@@ -464,9 +464,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 							  rs.getDouble("Prezzo"),
 							  rs.getString("Descrizione"),
 							  rs.getInt("Giacenza"),
-							  rs.getString("img1"),
-							  rs.getString("img2"),
-							  rs.getString("img3"),
+							  rs.getInt("img1"),
+							  rs.getInt("img2"),
+							  rs.getInt("img3"),
 							  rs.getInt("ID_Arma"),
 							  rs.getString("Materiale"),
 							  rs.getString("Tipo"),
@@ -482,9 +482,9 @@ public class ProdottoDAOImp implements ProdottoDAO {
 					  rs.getDouble("Prezzo"),
 					  rs.getString("Descrizione"),
 					  rs.getInt("Giacenza"),
-					  rs.getString("img1"),
-					  rs.getString("img2"),
-					  rs.getString("img3"),
+					  rs.getInt("img1"),
+					  rs.getInt("img2"),
+					  rs.getInt("img3"),
 					  rs.getInt("ID_Armatura"),
 					  rs.getString("Materiale"),
 					  rs.getString("Pezzo")
@@ -492,7 +492,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 					}
 					break;
 				}
-				default : {obj.add(new Abbigliamento("Nome",0,"Descrizione",0,"img1","img2","img3",1,"","")); break;}
+				default : {obj.add(new Abbigliamento("Nome", 0, "Descrizione", 0, 1, 1, 1, 1, "", "")); break;}
 				}
 			} finally {
 				try {

@@ -41,9 +41,9 @@
                     <td><%= p.getDescrizione() %></td>
                     <td><%= p.getGiacenza() %></td>
                     <td><%= p.getPrezzo() %></td>
-                    <td><img src="<%= p.getImg1() %>" alt="Image 1" width="50" height="50"></td>
-                    <td><img src="<%= p.getImg2() %>" alt="Image 2" width="50" height="50"></td>
-                    <td><img src="<%= p.getImg3() %>" alt="Image 3" width="50" height="50"></td>
+                    <td><img src="./image?img-id=<%= p.getImg1() %>" alt="Image 1" width="50" height="50"></td>
+                    <td><img src="./image?img-id=<%= p.getImg2() %>" alt="Image 2" width="50" height="50"></td>
+                    <td><img src="./image?img-id=<%=p.getImg3() %>" alt="Image 3" width="50" height="50"></td>
                     <td><%= p.getClass().getSimpleName() %></td>
                     <td><button class="btn btn-primary actionBtn" onclick="location.href = 'AdminControl?action=editProduct&prodName=<%= p.getNome() %>';">Modifica</button></td>
                     <td><button class="btn btn-danger actionBtn" onclick="removeProduct('<%= p.getNome() %>');">Rimuovi</button></td>
@@ -54,9 +54,9 @@
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="./resources/js/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha256-x3YZWtRjM8bJqf48dFAv/qmgL68SI4jqNWeSLMZaMGA=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha256-ecWZ3XYM7AwWIaGvSdmipJ2l1F4bN9RXW6zgpeAiZYI=" crossorigin="anonymous"></script>
 <script type="text/javascript">
     function removeProduct(prodName) {
         if (confirm("Sei sicuro di voler rimuovere il prodotto?")) {

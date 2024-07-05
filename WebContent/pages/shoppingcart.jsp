@@ -45,7 +45,7 @@
                 %>
                             <div class="row cart_row border-top border-bottom">
                                 <div class="row cart_row main cart_main align-items-center">
-                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src="<%= entry.getKey().getImg1() %>"></div>
+                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src="./image?img-id=<%= entry.getKey().getImg1() %>"></div>
                                     <div class="col cart_col">
                                         <div class="row cart_row text-muted"><%= entry.getKey().getClass().getSimpleName() %></div>
                                         <div class="row cart_row"><%= entry.getKey().getNome() %></div>
@@ -118,7 +118,7 @@
                                         cartHtml += `
                                             <div class="row cart_row border-top border-bottom">
                                                 <div class="row cart_row main cart_main align-items-center"> 
-                                                    <div class="col-2 cart_col"><img class="img-fluid cart_img" src=` + "./resources/static/images/Abbigliamento.jpg" +  `></div>
+                                                    <div class="col-2 cart_col"><img class="img-fluid cart_img"` + `src=` + "./image?img-id=" + prodotto.img1 +  `></div>
                                                     <div class="col cart_col">
                                                         <div class="row cart_row text-muted">` + prodotto.categoria +  `</div>
                                                         <div class="row cart_row">` + prodotto.Nome +  `</div>

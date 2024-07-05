@@ -27,7 +27,14 @@ public class SecurityHeadersFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
 		httpResponse.setHeader("X-Frame-Options", "DENY");		
-		httpResponse.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
+		httpResponse.setHeader("Content-Security-Policy", ""
+				+ "default-src 'self';"
+				+ " img-src 'self' data: ;"
+				+ " frame-ancestors 'self';"
+				+ " script-src 'self' 'unsafe-inline'"
+					+ "'sha256-ecWZ3XYM7AwWIaGvSdmipJ2l1F4bN9RXW6zgpeAiZYI='"
+					+ "'sha256-x3YZWtRjM8bJqf48dFAv/qmgL68SI4jqNWeSLMZaMGA='"
+				+ ";");
 		
 		chain.doFilter(request, response);
 	}

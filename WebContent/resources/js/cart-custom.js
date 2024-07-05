@@ -77,10 +77,10 @@ function sendCartToServlet() {
 
 function showBanner(message, color) {
 	const banner = document.createElement('div');
-	banner.className = 'notification-banner ' + type;
+	banner.className = 'notification-banner' // + type (?) mi dava errore quindi l'ho temporaneamente tolto. non so perche' non funzioni;
 	banner.textContent = message;
 	
-	const container = document.getElementById('notification-container');
+	const container = document.getElementById('notification-container') ;
 	container.appendChild(banner);
 	
 	setTimeout(() => {

@@ -209,11 +209,8 @@
 									<div class="product-item <%=request.getParameter("category")%>">
 										<div class="product discount product_filter">
 											<div class="product_image">	
-					                        <% if(prod.getImg1() == null || prod.getImg1().isEmpty() || true /*TODO rimuovere quando la gestione delle immagini è finita.*/) { %>
-					                        <img src="./resources/static/images/Error.png" alt="<%=prod.getNome()%>">
-					                        <% } else { %>
-												<img src="<%=prod.getImg1()%>" alt="<%=prod.getNome()%>">
-												<% } %> 
+					                        
+											<img src="./image?img-id=<%=prod.getImg1()%>" alt="<%=prod.getNome()%>">
 											</div>
 											<div class="favorite favorite_left"></div>
 											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-<fmt:formatNumber value="<%= (prod.getPrezzo()/100)*30%>" type="number" pattern="0.0"/>$</span></div>

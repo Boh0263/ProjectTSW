@@ -52,28 +52,38 @@
 		</div>
 		<div class="row">
 		<div class="form-control">
-				<label for="Address">Indirizzo</label> <input type="text"
-				id="Indirizzo" name="address" placeholder="Enter address" /> 
+				<label for="Address">Indirizzo</label> <input type="text" id="Indirizzo" name="address" placeholder="Enter address" /> 
 				<span id="addressError" style=></span>
-				</div>		
+				</div>
 		<div class="form-control">
-		        <label for="Codice Fiscale">Codice Fiscale</label> <input type="text"
-		        id="CF" name="CF" placeholder="Enter codice fiscale" />
-		        <span id="CFError"></span>
-		        </div>
-		        </div>
+				<label for="Citta">Citta</label> <input type="text" id="Citta" name="Citta" placeholder="Enter citta" /> 
+				<span id="CittaError"></span>
+				</div>
+		</div>
 		<div class="row">
 		<div class="form-control">
-			<label for="dataNascita">Data di Nascita</label> <input type="date"
-				id="dataNascita" name="dataNascita"
-				placeholder="Enter data di nascita" />
+		    <label for="CAP">CAP</label> <input type="text" id="CAP" name="CAP" placeholder="Enter CAP" />
+		    <span id="CAPError"></span>
+	    </div>
+		<div class="form-control">
+				<label for="Provincia">Provincia</label> <input type="text" id="Provincia" name="Provincia" placeholder="Enter provincia" />
+				<span id="ProvinciaError"></span>
+		</div>	
+		</div>
+		<div class="row">	
+		<div class="form-control">
+				<label for="Codice Fiscale">Codice Fiscale</label> <input type="text" id="CF" name="CF" placeholder="Enter codice fiscale" />
+				<span id="CFError"></span>
+		</div>
+		<div class="form-control">
+				<label for="dataNascita">Data di Nascita</label> <input type="date" id="dataNascita" name="dataNascita" placeholder="Enter data di nascita" />
 				<span id="dataNascitaError"></span>
+		</div>
 		</div>
 		<div class="form-control">
 			<label for="telefono">Telefono</label> <input type="tel"
 				id="telefono" name="telefono" placeholder="Enter telefono" />
 				<span id="telefonoError"></span>
-		    </div>
 		    </div>
 		    </fieldset>
 		    <input type="hidden" name="ctoken" value="<%=session.getAttribute("ctoken")%>" />
@@ -216,6 +226,9 @@
                 const firstName = $('#Nome').val();
                 const lastName = $('#Cognome').val();
                 const address = $('#Indirizzo').val();
+                const citta = $('#Citta').val();
+                const CAP = $('#CAP').val();
+                const provincia = $('#Provincia').val();
                 const CF = $('#CF').val();
                 const dataNascita = $('#dataNascita').val();
                 const telefono = $('#telefono').val();
@@ -227,6 +240,9 @@
                     Nome: firstName,
                     Cognome: lastName,
                     Indirizzo: address,
+                    citta: citta,
+                    CAP: CAP,
+                    provincia: provincia,
                     CF: CF,
                     dataNascita: dataNascita,
                     telefono: telefono
