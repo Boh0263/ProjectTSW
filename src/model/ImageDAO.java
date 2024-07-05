@@ -12,11 +12,13 @@ public class ImageDAO {
 	public ImageDAO() {
 	}
 	
-	public static synchronized boolean doSave(Immagine image) throws SQLException {
+	public static synchronized int doSave(Immagine image) throws SQLException {
 	   
 		PreparedStatement st = null;
 		Connection con = null;
-		boolean status = false;
+		ResultSet rs = null;
+		int id = 0;
+		
 		try {
 			con = DMConnectionPool.getConnection();
 			st = con.prepareStatement(INSERT_IMAGE_SQL);
@@ -24,7 +26,10 @@ public class ImageDAO {
 			st.setBytes(2, image.getContent());
 			
 			if (st.executeUpdate() == 1) {
-			    status = true;
+			   rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					id = rs.getInt("ID");
+				}			    
 			}
 		} finally {
 			try {
@@ -34,7 +39,7 @@ public class ImageDAO {
 				DMConnectionPool.releaseConnection(con);
 			}
 		}
-		return status;
+		return id;
 	}
 	
 	

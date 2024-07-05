@@ -7,13 +7,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Lista Prodotti</title>
 <link rel="stylesheet" href="./resources/styles/adminsearch_style.css">
+<script src="./resources/js/jquery-3.2.1.min.js"></script>
+<script src="./resources/styles/bootstrap4/popper.js"></script>
+<script src="./resources/styles/bootstrap4/bootstrap.min.js"></script>
 </head>
 <body>
 <%@ include file="admin_header.jsp" %>  
 
 <div class="container">
+	<div class="search-bar">
+        <input type="text" id="search-input" oninput="filterProducts()" placeholder="Cerca per nome prodotto...">
+    </div>
     <div class="table-container">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover"  id="myTable">
             <thead class="thead-dark">
                 <tr>
                     <th>Nome Prodotto</th>
@@ -54,9 +60,7 @@
     </div>
 </div>
 
-<script src="./resources/js/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha256-x3YZWtRjM8bJqf48dFAv/qmgL68SI4jqNWeSLMZaMGA=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha256-ecWZ3XYM7AwWIaGvSdmipJ2l1F4bN9RXW6zgpeAiZYI=" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
     function removeProduct(prodName) {
         if (confirm("Sei sicuro di voler rimuovere il prodotto?")) {
@@ -75,6 +79,32 @@
         }
     }
 </script>
+
+
+<script type="text/javascript">
+function filterProducts() {
+	  var input, filter, table, tr, td, i, txtValue;
+	  input = document.getElementById("search-input");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("myTable");
+	  tr = table.getElementsByTagName("tr");
+
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[0];
+	    if (td) {
+	      txtValue = td.textContent || td.innerText;
+	      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }
+	  }
+}
+
+</script>
+
 
 <%@ include file="admin_footer.jsp" %>
 </body>

@@ -33,10 +33,21 @@ public class UploadIMGControl extends HttpServlet {
 		
 		try {
 			
-		ImageDAO.doSave(img);
-		
+		int id = ImageDAO.doSave(img);
 		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().write("Immagine caricata con successo");
+		
+		if (id > 0) {
+			String jsonResponse = "{\"filename\": \"" + filename + ", \"id\": " + id + "}";
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse);
+	} else {
+		response.getWriter().write("Errore nel salvataggio dell'immagine");
+	}
+} catch (IOException e) {
+
+	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	response.getWriter().write("Errore nella lettura del file");
 		
 		} catch(SQLException e) {
 			

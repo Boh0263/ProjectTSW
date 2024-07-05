@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Modifica Prodotto</title>
 <link rel="stylesheet" href="./resources/styles/edit_style.css">
+
 </head>
 <body>
 <%@ include file="admin_header.jsp" %>  
@@ -51,6 +52,32 @@
                         <option value="Accessorio" <% if (product instanceof Accessorio) { %>selected<% } %>>Accessorio</option>
                     </select>
                 </div>
+                <div class="form-group">
+					<label for="prodImg1">Immagine 1</label>
+					<div class=" custom-file">
+						<input type="file" class="custom-file-input" id="customFile">
+						<label class="custom-file-label" for="customFile">Scegli file</label>
+					</div>
+					<img id="img-upload" src="./image?img-id=<%= product.getImg1() %>">
+				</div>
+				<div class="form-group">
+					<label for="prodImg2">Immagine 2</label>
+					<div class=" custom-file">
+						<input type="file" class="custom-file-input" id="customFile">
+						<label class="custom-file-label" for="customFile">Scegli file</label>
+					</div>
+					<img id="img-upload" src="./image?img-id=<%= product.getImg2() %>">
+				</div>
+				<div class="form-group">
+					<label for="prodImg3">Immagine 3</label>
+					<div class=" custom-file">
+						<input type="file" class="custom-file-input" id="customFile">
+						<label class="custom-file-label" for="customFile">Scegli file</label>
+					</div>
+					<img id="img-upload" src="./image?img-id=<%= product.getImg3() %>">
+				</div>
+				
+
 
                 <% if (product instanceof Abbigliamento) { %>
                 <div class="form-group">
@@ -95,6 +122,11 @@
 <script src="./resources/js/jquery-3.2.1.min.js"></script>
 
 <script type="text/javascript">
+$(document).ready(function() {
+	
+	//TODO
+		
+	});
 </script>
 <%@ include file="admin_footer.jsp" %>
 </body>
