@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import= idk_forse_non_serve_nulla%>
 
 <!-- Controllo per verificare che l'utente abbia effettuato il login, altrimenti redirect ??-->
 
