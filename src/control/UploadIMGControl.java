@@ -23,7 +23,7 @@ public class UploadIMGControl extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String action = request.getParameter("action");
 		String filename = request.getPart("file").getSubmittedFileName();
 		String mimeType = request.getPart("file").getContentType();
 		InputStream filestream = request.getPart("file").getInputStream();
@@ -33,9 +33,20 @@ public class UploadIMGControl extends HttpServlet {
 		
 		try {
 			
-		int id = ImageDAO.doSave(img);
-		response.setStatus(HttpServletResponse.SC_OK);
+		int id = 0;
+		if ("update".equals(action)) {
+			
+		int idtbe = Integer.parseInt(request.getParameter("id"));	
+		id = ImageDAO.doUpdate(img, idtbe);
 		
+		} else if ("add".equals(action)) {
+			
+		id = ImageDAO.doSave(img);
+		
+		}
+		
+		response.setStatus(HttpServletResponse.SC_OK);
+
 		if (id > 0) {
 			String jsonResponse = "{\"filename\": \"" + filename + ", \"id\": " + id + "}";
             response.setContentType("application/json");
