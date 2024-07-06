@@ -63,7 +63,6 @@
                     <% } else { %>
                         <p class="empty-cart">Il carrello è vuoto</p>
                     <% } %>
-                </div>
                 <div class="col-md-4 summary cart_summary">
                     <div><h5><b>Summary</b></h5></div>
                     <hr>
