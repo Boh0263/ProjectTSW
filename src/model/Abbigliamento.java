@@ -18,6 +18,11 @@ public class Abbigliamento extends Prodotto {
 		this.ID_Abbigliamento = -1;
 	
 	}
+	
+	public Abbigliamento (String nome) {
+		super(nome);
+		this.ID_Abbigliamento = -1;
+	}
 
 	@Override
 	public String toString() {

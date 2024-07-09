@@ -29,11 +29,12 @@ public class ProdottoDAOImp implements ProdottoDAO {
 	@Override
 	public int update(Prodotto t) throws SQLException {
 		
-		String[] queries = { "UPDATE Prodotto SET Prezzo = ?, IVA = ?, Giacenza = ?, Descrizione = ?, img1 = ?, img2 = ?, img3 = ? WHERE Nome = ?;",
-				"UPDATE Arma SET Materiale = ?, Tipo = ?, Utilizzo = ? WHERE ID_Prodotto = ?",
-				"UPDATE Abbigliamento SET Tipo = ?, Materiale = ? WHERE ID_Prodotto = ?",
-				"UPDATE Armatura SET Materiale = ?, Pezzo = ? WHERE ID_Prodotto = ?"
-		};
+		String[] queries = { 
+			    "UPDATE Prodotto SET Prezzo = COALESCE(?, Prezzo), IVA = COALESCE(?, IVA), Giacenza = COALESCE(?, Giacenza), Descrizione = COALESCE(?, Descrizione), img1 = COALESCE(?, img1), img2 = COALESCE(?, img2), img3 = COALESCE(?, img3) WHERE Nome = ?;",
+			    "UPDATE Arma SET Materiale = COALESCE(?, Materiale), Tipo = COALESCE(?, Tipo), Utilizzo = COALESCE(?, Utilizzo) WHERE ID_Prodotto = ?",
+			    "UPDATE Abbigliamento SET Tipo = COALESCE(?, Tipo), Materiale = COALESCE(?, Materiale) WHERE ID_Prodotto = ?",
+			    "UPDATE Armatura SET Materiale = COALESCE(?, Materiale), Pezzo = COALESCE(?, Pezzo) WHERE ID_Prodotto = ?"
+			};
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -76,7 +77,6 @@ public class ProdottoDAOImp implements ProdottoDAO {
 	
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public synchronized Collection<Prodotto> doretrieveAll(String order) throws SQLException {
 		Connection con = null;

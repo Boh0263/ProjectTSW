@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class UserDAOImp implements UserDAO {
 
@@ -81,9 +82,61 @@ public class UserDAOImp implements UserDAO {
 
 	@Override
 	public Collection<Utente> doretrieveAll(String order) throws SQLException {
-		//TODO
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs;
+		ResultSet rsAddress;
+		Collection<Utente> users = new LinkedList<Utente>();
+		String selectSQL = "SELECT * FROM Utente";
+		String selectAddressSQL = "SELECT * FROM Indirizzo WHERE Utente_ID = ?";
 		
-		return null;
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order;
+		}
+		
+		try {
+		con = DMConnectionPool.getConnection();
+		ps = con.prepareStatement(selectSQL);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			Indirizzo address;
+			ps = con.prepareStatement(selectAddressSQL);
+			ps.setString(1, rs.getString("username"));
+			rsAddress = ps.executeQuery();
+			if(rsAddress.next()) { //Prende solo il primo indirizzo.
+                address = new Indirizzo(
+                        rsAddress.getString("Via"),
+                        rsAddress.getString("Citta"),
+                        rsAddress.getString("Provincia"),
+                        rsAddress.getString("CAP")
+                        );
+            } else {
+                address = null;
+            }
+			
+			Utente user = new Utente(
+					rs.getString("username"),
+					rs.getString("password"),
+                    rs.getString("nome"),
+                    rs.getString("cognome"),
+                    rs.getString("email"),
+                    rs.getString("CF"),
+                    rs.getString("tipo"),
+                    rs.getString("dataNascita"),
+                    rs.getString("telefono"),
+                    address
+					);
+			users.add(user);	
+		}
+	} finally {
+        try {
+            if (ps != null)
+                ps.close();
+        } finally {
+            DMConnectionPool.releaseConnection(con);
+        }
+      }
+	 return users;
 	}
 
 	@Override

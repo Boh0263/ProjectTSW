@@ -61,7 +61,6 @@ public class UploadIMGControl extends HttpServlet {
 	response.getWriter().write("Errore nella lettura del file");
 		
 		} catch(SQLException e) {
-			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Errore interno al server");
 			

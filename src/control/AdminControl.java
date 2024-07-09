@@ -177,17 +177,18 @@ public class AdminControl extends HttpServlet {
     
     	
     	    if (action != null) {
+    	    	boolean test = false;
     	    	
     	      switch (action) {
     	      
     	        case "editProduct":
-    	          processEditProduct(jsonRequest, response);
+    	          test = processEditProduct(jsonRequest, response);
     	          break;
     	        case "addProduct":
-    	          processAddProduct(jsonRequest, response);
+    	          test = processAddProduct(jsonRequest, response);
     	          break;
     	        case "deleteProduct":
-    	          processDeleteProduct(request, response);
+    	          test = processDeleteProduct(request, response);
     	          break;
     	        case "editOrder":
     	          processEditOrder(jsonRequest, response);
@@ -205,7 +206,19 @@ public class AdminControl extends HttpServlet {
     	        	processError(request, response);
     	        	break;
     	      }
-    	     
+    	      
+    	      if(test) {
+    	    	  jsonResponse.addProperty("success", true);
+    	    	  jsonResponse.addProperty("message", "Operazione eseguita con successo");
+    	    	  out.print(gson.toJson(jsonResponse));
+      	    	  out.flush();
+      	    	  } else {
+      	    	  jsonResponse.addProperty("success", false);
+      	    	  jsonResponse.addProperty("message", "Operazione fallita");
+      	    	  out.print(gson.toJson(jsonResponse));
+      	    	  out.flush();
+      	    	  }
+    	   
     	    } else {
     	      doGet(request, response);
     	    } 
@@ -220,13 +233,14 @@ public class AdminControl extends HttpServlet {
          		
     }
     
-	protected void processEditProduct(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
+	protected boolean processEditProduct(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
+		boolean result = false;
 		String nome = jsonRequest.has("prodNome") ? jsonRequest.get("prodNome").getAsString() : null;
 		//il nome del prodotto è la chiave primaria, quindi obbligatorio.
 		if (nome == null) {
 			res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore: Nome del prodotto non valido");
 			processError(null, res);
-			return;
+			return false;
 		}
 		
 	    Prodotto prod = null;
@@ -236,12 +250,12 @@ public class AdminControl extends HttpServlet {
 					if (prod == null) {
 						res.sendError(HttpServletResponse.SC_NOT_FOUND, "Errore: Prodotto non trovato");
 						processError(null, res);
-						return;
+						return false;
 					}
 				} catch (SQLException e) {
 					res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: "+ e.getMessage());
 					processError(null, res);
-					return;
+					return false;
 				}
 	            
 	   String nomeNew = jsonRequest.has("prodNomeNew") ? jsonRequest.get("prodNomeNew").getAsString() : null;         
@@ -255,36 +269,216 @@ public class AdminControl extends HttpServlet {
 	   String Categoria = jsonRequest.has("prodCategory") ? jsonRequest.get("prodCat").getAsString() : null;
 	   
 	    switch (Categoria) {
-	    
+	   
 	    case "Abbigliamento":
 	    case "Armatura":
 	    case "Arma":
-	    case "Accessorio":
-	    default: break;
+	    case "Accessorio": {
+	    	if (prod.getClass().getSimpleName().equals(Categoria)) {
+        		//aggiornamento del prodotto
+        		if (nomeNew == null || prod.getNome().equals(nomeNew)) {
+        		try {
+        		
+        		prod.setPrezzo(Prezzo);
+        		prod.setIVA(IVA);
+        		prod.setDescrizione(Descrizione);
+        		prod.setGiacenza(Giacenza);
+        		prod.setImg1(img1);
+        		prod.setImg2(img2);
+        		prod.setImg3(img3);
+        		
+        		pdao.update(prod);
+        		
+        		} catch (SQLException e) {
+        			res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: "+ e.getMessage());
+        			processError(null, res);
+        			return false;
+        		}
+        		
+        	} else {
+        			
+          			//Cambio di categoria del prodotto.
+        			try {
+        				
+        				pdao.doDeletebyID(prod.getNome());
+        				
+        				switch (Categoria) {
+        				case "Abbigliamento":
+        					prod = new Abbigliamento(nomeNew);
+        					((Abbigliamento) prod).setTipo(jsonRequest.has("prodTipo") ? jsonRequest.get("Tipo").getAsString() : null);
+        					((Abbigliamento) prod).setGenere(jsonRequest.has("prodGenere") ? jsonRequest.get("Genere").getAsString() : null);
+        					break;
+        				case "Armatura":
+        					prod = new Armatura(nomeNew);
+        					((Armatura) prod).setMateriale(jsonRequest.has("prodMateriale") ? jsonRequest.get("Materiale").getAsString() : null);
+        					((Armatura) prod).setPezzo(jsonRequest.has("prodPezzo") ? jsonRequest.get("Peso").getAsString() : null);
+        					break;
+        				case "Arma":
+        					prod = new Arma(nomeNew);
+        					((Arma) prod).setTipo(jsonRequest.has("prodTipo") ? jsonRequest.get("prodTipo").getAsString() : null);
+        					((Arma) prod).setUtilizzo(jsonRequest.has("prodUtilizzo") ? jsonRequest.get("prodUtilizzo").getAsString() : null);
+        					break;
+        				case "Accessorio":
+        					prod = new Accessorio(nomeNew);
+        					break;
+        					
+        				default: break;
+        				}
+        				
+        				prod.setPrezzo(Prezzo);
+        				prod.setIVA(IVA);
+        				prod.setDescrizione(Descrizione);
+        				prod.setGiacenza(Giacenza);
+        				prod.setImg1(img1);
+        			    prod.setImg2(img2);
+        			    prod.setImg3(img3);
+        			    
+        				 result = pdao.doSave(prod); //TODO overload con connection
+        	
+        				
+        			} catch (SQLException e) {
+        				res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: "+ e.getMessage());
+        				processError(null, res);
+        				return false;
+        			}
+        		
+        		
+        		}
+	    	
+	    	}
+	    }
+	    
+	    default: {
+	    	
+	    	prod.setPrezzo(Prezzo);
+	    	prod.setIVA(IVA);
+	    	prod.setDescrizione(Descrizione);
+	    	prod.setGiacenza(Giacenza);
+	    	prod.setImg1(img1);
+	    	prod.setImg2(img2);
+	    	prod.setImg3(img3);
+	    	
+	    	
+	    	switch (prod.getClass().getSimpleName()) {
+	    	case "Abbigliamento": {
+	    		((Abbigliamento) prod).setTipo(jsonRequest.has("prodTipo") ? jsonRequest.get("Tipo").getAsString() : null);
+	    		((Abbigliamento) prod).setGenere(jsonRequest.has("prodGenere") ? jsonRequest.get("Genere").getAsString() : null);
+	    		break;
+	    	}
+	    	case "Armatura": {
+	    		((Armatura) prod).setMateriale(jsonRequest.has("prodMateriale") ? jsonRequest.get("Materiale").getAsString() : null);
+            	((Armatura) prod).setPezzo(jsonRequest.has("prodPezzo") ? jsonRequest.get("Pezzo").getAsString() : null);
+            	break;
+	    	}
+	        case "Arma": {
+				((Arma) prod).setTipo(jsonRequest.has("prodTipo") ? jsonRequest.get("Tipo").getAsString() : null);
+				((Arma) prod).setUtilizzo(jsonRequest.has("prodUtilizzo") ? jsonRequest.get("Utilizzo").getAsString() : null);
+				break;
+	        }
+	        case "Accessorio": {
+	        	//nessun attributo da aggiornare.
+	        	break;
+	        }
+	        default: break;
+	    }
+	    	 
+		try {
+			
+			pdao.update(prod);
+			
+		} catch (SQLException e) {
+			res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: " + e.getMessage());
+			processError(null, res);
+			return false;
+		    }
+		return result;
+	    } 
 	    
 	    }
-	   
-	            
-	     }
+}
 	    
 		
 		
 		
 		
+	
+	
+	protected boolean processAddProduct(JsonObject  jsonRequest, HttpServletResponse res) throws ServletException, IOException {
+		   
+		   String Nome = jsonRequest.has("prodNomeNew") ? jsonRequest.get("prodNomeNew").getAsString() : null;         
+		   Double Prezzo = jsonRequest.has("prodPrezzo") ? jsonRequest.get("prodPrezzo").getAsDouble() : null; 
+		   Double IVA = jsonRequest.has("prodIVA") ? jsonRequest.get("prodIVA").getAsDouble() : null;
+		   String Descrizione = jsonRequest.has("prodDesc") ? jsonRequest.get("prodDesc").getAsString() : null;
+		   Integer Giacenza = jsonRequest.has("prodGiac") ? jsonRequest.get("prodGiac").getAsInt() : null;
+		   Integer img1 = jsonRequest.has("prodImg1") ? jsonRequest.get("prodImg1").getAsInt() : null;
+		   Integer img2 = jsonRequest.has("prodImg2") ? jsonRequest.get("prodImg2").getAsInt() : null;
+		   Integer img3 = jsonRequest.has("prodImg3") ? jsonRequest.get("prodImg3").getAsInt() : null;
+		   String Categoria = jsonRequest.has("prodCategory") ? jsonRequest.get("prodCategory").getAsString() : null;
+		   String Materiale = jsonRequest.has("prodMateriale") ? jsonRequest.get("prodMateriale").getAsString() : null;
+		   String Tipo = jsonRequest.has("prodTipo") ? jsonRequest.get("prodTipo").getAsString() : null;
+		   String Pezzo = jsonRequest.has("prodPezzo") ? jsonRequest.get("prodPezzo").getAsString() : null;
+		   String Utilizzo = jsonRequest.has("prodUtilizzo") ? jsonRequest.get("prodUtilizzo").getAsString() : null;
+		   String Genere = jsonRequest.has("prodGenere") ? jsonRequest.get("prodGenere").getAsString() : null;
+		   
+		   Prodotto prod = null;
+		   
+		  switch (Categoria) {
+		   case "Abbigliamento": {
+               prod = new Abbigliamento(Nome, Prezzo, Descrizione, Giacenza, img1, img2, img3, -1, Tipo, Genere);
+               break;
+		   }
+		   case "Armatura": {
+               prod = new Armatura(Nome, Prezzo, Descrizione, Giacenza, img1, img2, img3, -1, Materiale, Pezzo);
+               break;
+           }
+		   
+		   case "Arma": {
+               prod = new Arma(Nome, Prezzo, Descrizione, Giacenza, img1, img2, img3, -1, Materiale, Tipo, Utilizzo);
+               break;
+           }
+		   case "Accessorio": {
+               prod = new Accessorio(Nome, Prezzo, Descrizione, Giacenza, img1, img2, img3, -1);
+               break;
+           }
+		    default: {
+            	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore: Categoria non valida");
+            	processError(null, res);
+            	return false;
+            }
+		  }
+		  
+		   prod.setIVA(IVA);
+			try {
+				pdao.doSave(prod);
+				res.setStatus(HttpServletResponse.SC_OK);
+				return true;
+				
+				
+				
+			} catch (SQLException e) {
+				res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: " + e.getMessage());
+				processError(null, res);
+				return false;
+			}
+			
+		
+		
 	}
 	
-	protected void processAddProduct(JsonObject  jsonRequest, HttpServletResponse res) throws ServletException, IOException {
-	}
-	
-	protected void processDeleteProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected boolean processDeleteProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		boolean test = false;
 		try {
-			pdao.doDeletebyID(req.getParameter("prodNome"));
+			test = pdao.doDeletebyID(req.getParameter("prodNome"));
+			
 		} catch (SQLException e) {
-			System.out.println("Errore: "+ e.getMessage()); //Handle Error with redirection to jsp error page with Dispatcher
+			res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: " + e.getMessage());
+			processError(req, res);
 		}
+		return test;
 	}
 	
 	protected void processEditOrder(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
+		
 	}
 	
 	protected void processDeleteOrder(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -303,64 +497,6 @@ public class AdminControl extends HttpServlet {
 		return;
 	}
 	
-	/*private Prodotto parseProdotto(HttpServletRequest req) throws ServletException, IOException {
-			  Enumeration<String> parameterNames = req.getParameterNames();
-
-			  String productCategoryParam = null;
-			  while (parameterNames.hasMoreElements()) {
-			    String paramName = parameterNames.nextElement();
-			    if (paramName.startsWith("prodCategory")) {
-			      productCategoryParam = paramName;
-			      break;
-			    }
-			  }
-
-			  if (productCategoryParam == null) {
-			    throw new IOException("Missing product category parameter (prodCategory)");
-			  }
-
-			  String productCategory = req.getParameter(productCategoryParam);
-			  Prodotto product;
-			  switch (productCategory) {
-			    case "Abbigliamento":
-			      product = new Abbigliamento();
-			      break;
-			    case "Armatura":
-			      product = new Armatura();
-			      break;
-			    case "Arma":
-			      product = new Arma();
-			      break;
-			    case "Accessorio":
-			      product = new Accessorio();
-			      break;
-			    default:
-			      throw new IOException("Unsupported product category: " + productCategory);
-			  }
-
-			  while (parameterNames.hasMoreElements()) {
-			    String paramName = parameterNames.nextElement();
-			    if (paramName.startsWith("prod") && !paramName.equals(productCategoryParam)) {
-			      String value = req.getParameter(paramName);
-			      String attributeName = paramName.substring(4); 
-
-			      try {
-			        Class<?> productClass = product.getClass();
-			        String getterName = "get" + attributeName.substring(0, 1).toUpperCase() + attributeName.substring(1);
-			        String setterName = "set" + attributeName.substring(0, 1).toUpperCase() + attributeName.substring(1);
-
-			        Method getter = productClass.getMethod(getterName);
-
-			        Method setter = productClass.getMethod(setterName, getter.getReturnType());
-			        setter.invoke(product, value);
-			      } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			        throw new IOException("Error setting product attribute: " + attributeName, e);
-			      }
-			    }
-			  }
-			  
-			return product;
-	}
-	*/
+	
 
 }

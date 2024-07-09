@@ -143,6 +143,35 @@ public class Utente implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	public String getDataNascita() {
+		return dataNascita;
+	}
+	
+	public void setDataNascita(String dataNascita) {
+		this.dataNascita = dataNascita;
+	}
+	
+	public String getTelefono() {
+		return telefono;
+	}
+	
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	
+	public Indirizzo getIndirizzo() {
+		return indirizzo;
+	}
+	
+	public void setIndirizzo(Indirizzo indirizzo) {
+		this.indirizzo = indirizzo;
+	}
+	
 
     
     

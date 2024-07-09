@@ -21,6 +21,14 @@ public abstract class Prodotto implements Serializable {
 		this.IVA = 0;
 	}
 	
+	public Prodotto(String nome) {
+		this.Nome = nome;
+		this.Prezzo = 0;
+		this.IVA = 0;
+	}
+	
+	
+	
 	public Prodotto(String Nome, double Prezzo, String Descrizione, int Giacenza, int img1, int img2, int img3) {
 		this.Nome = Nome;
 		this.Prezzo = Prezzo;
@@ -30,6 +38,8 @@ public abstract class Prodotto implements Serializable {
 		this.img2 = img2;
 		this.img3 = img3;
 	}
+	
+
 	
 	public String getNome() {
 		return Nome;
