@@ -32,40 +32,37 @@ public class UploadIMGControl extends HttpServlet {
 		Immagine img = new Immagine(filename, Content, mimeType);
 		
 		try {
-			
-		int id = 0;
-		if ("update".equals(action)) {
-			
-		int idtbe = Integer.parseInt(request.getParameter("id"));	
-		id = ImageDAO.doUpdate(img, idtbe);
-		
-		} else if ("add".equals(action)) {
-			
-		id = ImageDAO.doSave(img);
-		
-		}
-		
-		response.setStatus(HttpServletResponse.SC_OK);
-
-		if (id > 0) {
-			String jsonResponse = "{\"filename\": \"" + filename + ", \"id\": " + id + "}";
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(jsonResponse);
-	} else {
-		response.getWriter().write("Errore nel salvataggio dell'immagine");
-	}
-} catch (IOException e) {
-
-	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	response.getWriter().write("Errore nella lettura del file");
-		
-		} catch(SQLException e) {
-			
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Errore interno al server");
-			
+			int id = 0;
+			if ("update".equals(action)) {
+				int idtbe = Integer.parseInt(request.getParameter("id"));
+				id = ImageDAO.doUpdate(img, idtbe);
+			} else if ("add".equals(action)) {
+				id = ImageDAO.doSave(img);
+			}
+			response.setStatus(HttpServletResponse.SC_OK);
+			if (id > 0) {
+				String jsonResponse = "{\"filename\": \"" + filename + ", \"id\": " + id + "}";
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(jsonResponse);
+			} else {
+				response.getWriter().write("Errore nel salvataggio dell'immagine");
+			}
+		} catch (Exception e) {
+			String exception = e.getClass().getSimpleName();
+			switch(exception) {
+				case "IOException":
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					response.getWriter().write("Errore nella lettura del file");
+					break;
+				case "SQLException":
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write("Errore interno al server");
+					break;
+				default:
+					response.setHeader("message","Errore interno al server");
+					break;
+			}
 		}
 	}
-
 }

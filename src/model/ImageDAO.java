@@ -8,6 +8,7 @@ import java.sql.SQLException;
 public class ImageDAO {
 	private static final String INSERT_IMAGE_SQL = "INSERT INTO Immagine (Placeholder, Content) VALUES (?, ?)";
     private static final String SELECT_IMAGE_BY_ID = "SELECT Placeholder, Content, MimeType  FROM Immagine WHERE ID = ?";
+    private static final String GET_IMAGES = "SELECT ID FROM Immagine WHERE ID = ?";
     
 	public ImageDAO() {
 	}
@@ -67,6 +68,26 @@ public class ImageDAO {
 			}
 		}
 		return immagine;
+	}
+	
+	public static synchronized int doUpdate(Immagine image, int id) throws SQLException{
+		boolean flag = true;
+		try(Connection con = DMConnectionPool.getConnection(); PreparedStatement st = con.prepareStatement(GET_IMAGES)) {
+			st.setInt(1, id);
+			try(ResultSet rs = st.executeQuery()){
+				while(rs.next() && flag) {
+					if(rs.getInt("ID") == id) {
+						flag = false;
+					}
+				}
+			}
+		}
+		if(flag = false) {	//trovato stesso id
+			return id;
+		}
+		else {
+			return doSave(image);
+		}
 	}
 
 }
