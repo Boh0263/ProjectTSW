@@ -31,7 +31,8 @@ public class ProdottoDAOImp implements ProdottoDAO {
 		
 		String[] queries = { "UPDATE Prodotto SET Prezzo = ?, IVA = ?, Giacenza = ?, Descrizione = ?, img1 = ?, img2 = ?, img3 = ? WHERE Nome = ?;",
 				"UPDATE Arma SET Materiale = ?, Tipo = ?, Utilizzo = ? WHERE ID_Prodotto = ?",
-				"UPDATE Abbigliamento SET Tipo = ?, Materiale = ? WHERE ID_Prodotto = ?"
+				"UPDATE Abbigliamento SET Tipo = ?, Materiale = ? WHERE ID_Prodotto = ?",
+				"UPDATE Armatura SET Materiale = ?, Pezzo = ? WHERE ID_Prodotto = ?"
 		};
 		
 		Connection con = null;

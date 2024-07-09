@@ -283,7 +283,6 @@ $(document).ready(function() {
     $('form').on('submit', function(event) {
         event.preventDefault();
         
-        
         function sendImage(file, action, id) {
             var formData = new FormData();
             formData.append('file', file);
@@ -342,10 +341,13 @@ $(document).ready(function() {
 
 function submitForm() {
 	
-    var data = {};
+    var data = {
+    		prodNome : <%=product.getNome()%>
+    		
+    };
 
     if ($('#prodNome').val() !== initialValues.prodNome) {
-        data.prodNome = $('#prodNome').val();
+        data.prodNomeNew = $('#prodNome').val();
     }
     if ($('#prodGiacenza').val() !== initialValues.prodGiacenza) {
         data.prodGiacenza = $('#prodGiacenza').val();
@@ -402,7 +404,7 @@ function submitForm() {
         url: '/AdminControl',
         type: 'POST',
         data: JSON.stringify(formData),
-        contentType: 'application/json; charset=UTF-8',
+        contentType: 'application/json;',
         success: function(response) {
             //mostra banner verde che conferma la corretta submit.
         },

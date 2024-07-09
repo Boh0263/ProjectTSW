@@ -1,6 +1,8 @@
 package control;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -12,6 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
 import model.*;
 
 public class AdminControl extends HttpServlet {
@@ -19,6 +27,8 @@ public class AdminControl extends HttpServlet {
 	static ProdottoDAOImp pdao = new ProdottoDAOImp();
 	static OrdineDAOImp odao = new OrdineDAOImp();
     static UserDAOImp udao = new UserDAOImp();
+    
+    private Gson gson = new Gson();
        
   
     public AdminControl() {
@@ -131,30 +141,62 @@ public class AdminControl extends HttpServlet {
     	  }
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	    
-    	String action = request.getParameter("action");
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		String action = null;
+    	PrintWriter out = response.getWriter();
+        JsonObject jsonResponse = new JsonObject();
+         
+         try (BufferedReader reader = request.getReader()) {
+         	JsonElement jsonElement =  JsonParser.parseReader(reader);
+         	JsonObject jsonRequest = null;
+         	
+         	if (jsonElement.isJsonObject()) {
+             jsonRequest = jsonElement.getAsJsonObject();
+             action = jsonRequest.get("action").getAsString();
+         	} 
+         	else if (request.getParameter("action") != null) {
+         		action = request.getParameter("action");
+         		//azioni non consentite per formato di richiesta non valido.
+         		switch (action) {
+         		case "addProduct":
+         		case "editProduct":
+         		case "addOrder":
+         		case "editOrder":
+         		case "editUser": {
+         			jsonResponse.addProperty("success", false);
+         			jsonResponse.addProperty("message", "Errore: Richiesta non valida");
+         			out.print(gson.toJson(jsonResponse));
+         			out.flush();
+         			return;
+         		}
+         		default: break;
+         	  }
+         	}
+    
     	
     	    if (action != null) {
     	    	
     	      switch (action) {
     	      
     	        case "editProduct":
-    	          processEditProduct(request, response);
+    	          processEditProduct(jsonRequest, response);
     	          break;
     	        case "addProduct":
-    	          processAddProduct(request, response);
+    	          processAddProduct(jsonRequest, response);
     	          break;
     	        case "deleteProduct":
     	          processDeleteProduct(request, response);
     	          break;
     	        case "editOrder":
-    	          processEditOrder(request, response);
+    	          processEditOrder(jsonRequest, response);
     	           break;
 				case "deleteOrder":
 				  processDeleteOrder(request, response);
 					break;
 				case "editUser":
-					processEditUser(request, response);
+					processEditUser(jsonRequest, response);
 					break;
 				case "deleteUser":
 					processDeleteUser(request, response);
@@ -163,20 +205,75 @@ public class AdminControl extends HttpServlet {
     	        	processError(request, response);
     	        	break;
     	      }
+    	     
     	    } else {
     	      doGet(request, response);
-    	    }
+    	    } 
+    	  
+         } catch (JsonSyntaxException e) {
+         		jsonResponse.addProperty("success", false);
+                jsonResponse.addProperty("message", "Errore: " + e.getMessage());
+                out.print(gson.toJson(jsonResponse));
+                out.flush();
+                return;
+         	}
+         		
     }
     
-	protected void processEditProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void processEditProduct(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
+		String nome = jsonRequest.has("prodNome") ? jsonRequest.get("prodNome").getAsString() : null;
+		//il nome del prodotto è la chiave primaria, quindi obbligatorio.
+		if (nome == null) {
+			res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore: Nome del prodotto non valido");
+			processError(null, res);
+			return;
+		}
 		
+	    Prodotto prod = null;
+	    
+	            try {
+					prod = pdao.doRetrieveByKey(nome);
+					if (prod == null) {
+						res.sendError(HttpServletResponse.SC_NOT_FOUND, "Errore: Prodotto non trovato");
+						processError(null, res);
+						return;
+					}
+				} catch (SQLException e) {
+					res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: "+ e.getMessage());
+					processError(null, res);
+					return;
+				}
+	            
+	   String nomeNew = jsonRequest.has("prodNomeNew") ? jsonRequest.get("prodNomeNew").getAsString() : null;         
+	   Double Prezzo = jsonRequest.has("prodPrezzo") ? jsonRequest.get("prodPrezzo").getAsDouble() : null; 
+	   Double IVA = jsonRequest.has("prodIVA") ? jsonRequest.get("prodIVA").getAsDouble() : null;
+	   String Descrizione = jsonRequest.has("prodDesc") ? jsonRequest.get("prodDesc").getAsString() : null;
+	   Integer Giacenza = jsonRequest.has("prodGiac") ? jsonRequest.get("prodGiac").getAsInt() : null;
+	   Integer img1 = jsonRequest.has("prodImg1") ? jsonRequest.get("prodImg1").getAsInt() : null;
+	   Integer img2 = jsonRequest.has("prodImg2") ? jsonRequest.get("prodImg2").getAsInt() : null;
+	   Integer img3 = jsonRequest.has("prodImg3") ? jsonRequest.get("prodImg3").getAsInt() : null;
+	   String Categoria = jsonRequest.has("prodCategory") ? jsonRequest.get("prodCat").getAsString() : null;
+	   
+	    switch (Categoria) {
+	    
+	    case "Abbigliamento":
+	    case "Armatura":
+	    case "Arma":
+	    case "Accessorio":
+	    default: break;
+	    
+	    }
+	   
+	            
+	     }
+	    
 		
 		
 		
 		
 	}
 	
-	protected void processAddProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void processAddProduct(JsonObject  jsonRequest, HttpServletResponse res) throws ServletException, IOException {
 	}
 	
 	protected void processDeleteProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -187,14 +284,14 @@ public class AdminControl extends HttpServlet {
 		}
 	}
 	
-	protected void processEditOrder(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void processEditOrder(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
 	}
 	
 	protected void processDeleteOrder(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	
 	}
 	
-	protected void processEditUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void processEditUser(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
 	}
 	
 	protected void processDeleteUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
