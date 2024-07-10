@@ -24,7 +24,7 @@
 </style>
 
 <div class="main_slider cart-slider" style="background-image:url(./resources/static/images/slider_1_empty.jpg)">
-    <div class="cart">
+    <div class="card cart">
         <div class="row cart_row">
             <div class="col-md-8 cart_content">
                 <div class="cart_title">

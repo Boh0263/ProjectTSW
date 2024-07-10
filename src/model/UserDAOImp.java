@@ -111,7 +111,7 @@ public class UserDAOImp implements UserDAO {
                         rsAddress.getString("CAP")
                         );
             } else {
-                address = null;
+                address = new Indirizzo("","","","");
             }
 			
 			Utente user = new Utente(
@@ -122,7 +122,7 @@ public class UserDAOImp implements UserDAO {
                     rs.getString("email"),
                     rs.getString("CF"),
                     rs.getString("tipo"),
-                    rs.getString("dataNascita"),
+                    rs.getString("data_nascita"),
                     rs.getString("telefono"),
                     address
 					);
@@ -146,7 +146,7 @@ public class UserDAOImp implements UserDAO {
 		PreparedStatement ps = null;
 		boolean result = false;	
         // follow the database schema to insert the user
-		        String insertSQL = "INSERT INTO Utente (username, password, nome, cognome, email, CF, tipo) VALUES (?, SHA2(?,256), ?, ?, ?, ?, ?)";
+		        String insertSQL = "INSERT INTO Utente (username, password, nome, cognome, email, CF, tipo, telefono, data_nascita) VALUES (?, SHA2(?,256), ?, ?, ?, ?, ?)";
 		     
 		try {
             con = DMConnectionPool.getConnection();
@@ -158,6 +158,8 @@ public class UserDAOImp implements UserDAO {
 			ps.setString(5, t.getEmail());
 			ps.setString(6, t.getCF());
 			ps.setString(7, "R");
+			ps.setString(8, t.getTelefono());
+			ps.setString(9, t.getDataNascita());
 			
 		    int res = ps.executeUpdate();
 		    con.commit();
@@ -187,7 +189,9 @@ public class UserDAOImp implements UserDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 	    int result = 0;
-	            String updateSQL = "UPDATE Utente SET password = SHA(?,256), email = ?, CF = ?, tipo = ? WHERE username = ?";
+	            String updateSQL = "UPDATE Utente SET password = COALESCE(SHA2(?, 256), password), email = COALESCE(?, email), CF = COALESCE(?, CF),  tipo = COALESCE(?, tipo),  telefono = COALESCE(?, telefono), data_nascita = COALESCE(?, data_nascita) WHERE username = ?;";
+	            	   
+
 	                    try {
 							con = DMConnectionPool.getConnection();
 							ps = con.prepareStatement(updateSQL);
@@ -195,6 +199,8 @@ public class UserDAOImp implements UserDAO {
 							ps.setString(2, t.getEmail());
 							ps.setString(3, t.getCF());
 							ps.setString(4, t.getTipo());
+							ps.setString(5, t.getTelefono());
+							ps.setString(6, t.getDataNascita());
 							ps.setString(5, t.getUsername());
 							result = ps.executeUpdate();
 							con.commit();

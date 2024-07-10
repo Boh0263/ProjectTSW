@@ -59,14 +59,14 @@
                     <td><%= u.getUsername() %></td>
                     <td><%= u.getNome() %></td>
                     <td><%= u.getCognome() %></td>
-                    <td><%= u.getCF() %></td>
                     <td><%= u.getEmail() %></td>
+                    <td><%= u.getCF() %></td>
                     <td><%= u.getTipo() %></td>
                     <td><%= u.getDataNascita() %></td>
                     <td><%= u.getTelefono() %></td>
                     <td><%= u.getIndirizzo().toString() %> </td>
-                    <td><button class="btn btn-primary actionBtn" onclick="location.href = 'AdminControl?action=editUser&username=<%= u.getUsername() %>';">Eleva Privilegi</button></td>
-                    <td><button class="btn btn-primary actionBtn" onclick="location.href = 'AdminControl?action=editUser&username=<%= u.getUsername() %>';">Rimuovi Privilegi</button></td>
+                    <td><button class="btn btn-primary actionBtn" onclick="OPUser('<%= u.getUsername() %>')">OP</button></td>
+                    <td><button class="btn btn-primary actionBtn" onclick="DEOPUser('<%= u.getUsername() %>')">DEOP</button></td>
                     <td><button class="btn btn-danger actionBtn" onclick="removeUser('<%= u.getUsername() %>');">Rimuovi</button></td>
                 </tr>
                 <% } } %>

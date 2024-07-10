@@ -50,7 +50,7 @@ public class ProdottoControl extends HttpServlet {
             }
         } else {
             try {
-            	Object obj = (Prodotto) dao.doRetrieveByKey(productName);
+            	Prodotto obj = (Prodotto) dao.doRetrieveByKey(productName);
             	System.out.println(obj.toString());
                 request.setAttribute("prodotto", obj);
             } catch (Exception e) {
