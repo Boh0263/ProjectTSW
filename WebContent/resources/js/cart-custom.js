@@ -21,7 +21,7 @@ class Carrello {
             }
             localStorage.setItem('prodotti', JSON.stringify(Object.fromEntries(this.prodotti)));
             this.updateProductNumber();
-            showBanner('Prodotto aggiunto al carrello!', 'green');
+            showBanner('Prodotto aggiunto al carrello!', 'success');
         }
     }
 
@@ -32,7 +32,8 @@ class Carrello {
                     this.prodotti.set(prodotto, this.prodotti.get(prodotto) - 1);
                 } else {
                     this.prodotti.delete(prodotto);
-                    showBanner('Prodotto rimosso dal carrello!', 'red');
+                    //dato che vuole la rimozione, credo sia giusto usare il verde
+                    showBanner('Prodotto rimosso dal carrello!', 'success'); 
                 }
                 localStorage.setItem('prodotti', JSON.stringify(Object.fromEntries(this.prodotti)));
                 this.updateProductNumber();
@@ -65,19 +66,19 @@ function sendCartToServlet() {
         xhr.onload = function() {
             if (xhr.status == 200) {
                 localStorage.removeItem('prodotti');
-                showBanner('Carrello inviato con successo!', 'green');
+                showBanner('Carrello inviato con successo!', 'success');
             } else {
-                showBanner('Errore durante l\'invio del carrello', 'red');
+                showBanner('Errore durante l\'invio del carrello', 'error');
             }
         };
     } else {
-        showBanner('Il carrello è vuoto.', 'red');
+        showBanner('Il carrello è vuoto.', 'error');
     }
 }
 
-function showBanner(message, color) {
+function showBanner(message, type) {
 	const banner = document.createElement('div');
-	banner.className = 'notification-banner' // + type (?) mi dava errore quindi l'ho temporaneamente tolto. non so perche' non funzioni;
+	banner.className = 'notification-banner' + type;
 	banner.textContent = message;
 	
 	const container = document.getElementById('notification-container') ;
