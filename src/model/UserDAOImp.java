@@ -185,34 +185,30 @@ public class UserDAOImp implements UserDAO {
 	}
 
 	@Override
-	public int update(Utente t) throws SQLException {
-		Connection con = null;
-		PreparedStatement ps = null;
-	    int result = 0;
-	            String updateSQL = "UPDATE Utente SET password = COALESCE(SHA2(?, 256), password), email = COALESCE(?, email), CF = COALESCE(?, CF),  tipo = COALESCE(?, tipo),  telefono = COALESCE(?, telefono), data_nascita = COALESCE(?, data_nascita) WHERE username = ?;";
-	            	   
-
-	                    try {
-							con = DMConnectionPool.getConnection();
-							ps = con.prepareStatement(updateSQL);
-							ps.setString(1, t.getPassword());
-							ps.setString(2, t.getEmail());
-							ps.setString(3, t.getCF());
-							ps.setString(4, t.getTipo());
-							ps.setString(5, t.getTelefono());
-							ps.setString(6, t.getDataNascita());
-							ps.setString(5, t.getUsername());
-							result = ps.executeUpdate();
-							con.commit();
-						} finally {
-							try {
-								if (ps != null)
-									ps.close();
-							} finally {
-								DMConnectionPool.releaseConnection(con);
-							}
-							
-	                    }
+	public int update(Utente utente) throws SQLException {
+		int result = 0;
+		String UPDATE = "UPDATE Utente SET Email = COALESCE(?, Email), Password = COALESCE(SHA2(?, 256), Password),"
+				+ "Nome = COALESCE (?, Nome), Cognome = COALESCE(?, Cognome), CF = COALESCE(?, CF),"
+				+ "Telefono = COALESCE(?, Telefono), Data_Nascita = COALESCE(?, Data_Nascita)"
+				+ "Indirizzo_breve = COALESCE(?, Indirizzo_breve), CAP = COALESCE(?, CAP)"
+				+ "Località = COALESCE(?, Località), Provincia = COALESCE(?, Provincia)"
+				+ "WHERE username = ?";
+		try (Connection con = DMConnectionPool.getConnection(); PreparedStatement st = con.prepareStatement(UPDATE)) {
+			st.setString(1, utente.getEmail());
+			st.setString(2, utente.getPassword());
+			st.setString(3, utente.getNome());
+			st.setString(4, utente.getCognome());
+			st.setString(5, utente.getCF());
+			st.setString(6, utente.getTelefono());
+			st.setString(7, utente.getDataNascita());
+			st.setString(8, utente.getIndirizzo().getVia());
+			st.setString(9, utente.getIndirizzo().getCap());
+			st.setString(10, utente.getIndirizzo().getCitta());
+			st.setString(11, utente.getIndirizzo().getProvincia());
+			st.setString(12, utente.getUsername());
+			result = st.executeUpdate();
+			con.commit();
+		}
 		return result;
 	}
 
