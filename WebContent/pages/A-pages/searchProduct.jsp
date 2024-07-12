@@ -22,13 +22,13 @@
         <table class="table table-striped table-bordered table-hover"  id="myTable">
             <thead class="thead-dark">
                 <tr>
-                    <th>Nome Prodotto</th>
-                    <th>Descrizione</th>
-                    <th>Giacenza</th>
-                    <th>Prezzo (&#8364;)</th>
-                    <th>Img 1</th>
-                    <th>Img 2</th>
-                    <th>Img 3</th>
+                    <th onclick="sortBy(0)">Nome Prodotto <i id="sortIcon0" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(1)">Descrizione <i id="sortIcon1" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(2)">Giacenza <i id="sortIcon2" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(3)">Prezzo (&#8364;) <i id="sortIcon3" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(4)">Img 1 <i id="sortIcon4" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(5)">Img 2 <i id="sortIcon5" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(6)">Img 3 <i id="sortIcon6" class="fa fa-sort"></i></th>
                     <th>Categoria</th>
                     <th colspan="2">Actions</th>
                 </tr>
@@ -103,6 +103,81 @@ function filterProducts() {
 	  }
 }
 
+</script>
+
+<script type="text/javascript">
+
+    var currentSortColumn = -1; 
+    var currentSortOrder = {}; 
+    
+    function sortBy(column) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("myTable");
+        switching = true;
+        
+        if (!currentSortOrder[column]) {
+            currentSortOrder[column] = 'asc';
+        } else {
+            currentSortOrder[column] = currentSortOrder[column] === 'asc' ? 'desc' : 'asc';
+        }
+        
+        if (currentSortColumn !== column) {
+            resetSortIcons();
+        }
+        
+        toggleSortIcon(column, currentSortOrder[column]);
+        
+        currentSortColumn = column; 
+        
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+
+                x = rows[i].getElementsByTagName("td")[column];
+                y = rows[i + 1].getElementsByTagName("td")[column];
+
+                if (currentSortOrder[column] === 'asc') {
+                    if (x.textContent.toLowerCase() > y.textContent.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (currentSortOrder[column] === 'desc') {
+                    if (x.textContent.toLowerCase() < y.textContent.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+    
+    function resetSortIcons() {
+        for (var key in currentSortOrder) {
+            if (currentSortOrder.hasOwnProperty(key)) {
+                document.getElementById('sortIcon' + key).className = 'fa fa-sort';
+            }
+        }
+    }
+    
+    function toggleSortIcon(column, sortOrder) {
+        var icon = document.getElementById('sortIcon' + column);
+        
+        icon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down');
+        if (sortOrder === 'asc') {
+            icon.classList.add('fa-sort-up');
+        } else if (sortOrder === 'desc') {
+            icon.classList.add('fa-sort-down');
+        } else {
+            icon.classList.add('fa-sort');
+        }
+    }
 </script>
 
 

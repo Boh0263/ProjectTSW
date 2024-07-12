@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Modifica Prodotto</title>
+<title>Aggiungi Prodotto</title>
 <link rel="stylesheet" type="text/css" href="./resources/styles/bootstrap4/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="./resources/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="./resources/styles/edit_style.css">
@@ -61,80 +61,74 @@
 <body>
 <%@ include file="admin_header.jsp" %>  
 
-<%
-    Prodotto product = (Prodotto) request.getAttribute("prodtbe");
-    if (product != null) {
-%>
+
 
 
 
 <div class="container form-container">
     <div class="card">
         <div class="card-header">
-            Modifica Prodotto
+           Aggiungi Prodotto
         </div>
         <div class="card-body">
             <form action="/AdminControl" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="prodNome">Nome</label>
-                    <input type="text" id="prodNome" name="prodNome" class="form-control" value="<%= product.getNome() %>">
+                    <input type="text" id="prodNome" name="prodNome" class="form-control" placeholder="Inserisci il nome del prodotto..">
                 </div>
                 <div class="form-group">
                     <label for="prodGiacenza">Giacenza</label>
-                    <input type="text" id="prodGiacenza" name="prodGiacenza" class="form-control" value="<%= product.getGiacenza() %>">
+                    <input type="text" id="prodGiacenza" name="prodGiacenza" class="form-control" placeholder="Inserisci il numero di prodotti disponibili..">
                 </div>
                 <div class="form-group">
                     <label for="prodDescrizione">Descrizione</label>
-                    <input type="text" id="prodDescrizione" name="prodDescrizione" class="form-control" value="<%= product.getDescrizione() %>">
+                    <input type="text" id="prodDescrizione" name="prodDescrizione" class="form-control" placeholder="Inserisci la descrizione del prodotto..">
                 </div>
                 <div class="form-group">
                     <label for="prodPrezzo">Prezzo</label>
-                    <input type="text" id="prodPrezzo" name="prodPrezzo" class="form-control" value="<%= product.getPrezzo() %>">
+                    <input type="text" id="prodPrezzo" name="prodPrezzo" class="form-control" placeholder="Inserisci il prezzo del prodotto (Netto)..">
                 </div>
                 <div class="form-group">
                     <label for="prodIVA">IVA</label>
-                    <input type="text" id="prodIVA" name="prodIVA" class="form-control" value="<%= product.getIVA() %>">
+                    <input type="text" id="prodIVA" name="prodIVA" class="form-control" value="Inserire la percentuale IVA..">
                 </div>
                 <div class="form-group">
                     <label for="prodCategory">Categoria</label>
                     <select id="prodCategory" name="prodCategory" class="form-control">
-                        <option value="Abbigliamento" <% if (product instanceof Abbigliamento) { %>selected<% } %>>Abbigliamento</option>
-                        <option value="Armatura" <% if (product instanceof Armatura) { %>selected<% } %>>Armatura</option>
-                        <option value="Arma" <% if (product instanceof Arma) { %>selected<% } %>>Arma</option>
-                        <option value="Accessorio" <% if (product instanceof Accessorio) { %>selected<% } %>>Accessorio</option>
+                        <option value="Abbigliamento">Abbigliamento</option>
+                        <option value="Armatura">Armatura</option>
+                        <option value="Arma">Arma</option>
+                        <option value="Accessorio" selected>Accessorio</option>
                     </select>
                 </div>
                
                 <div id="tipoField" class="form-group">
                     <label for="prodTipo">Tipo</label>
-                    <input type="text" id="prodTipo" name="prodTipo" class="form-control" <% if (product instanceof Abbigliamento) { %> value="<%=((Abbigliamento) product).getTipo()%>" <% } else if (product instanceof Arma) { %> value="<%= ((Arma) product).getTipo() %>"<% } %>>
+                    <input type="text" id="prodTipo" name="prodTipo" class="form-control" value="">
                 </div>
                 <div id="genereField" class="form-group">
                     <label for="prodGenere">Genere</label>
-                    <input type="text" id="prodGenere" name="prodGenere" class="form-control" <% if (product instanceof Abbigliamento) { %> value="<%= ((Abbigliamento) product).getGenere() %>" <% } %>>
+                    <input type="text" id="prodGenere" name="prodGenere" class="form-control" value="">
                 </div>
+             
                 <div id="materialeField" class="form-group">
                     <label for="prodMateriale">Materiale</label>
-                    <input type="text" id="prodMateriale" name="prodMateriale" class="form-control" <% if (product instanceof Armatura) { %> value="<%= ((Armatura) product).getMateriale() %>" <% } else if (product instanceof Arma) { %> value="<%= ((Arma) product).getMateriale() %>"<% } %>>
+                    <input type="text" id="prodMateriale" name="prodMateriale" class="form-control" value="">
                 </div>
                 <div id="pezzoField" class="form-group">
                     <label for="prodPezzo">Pezzo</label>
-                    <input type="text" id="prodPezzo" name="prodPezzo" class="form-control" <% if (product instanceof Armatura) { %> value="<%= ((Armatura) product).getPezzo() %>" <% } %>>
+                    <input type="text" id="prodPezzo" name="prodPezzo" class="form-control" value="">
                 </div>
-
+            
                 <div id="utilizzoField" class="form-group">
                     <label for="prodUtilizzo">Utilizzo</label>
-                    <input type="text" id="prodUtilizzo" name="prodUtilizzo" class="form-control" <% if (product instanceof Arma) { %> value="<%= ((Arma) product).getUtilizzo() %>" <% } %>>
+                    <input type="text" id="prodUtilizzo" name="prodUtilizzo" class="form-control" value="">
                 </div>
                 
-                 
-                 
-                 
-                 
-               <div class="form-group">
+                <div class="form-group">
                		<label for ="prodImg1">Immagine 1</label>	
                     <div class="main-img-preview">
-                <img class="thumbnail img-preview" id="img-preview-1" src="./image?img-id=<%=product.getImg1()%>" title="Preview Logo">
+                <img class="thumbnail img-preview" id="img-preview-1" src="./image?img-id=1" title="Preview Logo">
                     </div>
                <div class="input-group">
                 <input id="fakeUploadLogo1" class="form-control fake-shadow" placeholder="Choose File" disabled="disabled">
@@ -150,7 +144,7 @@
 				<div class="form-group">
                		<label for ="prodImg2">Immagine 2</label>	
                     <div class="main-img-preview">
-                <img class="thumbnail img-preview" id="img-preview-2" src="./image?img-id=<%=product.getImg2()%>" title="Preview Logo">
+                <img class="thumbnail img-preview" id="img-preview-2" src="./image?img-id=1" title="Preview Logo">
                     </div>
                <div class="input-group">
                 <input id="fakeUploadLogo2" class="form-control fake-shadow" placeholder="Choose File" disabled="disabled">
@@ -165,7 +159,7 @@
                 <div class="form-group">
                		<label for ="prodImg1">Immagine 3</label>	
                     <div class="main-img-preview">
-                <img class="thumbnail img-preview" id="img-preview-3" src="./image?img-id=<%=product.getImg3()%>" title="Preview Logo">
+                <img class="thumbnail img-preview" id="img-preview-3" src="./image?img-id=1" title="Preview Logo">
                     </div>
                <div class="input-group">
                 <input id="fakeUploadLogo3" class="form-control fake-shadow" placeholder="Choose File" disabled="disabled">
@@ -177,7 +171,7 @@
                 </div>
               </div>
             </div>
-               
+ 
                 <button type="submit" class="btn btn-primary btn-block">Save</button>
             </form>
         </div>
@@ -185,37 +179,16 @@
 </div>
 
 
-
 <script src="./resources/js/jquery-3.2.1.min.js"></script>
-
 <script type="text/javascript">
 
 $(document).ready(function() {
-  var initialCategory = $('#prodCategory').val();
-  
+ 
     $('#tipoField').hide();
     $('#genereField').hide();
     $('#materialeField').hide();
     $('#pezzoField').hide();
     $('#utilizzoField').hide();
-    
-    switch (initialCategory) {
-        case 'Abbigliamento':
-            $('#tipoField').show();
-            $('#genereField').show();
-            break;
-        case 'Armatura':
-            $('#materialeField').show();
-            $('#pezzoField').show();
-            break;
-        case 'Arma':
-            $('#materialeField').show();
-            $('#tipoField').show();
-            $('#utilizzoField').show();
-            break;
-        default:
-            break;
-    }
 
     $('#prodCategory').change(function() {
         var selectedCategory = $(this).val();
@@ -238,7 +211,6 @@ $(document).ready(function() {
                 break;
             case 'Arma':
                 $('#materialeField').show();
-                $('#tipoField').show();
                 $('#utilizzoField').show();
                 break;
 
@@ -248,7 +220,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
 <script type="text/javascript">
 var imgchange = {
 		img1: false,
@@ -300,7 +271,7 @@ $(document).ready(function() {
 
 	    $("#logo-id-3").change(function() {
 	        readURL(this, '#img-preview-3');
-	        imgchange.img3 = true; //verifica da spostare in readURL
+	        imgchange.img3 = true; 
 	        $('#fakeUploadLogo3').val(this.value.substring(12));
 	    });
 		
@@ -310,29 +281,6 @@ $(document).ready(function() {
 
 <script type="text/javascript">
 $(document).ready(function() {
-	
-	var initialValues = {
-	        prodNome: "<%=product.getNome()%>",
-	        prodGiacenza: "<%=product.getGiacenza()%>",
-	        prodDescrizione: "<%=product.getDescrizione()%>",
-	        prodPrezzo: "<%=product.getPrezzo()%>",
-	        prodIVA: "<%=product.getIVA()%>",
-	        prodCategory: "<%=product.getClass().getSimpleName()%>"
-	    };
-
-	   <% if (product.getClass().getSimpleName().equals("Abbigliamento")) { %>
-	        initialValues.prodTipo = "<%= ((Abbigliamento) product).getTipo() %>";
-	        initialValues.prodGenere = "<%= ((Abbigliamento) product).getGenere() %>";
-	   <% } else if (product.getClass().getSimpleName().equals("Armatura")) { %>
- 	        initialValues.prodMateriale = "<%= ((Armatura) product).getMateriale() %>";
-	        initialValues.prodPezzo = "<%= ((Armatura) product).getPezzo() %>";
-	   <% } else if (product.getClass().getSimpleName().equals("Arma")) { %>
-	        initialValues.prodMateriale = "<%= ((Arma) product).getMateriale() %>";
-	        initialValues.prodTipo = "<%= ((Arma) product).getTipo() %>";
-	        initialValues.prodUtilizzo = "<%= ((Arma) product).getUtilizzo() %>";
-	   <% } %>
-
-	
 	
     $('form').on('submit', function(event) {
         event.preventDefault();
@@ -366,116 +314,71 @@ $(document).ready(function() {
                 }
             });
         }
-         //Codice page-specific:
-        const action = 'update';
-     
-        var img1 = $('#logo-id-1')[0].files[0];
-        var img2 = $('#logo-id-2')[0].files[0];
-        var img3 = $('#logo-id-3')[0].files[0];
-        
-        const id1 = <%=product.getImg1()%>;
-        const id2 = <%=product.getImg2()%>;
-        const id3 = <%=product.getImg3()%>;
 
-        if (img1 && imgchange.img1) {
-            sendImage(img1, action, id1);
-        }
-        
-        if (img2 && imgchange.img2) {
-            sendImage(img2, action, id2);
-        }
-        
-        if (img3 && imgchange.img3) {
-            sendImage(img3, action, id3);
-        }
-        
-        submitForm();
-    });
-    
-    
-    function submitForm() {
-	
-    var data = {
-    		prodNome : "<%=product.getNome()%>"
-    		
-    };
+            // Function to handle form submission
+            function submitForm() {
+                // Prepare product data
+                var formData = {
+                    prodNome: $('#prodNome').val(),
+                    prodGiacenza: $('#prodGiacenza').val(),
+                    prodDescrizione: $('#prodDescrizione').val(),
+                    prodPrezzo: $('#prodPrezzo').val(),
+                    prodIVA: $('#prodIVA').val(),
+                    prodCategory: $('#prodCategory').val(),
+                    prodTipo: $('#prodTipo').val(),
+                    prodGenere: $('#prodGenere').val(),
+                    prodMateriale: $('#prodMateriale').val(),
+                    prodPezzo: $('#prodPezzo').val(),
+                    prodUtilizzo: $('#prodUtilizzo').val()
+                };
 
-    if ($('#prodNome').val() !== initialValues.prodNome) {
-        data.prodNomeNew = $('#prodNome').val();
-    }
-    if ($('#prodGiacenza').val() !== initialValues.prodGiacenza) {
-        data.prodGiacenza = $('#prodGiacenza').val();
-    }
-    if ($('#prodDescrizione').val() !== initialValues.prodDescrizione) {
-        data.prodDescrizione = $('#prodDescrizione').val();
-    }
-    if ($('#prodPrezzo').val() !== initialValues.prodPrezzo) {
-        data.prodPrezzo = $('#prodPrezzo').val();
-    }
-    if ($('#prodIVA').val() !== initialValues.prodIVA) {
-        data.prodIVA = $('#prodIVA').val();
-    }
-    if ($('#prodCategory').val() !== initialValues.prodCategory) {
-        data.prodCategory = $('#prodCategory').val();
-    }
-    
-    if (initialValues.prodCategory === 'Abbigliamento') {
-        if ($('#prodTipo').val() !== initialValues.prodTipo) {
-            data.prodTipo = $('#prodTipo').val();
-        }
-        if ($('#prodGenere').val() !== initialValues.prodGenere) {
-            data.prodGenere = $('#prodGenere').val();
-        }
-    } else if (initialValues.prodCategory === 'Armatura') {
-        if ($('#prodMateriale').val() !== initialValues.prodMateriale) {
-            data.prodMateriale = $('#prodMateriale').val();
-        }
-        if ($('#prodPezzo').val() !== initialValues.prodPezzo) {
-            data.prodPezzo = $('#prodPezzo').val();
-        }
-    } else if (initialValues.prodCategory === 'Arma') {
-        if ($('#prodMateriale').val() !== initialValues.prodMateriale) {
-            data.prodMateriale = $('#prodMateriale').val();
-        }
-        if ($('#prodTipo').val() !== initialValues.prodTipo) {
-            data.prodTipo = $('#prodTipo').val();
-        }
-        if ($('#prodUtilizzo').val() !== initialValues.prodUtilizzo) {
-            data.prodUtilizzo = $('#prodUtilizzo').val();
-        }
-    }
+                // Prepare FormData for images
+                var formDataImages = new FormData();
+                if (imgchange.img1) {
+                    formDataImages.append('logo1', $('#logo-id-1')[0].files[0]);
+                }
+                if (imgchange.img2) {
+                    formDataImages.append('logo2', $('#logo-id-2')[0].files[0]);
+                }
+                if (imgchange.img3) {
+                    formDataImages.append('logo3', $('#logo-id-3')[0].files[0]);
+                }
 
-    // Previeni la submit del form se non ci sono cambiamenti.
-    
-    if (Object.keys(data).length > 0) {
-        data.action = "editProduct";
-    } else if (Object.keys(data).length === 0) {
-        $('#message').text('No changes detected.');
-        return;
-    }
+                // Combine product data and images data
+                formData.images = formDataImages;
 
-    $.ajax({
-        url: './AdminControl',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-            //mostra banner verde che conferma la corretta submit.
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            //mostra banner rosso che mostra l'errore.
-        }
-    });
-}
+                // Submit combined data via AJAX
+                $.ajax({
+                    url: '/AdminControl',
+                    type: 'POST',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    processData: false,
+                    success: function(response) {
+                        // Handle success response
+                        console.log('Product and images uploaded successfully:', response);
+                        // Optionally show success message or redirect
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Handle error
+                        console.error('Error uploading product and images:', textStatus, errorThrown);
+                        // Optionally show error message
+                    }
+                });
+            }
 
-});
+            // Event listener for form submission
+            $('#submitBtn').on('click', function() {
+                submitForm();
+            });
 
-
-
+        });
+        </script>
 	
 </script>
-<% } %>
+
 <%@ include file="admin_footer.jsp" %>
+
 </body>
 
 </html>

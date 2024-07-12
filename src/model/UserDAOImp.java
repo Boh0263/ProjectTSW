@@ -101,12 +101,12 @@ public class UserDAOImp implements UserDAO {
 		while (rs.next()) {
 			Indirizzo address;
 			ps = con.prepareStatement(selectAddressSQL);
-			ps.setString(1, rs.getString("username"));
+			ps.setInt(1, rs.getInt("ID"));
 			rsAddress = ps.executeQuery();
 			if(rsAddress.next()) { //Prende solo il primo indirizzo.
                 address = new Indirizzo(
                         rsAddress.getString("Via"),
-                        rsAddress.getString("Citta"),
+                        rsAddress.getString("Città"),
                         rsAddress.getString("Provincia"),
                         rsAddress.getString("CAP")
                         );
@@ -126,7 +126,9 @@ public class UserDAOImp implements UserDAO {
                     rs.getString("telefono"),
                     address
 					);
-			users.add(user);	
+			
+			users.add(user);
+			
 		}
 	} finally {
         try {
@@ -146,11 +148,13 @@ public class UserDAOImp implements UserDAO {
 		PreparedStatement ps = null;
 		boolean result = false;	
         // follow the database schema to insert the user
-		        String insertSQL = "INSERT INTO Utente (username, password, nome, cognome, email, CF, tipo, telefono, data_nascita) VALUES (?, SHA2(?,256), ?, ?, ?, ?, ?)";
-		     
+		        String insertSQL = "INSERT INTO Utente (username, password, nome, cognome, email, CF, tipo, telefono, data_nascita) VALUES (?, SHA2(?,256), ?, ?, ?, ?, ?, ?, ?)";
+		        String insertAddressSQL = "INSERT INTO Indirizzo(Via, Città, Provincia, CAP, Utente_ID) VALUES (?, ?, ?, ?, ?)";
 		try {
             con = DMConnectionPool.getConnection();
-            ps = con.prepareStatement(insertSQL);
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(insertSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            
             ps.setString(1, t.getUsername());
 			ps.setString(2, t.getPassword());
 			ps.setString(3, t.getNome());
@@ -160,12 +164,33 @@ public class UserDAOImp implements UserDAO {
 			ps.setString(7, "R");
 			ps.setString(8, t.getTelefono());
 			ps.setString(9, t.getDataNascita());
+			int res = ps.executeUpdate();
 			
-		    int res = ps.executeUpdate();
-		    con.commit();
 			if (res == 1) {
+				ResultSet keys = ps.getGeneratedKeys();	
+				keys.next();
+				int user_id = keys.getInt(1);
+				
+				ps = con.prepareStatement(insertAddressSQL);
+				
+				ps.setString(1, t.getIndirizzo().getVia());
+				ps.setString(2, t.getIndirizzo().getCitta());
+				ps.setString(3, t.getIndirizzo().getProvincia());
+				ps.setString(4, t.getIndirizzo().getCAP());
+				ps.setInt(5, user_id);
+				
+				res = ps.executeUpdate();
+				
+				if (res == 1) {
+				con.commit();
 				result = true;
-			} 
+				} else { 
+					con.rollback();
+				}
+			} else {
+			     con.rollback();
+			   }
+		    
 			
 		} finally {
 			try {
@@ -185,34 +210,30 @@ public class UserDAOImp implements UserDAO {
 	}
 
 	@Override
-	public int update(Utente t) throws SQLException {
-		Connection con = null;
-		PreparedStatement ps = null;
-	    int result = 0;
-	            String updateSQL = "UPDATE Utente SET password = COALESCE(SHA2(?, 256), password), email = COALESCE(?, email), CF = COALESCE(?, CF),  tipo = COALESCE(?, tipo),  telefono = COALESCE(?, telefono), data_nascita = COALESCE(?, data_nascita) WHERE username = ?;";
-	            	   
-
-	                    try {
-							con = DMConnectionPool.getConnection();
-							ps = con.prepareStatement(updateSQL);
-							ps.setString(1, t.getPassword());
-							ps.setString(2, t.getEmail());
-							ps.setString(3, t.getCF());
-							ps.setString(4, t.getTipo());
-							ps.setString(5, t.getTelefono());
-							ps.setString(6, t.getDataNascita());
-							ps.setString(5, t.getUsername());
-							result = ps.executeUpdate();
-							con.commit();
-						} finally {
-							try {
-								if (ps != null)
-									ps.close();
-							} finally {
-								DMConnectionPool.releaseConnection(con);
-							}
-							
-	                    }
+	public int update(Utente utente) throws SQLException {
+		int result = 0;
+		String UPDATE = "UPDATE Utente SET Email = COALESCE(?, Email), Password = COALESCE(SHA2(?, 256), Password),"
+				+ "Nome = COALESCE (?, Nome), Cognome = COALESCE(?, Cognome), CF = COALESCE(?, CF),"
+				+ "Telefono = COALESCE(?, Telefono), Data_Nascita = COALESCE(?, Data_Nascita)"
+				+ "Indirizzo_breve = COALESCE(?, Indirizzo_breve), CAP = COALESCE(?, CAP)"
+				+ "Localit� = COALESCE(?, Localit�), Provincia = COALESCE(?, Provincia)"
+				+ "WHERE username = ?";
+		try (Connection con = DMConnectionPool.getConnection(); PreparedStatement st = con.prepareStatement(UPDATE)) {
+			st.setString(1, utente.getEmail());
+			st.setString(2, utente.getPassword());
+			st.setString(3, utente.getNome());
+			st.setString(4, utente.getCognome());
+			st.setString(5, utente.getCF());
+			st.setString(6, utente.getTelefono());
+			st.setString(7, utente.getDataNascita());
+			st.setString(8, utente.getIndirizzo().getVia());
+			st.setString(9, utente.getIndirizzo().getCAP());
+			st.setString(10, utente.getIndirizzo().getCitta());
+			st.setString(11, utente.getIndirizzo().getProvincia());
+			st.setString(12, utente.getUsername());
+			result = st.executeUpdate();
+			con.commit();
+		}
 		return result;
 	}
 
@@ -222,12 +243,13 @@ public class UserDAOImp implements UserDAO {
 		PreparedStatement ps = null;
 		int result = 0;
 		
-		String deleteSQL = "DELETE FROM Utente WHERE Utente.username = ?";
+		String deleteSQL = "DELETE FROM Utente WHERE username = ?";
 			try {
 				con = DMConnectionPool.getConnection();
 				ps = con.prepareStatement(deleteSQL);
 				ps.setString(1, t.getUsername());
 				result =  ps.executeUpdate();
+				con.commit();
 				} finally {
 					try {
 						if (ps != null) ps.close();

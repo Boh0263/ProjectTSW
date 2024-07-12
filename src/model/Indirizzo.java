@@ -47,11 +47,11 @@ public class Indirizzo implements Serializable {
 		this.provincia = provincia;
 	}
 	
-	public String getCap() {
+	public String getCAP() {
 		return cap;
 	}
 	
-	public void setCap(String cap) {
+	public void setCAP(String cap) {
 		this.cap = cap;
 	}
 	

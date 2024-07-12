@@ -32,7 +32,7 @@ class Carrello {
                     this.prodotti.set(prodotto, this.prodotti.get(prodotto) - 1);
                 } else {
                     this.prodotti.delete(prodotto);
-                    //dato che vuole la rimozione, credo sia giusto usare il verde
+                    //dato che vuole la rimozione, credo sia giusto usare il verde -- Understandable, have a great day.
                     showBanner('Prodotto rimosso dal carrello!', 'success'); 
                 }
                 localStorage.setItem('prodotti', JSON.stringify(Object.fromEntries(this.prodotti)));

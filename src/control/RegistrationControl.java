@@ -116,7 +116,7 @@ public class RegistrationControl extends HttpServlet {
             jsonResponse.addProperty("message", "Registrazione fallita: Invalid JSON format");
         } catch (Exception e) {
             jsonResponse.addProperty("success", false);
-            jsonResponse.addProperty("message", "Registrazione fallita: Network Error");
+            jsonResponse.addProperty("message", "Registrazione fallita: Network Error: " + e.getMessage());
         }
 
         out.print(gson.toJson(jsonResponse));

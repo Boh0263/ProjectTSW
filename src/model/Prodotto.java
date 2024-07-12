@@ -5,31 +5,31 @@ public abstract class Prodotto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	protected final String Nome;
-	protected double Prezzo;
-	protected double IVA;
-	protected int Giacenza = 0;
+	protected Double Prezzo;
+	protected Double IVA;
+	protected Integer Giacenza = 0;
 	protected String Descrizione = "";
-	protected int img1 = 1;
-	protected int img2 = 1;
-	protected int img3 =  1;
+	protected Integer img1 = 1;
+	protected Integer img2 = 1;
+	protected Integer img3 =  1;
 
 	
 	
 	public Prodotto() {
 		this.Nome = "";
-		this.Prezzo = 0;
-		this.IVA = 0;
+		this.Prezzo = 0d;
+		this.IVA = 0d;
 	}
 	
 	public Prodotto(String nome) {
 		this.Nome = nome;
-		this.Prezzo = 0;
-		this.IVA = 0;
+		this.Prezzo = 0d;
+		this.IVA = 0d;
 	}
 	
 	
 	
-	public Prodotto(String Nome, double Prezzo, String Descrizione, int Giacenza, int img1, int img2, int img3) {
+	public Prodotto(String Nome, Double Prezzo, String Descrizione, Integer Giacenza, Integer img1, Integer img2, Integer img3) {
 		this.Nome = Nome;
 		this.Prezzo = Prezzo;
 		this.Descrizione = Descrizione;
@@ -49,15 +49,15 @@ public abstract class Prodotto implements Serializable {
 		return Prezzo;
 		}
 
-		public void setPrezzo(double Prezzo) {
+		public void setPrezzo(Double Prezzo) {
 		this.Prezzo = Prezzo;
 		}
 
-		public double getIVA() {
+		public Double getIVA() {
 		return IVA;
 		}
 
-		public void setIVA(double IVA) {
+		public void setIVA(Double IVA) {
 		this.IVA = IVA;
 		}
 
@@ -65,7 +65,7 @@ public abstract class Prodotto implements Serializable {
 		return Giacenza;
 		}
 
-		public void setGiacenza(int Giacenza) {
+		public void setGiacenza(Integer Giacenza) {
 		this.Giacenza = Giacenza;
 		}
 
@@ -80,7 +80,7 @@ public abstract class Prodotto implements Serializable {
 			return img1;
 		}
 
-		public void setImg1(int img1) {
+		public void setImg1(Integer img1) {
 			this.img1 = img1;
 		}
 
@@ -88,7 +88,7 @@ public abstract class Prodotto implements Serializable {
 			return img2;
 		}
 
-		public void setImg2(int img2) {
+		public void setImg2(Integer img2) {
 			this.img2 = img2;
 		}
 
@@ -96,7 +96,7 @@ public abstract class Prodotto implements Serializable {
 			return img3;
 		}
 
-		public void setImg3(int img3) {
+		public void setImg3(Integer img3) {
 			this.img3 = img3;
 		}
 		

@@ -53,7 +53,7 @@ public class AdminControl extends HttpServlet {
 				}
 					
 				case "addProduct": {
-					rd = getServletContext().getRequestDispatcher("/pages/A-pages/add.jsp");
+					rd = getServletContext().getRequestDispatcher("/pages/A-pages/addProduct.jsp");
 					break;
 				}
 				
@@ -61,7 +61,7 @@ public class AdminControl extends HttpServlet {
 					String  name = request.getParameter("prodName");
 					if (name != null) {
 					try {
-						request.setAttribute("prodtbe", pdao.doRetrieveByKey(name));
+						request.setAttribute("prodtbe", (Prodotto) pdao.doRetrieveByKey(name));
 						rd = getServletContext().getRequestDispatcher("/pages/A-pages/editProduct.jsp");
 					 } catch (SQLException e) {
 						System.out.println("Errore: " + e.getMessage()); 
@@ -139,45 +139,35 @@ public class AdminControl extends HttpServlet {
     	      rd.forward(request, response);
     	    }
     	  }
+    
+    
+    
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
 		
 		String action = null;
-    	PrintWriter out = response.getWriter();
-        JsonObject jsonResponse = new JsonObject();
-         
+		boolean test = false;
+		
+		String tiporequest = request.getContentType();
+		JsonObject jsonResponse = new JsonObject();
+		PrintWriter out = response.getWriter();
+		System.out.println(tiporequest);
+		if (tiporequest != null && tiporequest.equals("application/json")) {
+			System.out.println("JSON");
+	    response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
          try (BufferedReader reader = request.getReader()) {
          	JsonElement jsonElement =  JsonParser.parseReader(reader);
          	JsonObject jsonRequest = null;
          	
          	if (jsonElement.isJsonObject()) {
              jsonRequest = jsonElement.getAsJsonObject();
-             action = jsonRequest.get("action").getAsString();
+             action = jsonRequest.has("action") ? jsonRequest.get("action").getAsString() : null;
          	} 
-         	else if (request.getParameter("action") != null) {
-         		action = request.getParameter("action");
-         		//azioni non consentite per formato di richiesta non valido.
-         		switch (action) {
-         		case "addProduct":
-         		case "editProduct":
-         		case "addOrder":
-         		case "editOrder":
-         		case "editUser": {
-         			jsonResponse.addProperty("success", false);
-         			jsonResponse.addProperty("message", "Errore: Richiesta non valida");
-         			out.print(gson.toJson(jsonResponse));
-         			out.flush();
-         			return;
-         		}
-         		default: break;
-         	  }
-         	}
-    
-    	
-    	    if (action != null) {
-    	    	boolean test = false;
+         	
+         	if (action != null) {
+    	    	
     	    	
     	      switch (action) {
     	      
@@ -187,21 +177,12 @@ public class AdminControl extends HttpServlet {
     	        case "addProduct":
     	          test = processAddProduct(jsonRequest, response);
     	          break;
-    	        case "deleteProduct":
-    	          test = processDeleteProduct(request, response);
-    	          break;
     	        case "editOrder":
     	          processEditOrder(jsonRequest, response);
     	           break;
-				case "deleteOrder":
-				  processDeleteOrder(request, response);
-					break;
 				case "editUser":
-					processEditUser(jsonRequest, response);
+				  test = processEditUser(jsonRequest, response);
 					break;
-				case "deleteUser":
-					processDeleteUser(request, response);
-					break;	
     	        default:
     	        	processError(request, response);
     	        	break;
@@ -220,21 +201,74 @@ public class AdminControl extends HttpServlet {
       	    	  }
     	   
     	    } else {
-    	      doGet(request, response);
-    	    } 
-    	  
-         } catch (JsonSyntaxException e) {
+    	      doGet(request, response);  
+    	    } } catch (JsonSyntaxException e) {
+ 
          		jsonResponse.addProperty("success", false);
                 jsonResponse.addProperty("message", "Errore: " + e.getMessage());
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore: " + e.getMessage());
                 out.print(gson.toJson(jsonResponse));
                 out.flush();
                 return;
-         	}
+         	} 
+         
+         } else if ( tiporequest != null && tiporequest.equals("application/x-www-form-urlencoded") && request.getParameter("action") != null) {
          		
-    }
+        	 action = request.getParameter("action");
+         		
+         		switch (action) {
+         		case "addProduct":
+         		case "editProduct":
+         		case "addOrder":
+         		case "editOrder":
+         		case "editUser": {
+         			jsonResponse.addProperty("success", false);
+         			jsonResponse.addProperty("message", "Errore: Richiesta non valida");
+         			out.print(gson.toJson(jsonResponse));
+         			out.flush();
+         			return;
+         		}
+         		case "deleteProduct": {
+					test = processDeleteProduct(request, response);
+					break;
+         		}
+				case "deleteOrder": {
+					processDeleteOrder(request, response);
+					break;
+				}
+				case "deleteUser": {
+					test = processDeleteUser(request, response);
+					break;
+				}
+         		default: break;
+         	  }
+         		
+         		
+         	if(test) {
+       	    	  jsonResponse.addProperty("success", true);
+       	    	  jsonResponse.addProperty("message", "Operazione eseguita con successo");
+       	    	  out.print(gson.toJson(jsonResponse));
+         	      out.flush();
+         	} else {
+         	      jsonResponse.addProperty("success", false);
+         	      jsonResponse.addProperty("message", "Operazione fallita");
+         	      out.print(gson.toJson(jsonResponse));
+         	      out.flush();
+         	     }
+         		
+         	}
+    
+    	
+    	   
+    	  
+         
+         }
+         		
+    
     
 	protected boolean processEditProduct(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
 		boolean result = false;
+		System.out.println(jsonRequest);
 		String nome = jsonRequest.has("prodNome") ? jsonRequest.get("prodNome").getAsString() : null;
 		//il nome del prodotto è la chiave primaria, quindi obbligatorio.
 		if (nome == null) {
@@ -266,7 +300,7 @@ public class AdminControl extends HttpServlet {
 	   Integer img1 = jsonRequest.has("prodImg1") ? jsonRequest.get("prodImg1").getAsInt() : null;
 	   Integer img2 = jsonRequest.has("prodImg2") ? jsonRequest.get("prodImg2").getAsInt() : null;
 	   Integer img3 = jsonRequest.has("prodImg3") ? jsonRequest.get("prodImg3").getAsInt() : null;
-	   String Categoria = jsonRequest.has("prodCategory") ? jsonRequest.get("prodCat").getAsString() : null;
+	   String Categoria = jsonRequest.has("prodCategory") ? jsonRequest.get("prodCat").getAsString() : "";
 	   
 	    switch (Categoria) {
 	   
@@ -298,6 +332,7 @@ public class AdminControl extends HttpServlet {
         	} else {
         			
           			//Cambio di categoria del prodotto.
+        		
         			try {
         				
         				pdao.doDeletebyID(prod.getNome());
@@ -334,6 +369,7 @@ public class AdminControl extends HttpServlet {
         			    prod.setImg3(img3);
         			    
         				 result = pdao.doSave(prod); //TODO overload con connection
+        				 System.out.println(result + " " + prod.getNome());
         	
         				
         			} catch (SQLException e) {
@@ -452,17 +488,13 @@ public class AdminControl extends HttpServlet {
 				pdao.doSave(prod);
 				res.setStatus(HttpServletResponse.SC_OK);
 				return true;
-				
-				
-				
+		
 			} catch (SQLException e) {
 				res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: " + e.getMessage());
 				processError(null, res);
 				return false;
 			}
 			
-		
-		
 	}
 	
 	protected boolean processDeleteProduct(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -485,10 +517,58 @@ public class AdminControl extends HttpServlet {
 	
 	}
 	
-	protected void processEditUser(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
+	protected boolean processEditUser(JsonObject jsonRequest, HttpServletResponse res) throws ServletException, IOException {
+		
+		String Username = jsonRequest.has("username") ? jsonRequest.get("username").getAsString() : null;
+		String Operation = jsonRequest.has("inneraction") ? jsonRequest.get("inneraction").getAsString() : null;
+		
+		boolean test = false;
+		
+		try {
+			
+		if (Operation != null) {
+			
+			switch (Operation) {
+			case "OP": {
+				 test = (udao.update(new Utente(Username, "A")) == 1);
+                break;
+			}
+			case "DEOP": {
+				 test = (udao.update(new Utente(Username, "R")) == 1);
+                break;
+			}
+			default: break;
+		}
+			} else {
+			res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore: Operazione non valida");
+			processError(null, res);
+			} 
+		
+		} catch (SQLException e) {
+                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: " + e.getMessage());
+                processError(null, res);
+            } 
+		return test;
+		
 	}
 	
-	protected void processDeleteUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected boolean processDeleteUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String username = req.getParameter("username");
+		boolean test = false;
+		
+		if (username != null) {
+			
+            try {
+                test = udao.doDelete(new Utente(username, "R"));
+            } catch (SQLException e) {
+                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore: " + e.getMessage());
+                processError(req, res);
+            }
+        } else {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore: Username non valido");
+            processError(req, res);
+        }
+		        return test;
 	
 	}
 	

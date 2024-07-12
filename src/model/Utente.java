@@ -26,6 +26,19 @@ public class Utente implements Serializable {
     	throw new IllegalArgumentException();
     }
     
+    public Utente(String username, String tipo) { //Usato per l'operazione di OP / DEOP
+		this.id = -1;
+		this.username = username;
+		this.password = null;
+		this.nome = null;
+		this.cognome = null;
+		this.CF = null;
+		this.email = null;
+		this.tipo = tipo;
+    	
+    	
+    }
+    
     public Utente(int id, String username, String password, String email) {
     	this.id = id;
     	this.username = username;
