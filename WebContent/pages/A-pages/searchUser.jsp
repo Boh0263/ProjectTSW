@@ -16,7 +16,7 @@
 
 <div class="container">
 	<div class="search-bar">
-        <input type="text" id="search-input" oninput="filterProducts()" placeholder="Cerca per username...">
+        <input type="text" id="search-input" oninput="filterUsers()" placeholder="Cerca per username...">
     </div>
     <div class="table-container">
         <table class="table table-striped table-bordered table-hover"  id="myTable">

@@ -264,6 +264,8 @@
 									</div>
 
 								</div>
+								<div id="notification-container"></div>
+								
 
 							
 							</div>

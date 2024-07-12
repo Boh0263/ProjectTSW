@@ -5,6 +5,9 @@
 	<meta charset="UTF-8"/>
 	<title>Modifica Profilo</title>
 </head>
+
+
+
 <body>
 	<form action="UserController?action=update" method="post">
 		<label for="Email">Email:</label>

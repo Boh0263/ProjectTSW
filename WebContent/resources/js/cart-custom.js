@@ -77,7 +77,7 @@ function sendCartToServlet() {
 }
 
 function showBanner(message, type) {
-	const banner = document.createElement('div');
+	let banner = document.createElement('div');
 	banner.className = 'notification-banner' + type;
 	banner.textContent = message;
 	
