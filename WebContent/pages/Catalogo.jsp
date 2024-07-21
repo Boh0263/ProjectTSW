@@ -264,7 +264,7 @@
 									</div>
 
 								</div>
-								<div id="notification-container"></div>
+								
 								
 
 							
@@ -276,6 +276,7 @@
 		</div>
 	  </div>
 	</div>
+	<div id="notification-container"></div>
 	<script src="./resources/js/jquery-3.2.1.min.js"></script>
     <script src="./resources/js/cart-custom.js"></script>
     
@@ -313,10 +314,10 @@
 						url : "./ProdottoCount",
 						success : function(response) {
 							
-							localStorage.setItem('CartCounter', response);
-							document.getElementById('checkout_items').innerHTML = localStorage.getItem('CartCounter');
+							localStorage.setItem('CartSCounter', response);
+							document.getElementById('checkout_items').innerHTML = localStorage.getItem('CartSCounter');
 							
-							if(localStorage.getItem('CartCounter') == 0 || localStorage.getItem('CartCounter') == null) {
+							if(localStorage.getItem('CartSCounter') == 0 || localStorage.getItem('CartSCounter') == null) {
 								document.getElementById('checkout_items').style.display = "none";
 						    } else {
 								document.getElementById('checkout_items').style.display = "block";

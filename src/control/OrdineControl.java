@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +35,7 @@ public class OrdineControl extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/pages/Ordine.jsp");
 		String [] custom_styles = {"./resources/styles/main_styles.css", "./resources/styles/responsive.css"}; //TODO add custom styles
 		request.setAttribute("custom_styles", custom_styles);
-		doPost(request, response); //TODO check if it's correct (it was missing in the original code)
+		doPost(request, response); 
  		rd.forward(request, response);
 	}
 
@@ -47,9 +46,10 @@ public class OrdineControl extends HttpServlet {
 		String role = (String) session.getAttribute("role");
 		if (username != null && role.equalsIgnoreCase("R")) {
 			try {
-			 Utente user = udao.doRetrieveByKey(username);
+			 Utente user = udao.doRetrieveByName(username);
 			 Collection<Ordine> ordini = odao.doRetrieveByUser(user);
-			 session.setAttribute("ordine", ordini);
+			 session.removeAttribute("ordini");
+			 session.setAttribute("ordini", ordini);
 			}
 			catch (SQLException e) {
                 throw new ServletException("Errore: " + e.getMessage()); 

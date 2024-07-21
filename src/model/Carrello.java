@@ -2,6 +2,8 @@ package model;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 public class Carrello implements Serializable {
@@ -16,10 +18,7 @@ public class Carrello implements Serializable {
 	
 	
 	 public void addProduct(Prodotto prod) {
-	        prodotti.putIfAbsent(prod, 1); 
-	        if (prodotti.containsKey(prod)) {
-	            prodotti.put(prod, prodotti.get(prod) + 1);
-	        }
+	       prodotti.merge(prod, 1, Integer::sum);
 	    }
 	 
 		public void setProduct(Prodotto prod, Integer num) {
@@ -32,11 +31,7 @@ public class Carrello implements Serializable {
 		}
 	
 	 public void incrementProduct(Prodotto prod, Integer num) {
-	        if (!prodotti.containsKey(prod)) {
-	           addProduct(prod);
-	           incrementProduct(prod,num-1);
-	        }
-	        prodotti.put(prod, prodotti.get(prod) + num);
+	           prodotti.merge(prod, num, Integer::sum);
 	    }
 	 
 	
@@ -72,8 +67,11 @@ public class Carrello implements Serializable {
 	      int quantity = entry.getValue();
 	      totalPrice += prodotto.getPrezzo() * quantity;
 	    }
-	    return totalPrice;
+	    BigDecimal total = new BigDecimal(totalPrice);
+	    total = total.setScale(3, RoundingMode.HALF_UP);
+	    return total.doubleValue();
 	  }
+	
 	public int getTotalItems() {
 	    int totalItems = 0;
 	    for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {

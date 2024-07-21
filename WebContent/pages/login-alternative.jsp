@@ -27,7 +27,6 @@
         <small>Non hai un account? <a href="./register">Registrati</a></small>
         <input type="hidden" name="ctoken" value="<%=session.getAttribute("ctoken")%>"/>
         <input type="hidden" id="cart" name="cart" />
-        <input type="hidden" id="mergeDecision" name="mergeDecision" />
         <button type="submit" value="login" class="actionBtn">Login</button>
       </form>
     </div>
@@ -42,12 +41,13 @@
 
     <script src="./resources/js/jquery-3.2.1.min.js"></script>
     <script src="./resources/js/validation.js"></script>
-    <script type="text/javascript">
-        
-    function validateForm() {
+     <script type="text/javascript">
+        function validateForm() {
             let username = document.getElementById('username').value;
             let password = document.getElementById('password').value;
-            if (false/* bypass verifica */ && validateUsername(username) && validatePassword(password)) {
+
+
+            if (false) {
                 document.getElementById('alert-container').style.display = "block";
                 document.getElementById('alert-message').innerHTML = "Username e/o password non validi";
                 return false;
@@ -58,30 +58,17 @@
             }
         }
 
-    function askCartMergeDecision(callback) {
-        const decision = confirm("Vuoi mantenere il carrello locale o unirlo al carrello della sessione? Scegli 'OK' per unire, 'Annulla' per mantenere.");
-        callback(decision);
-    }
-    
         $(document).ready(function() {
             var cart = localStorage.getItem('prodotti');
             if (cart != null && cart != "") {
                 document.getElementById('cart').value = cart;
             }
-            
+
             $('#form').submit(function(e) {
                 e.preventDefault();
                 if (validateForm()) {
-                	 if (validateForm()) {
-                         if (document.getElementById('cart').value !== "") {
-                             askCartMergeDecision(function(decision) {
-                                 document.getElementById('mergeDecision').value = decision ? "merge" : "keep";
-                                 $('#form')[0].submit();
-                                 localStorage.removeItem('prodotti');
-                             });
-                         } else {
-                             $('#form')[0].submit();
-                         }
+                    $('#form')[0].submit();
+                    localStorage.removeItem('prodotti');
                 }
             });
         });

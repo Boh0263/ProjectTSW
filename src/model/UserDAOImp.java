@@ -10,46 +10,71 @@ public class UserDAOImp implements UserDAO {
 
 	@Override
     public Utente doRetrieveByKey(int id) throws SQLException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs;
-        Utente bean = new Utente();
-        String getID = "SELECT * FROM UTENTE WHERE id = ?";
-
-        try {
-            con = DMConnectionPool.getConnection();
-            ps = con.prepareStatement(getID);
-            ps.setInt(1, id);
-
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-				bean = new Utente(
-						rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("nome"),
-                        rs.getString("cognome"),
-                        rs.getString("email"),
-                        rs.getString("CF")
-                        );
-			}
-            return bean;
-        } finally {
-            try {
-                if (ps != null)
-                    ps.close();
-            } finally {
-                DMConnectionPool.releaseConnection(con);
-            }
-        }
-    }
-    
-	public Utente doRetrieveByKey(String username) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs;
-		Utente bean = null;
+		ResultSet rsAddress;
+		Utente user = null;
+		String getID = "SELECT * FROM Utente WHERE ID = ?";
+		String selectAddressSQL = "SELECT * FROM Indirizzo WHERE Utente_ID = ?";
+
+		try {
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(getID);
+			ps.setInt(1, id);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+					Indirizzo address;
+					ps = con.prepareStatement(selectAddressSQL);
+					ps.setInt(1, id);
+					rsAddress = ps.executeQuery();
+					if(rsAddress.next()) { //Prende solo il primo indirizzo.
+		                address = new Indirizzo(
+		                        rsAddress.getString("Via"),
+		                        rsAddress.getString("Città"),
+		                        rsAddress.getString("Provincia"),
+		                        rsAddress.getString("CAP")
+		                        );
+		            } else {
+		                address = new Indirizzo("","","","");
+		            }
+					
+					 user = new Utente(
+							rs.getString("username"),
+							rs.getString("password"),
+		                    rs.getString("nome"),
+		                    rs.getString("cognome"),
+		                    rs.getString("email"),
+		                    rs.getString("CF"),
+		                    rs.getString("tipo"),
+		                    rs.getString("data_nascita"),
+		                    rs.getString("telefono"),
+		                    address
+							);
+					
+				}	
+			return user;
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
+		}
+	}
+    
+    
+	public Utente doRetrieveByName(String username) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs;
+		ResultSet rsAddress;
+		Utente user = null;
 		String getID = "SELECT * FROM Utente WHERE Username = ?";
+		String selectAddressSQL = "SELECT * FROM Indirizzo WHERE Utente_ID = ?";
 
 		try {
 			con = DMConnectionPool.getConnection();
@@ -59,16 +84,36 @@ public class UserDAOImp implements UserDAO {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				bean = new Utente(
-						rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("nome"),
-                        rs.getString("cognome"),
-                        rs.getString("email"),
-                        rs.getString("CF")
-                        );
-			}
-			return bean;
+					Indirizzo address;
+					ps = con.prepareStatement(selectAddressSQL);
+					ps.setInt(1, rs.getInt("ID"));
+					rsAddress = ps.executeQuery();
+					if(rsAddress.next()) { //Prende solo il primo indirizzo.
+		                address = new Indirizzo(
+		                        rsAddress.getString("Via"),
+		                        rsAddress.getString("Città"),
+		                        rsAddress.getString("Provincia"),
+		                        rsAddress.getString("CAP")
+		                        );
+		            } else {
+		                address = new Indirizzo("","","","");
+		            }
+					
+					 user = new Utente(
+							rs.getString("username"),
+							rs.getString("password"),
+		                    rs.getString("nome"),
+		                    rs.getString("cognome"),
+		                    rs.getString("email"),
+		                    rs.getString("CF"),
+		                    rs.getString("tipo"),
+		                    rs.getString("data_nascita"),
+		                    rs.getString("telefono"),
+		                    address
+							);
+					
+				}	
+			return user;
 		} finally {
 			try {
 				if (ps != null)
@@ -164,6 +209,7 @@ public class UserDAOImp implements UserDAO {
 			ps.setString(7, "R");
 			ps.setString(8, t.getTelefono());
 			ps.setString(9, t.getDataNascita());
+			
 			int res = ps.executeUpdate();
 			
 			if (res == 1) {
@@ -216,7 +262,7 @@ public class UserDAOImp implements UserDAO {
 				+ "Nome = COALESCE (?, Nome), Cognome = COALESCE(?, Cognome), CF = COALESCE(?, CF),"
 				+ "Telefono = COALESCE(?, Telefono), Data_Nascita = COALESCE(?, Data_Nascita)"
 				+ "Indirizzo_breve = COALESCE(?, Indirizzo_breve), CAP = COALESCE(?, CAP)"
-				+ "Localit� = COALESCE(?, Localit�), Provincia = COALESCE(?, Provincia)"
+				+ "Località = COALESCE(?, Località), Provincia = COALESCE(?, Provincia)"
 				+ "WHERE username = ?";
 		try (Connection con = DMConnectionPool.getConnection(); PreparedStatement st = con.prepareStatement(UPDATE)) {
 			st.setString(1, utente.getEmail());

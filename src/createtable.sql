@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS Kiitz;
+-CREATE DATABASE IF NOT EXISTS Kiitz;
 Use Kiitz;
 
 CREATE TABLE IF NOT EXISTS Utente(
@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS Indirizzo (
 CREATE TABLE IF NOT EXISTS Ordine (
 ID INT auto_increment PRIMARY KEY,
 Ragione_sociale VARCHAR(35) NOT NULL,
-Indirizzo_breve VARCHAR(50) NOT NULL,
+Indirizzo_breve VARCHAR(255) NOT NULL,
 Imposta DECIMAL(10,2) DEFAULT 0,
 Sconto DECIMAL(10,2) DEFAULT 0,
 Totale DECIMAL(10,4) NOT NULL,
-Data_Ordine DATE NOT NULL,
+Data_Ordine DATETIME NOT NULL,
 Stato VARCHAR(30) NOT NULL DEFAULT 'NON EVASO'
 );
 
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS Abbigliamento (
   ID_Abbigliamento INT PRIMARY KEY AUTO_INCREMENT,
   ID_Prodotto VARCHAR(255) NOT NULL,
   Tipo ENUM('Maglietta', 'Pantalone', 'Calzatura'),
-  Materiale VARCHAR(255),
+  Genere ENUM('M', 'F', 'U'),
   FOREIGN KEY (ID_Prodotto) REFERENCES Prodotto(Nome)
 );
 

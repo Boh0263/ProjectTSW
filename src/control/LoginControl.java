@@ -102,8 +102,12 @@ public class LoginControl extends HttpServlet {
                 session.setMaxInactiveInterval(86400);
                 
 				if (request.getParameter("cart") != null) {
-					if(request.getParameter("mergeDecision") != null && request.getParameter("mergeDecision").equals("merge")) {
-					MergeCart(request, session);
+					if (session.getAttribute("carrello") == null || ((Carrello) session.getAttribute("carrello")).getProdotti().isEmpty() ) {
+						MergeCart(request, session);
+					} else {
+						Carrello cart = new Carrello();
+						session.setAttribute("carrello", cart);
+						MergeCart(request, session);
 					}
 				}
                

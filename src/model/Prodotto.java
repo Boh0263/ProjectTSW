@@ -1,5 +1,7 @@
 package model;
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public abstract class Prodotto implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +33,7 @@ public abstract class Prodotto implements Serializable {
 	
 	public Prodotto(String Nome, Double Prezzo, String Descrizione, Integer Giacenza, Integer img1, Integer img2, Integer img3) {
 		this.Nome = Nome;
-		this.Prezzo = Prezzo;
+		this.Prezzo = BigDecimal.valueOf(Prezzo).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		this.Descrizione = Descrizione;
 		this.Giacenza = Giacenza;
 		this.img1 = img1;
@@ -46,11 +48,11 @@ public abstract class Prodotto implements Serializable {
 		}
 
 		public double getPrezzo() {
-		return Prezzo;
+		return BigDecimal.valueOf(Prezzo).setScale(2, RoundingMode.HALF_UP ).doubleValue();
 		}
 
 		public void setPrezzo(Double Prezzo) {
-		this.Prezzo = Prezzo;
+		this.Prezzo = BigDecimal.valueOf(Prezzo).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		}
 
 		public Double getIVA() {
@@ -99,6 +101,20 @@ public abstract class Prodotto implements Serializable {
 		public void setImg3(Integer img3) {
 			this.img3 = img3;
 		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) return true;
+			if (obj == null || getClass() != obj.getClass()) return false;
+			Prodotto prodotto = (Prodotto) obj;
+			return Nome.equals(prodotto.Nome);
+        }
+		
+		@Override
+		public int hashCode() {
+			return Nome.hashCode();
+		}
+		
 		
 	
 }

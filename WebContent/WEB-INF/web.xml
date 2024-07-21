@@ -12,6 +12,9 @@
 		<res-auth>Container</res-auth>
 	</resource-ref>
 	
+
+	
+	
 	<filter>
 		<filter-name>SecurityHeadersFilter</filter-name>
 		<filter-class>control.SecurityHeadersFilter</filter-class>
@@ -21,7 +24,7 @@
 		<!-- idealmente da applicare a tutto <url-pattern>/*</url-pattern> -->
 		<!--  <url-pattern>/AdminControl/*</url-pattern> --> <!-- TODO testing -->
 		<url-pattern>/Checkout/*</url-pattern>
-		<url-pattern>/Account/*</url-pattern>
+		<!--<url-pattern>/Account/*</url-pattern> --> <!-- TODO testing -->
 	</filter-mapping>
 	
 	<filter>
@@ -31,7 +34,7 @@
 	<filter-mapping>
 		<filter-name>UserSessionFilter</filter-name>
 	    <url-pattern>/AdminControl/*</url-pattern>
-		<url-pattern>/Checkout/*</url-pattern> <!-- TODO Gestire le POST AJAX -->
+		<url-pattern>/checkout/*</url-pattern> <!-- TODO Gestire le POST AJAX -->
 		<url-pattern>/Account/*</url-pattern>
 	</filter-mapping>
 	<filter>

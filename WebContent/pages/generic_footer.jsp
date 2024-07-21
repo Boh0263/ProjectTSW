@@ -39,6 +39,17 @@
 <script src="./resources/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script> <!-- jQuery UI -->
 <script src="./resources/js/cart-number.js"></script>
 <script src="./resources/js/categories_custom.js"></script>
+
+<% if ( session != null && session.getAttribute("username") != null) { %>
+<script type="text/javascript">
+ $(document).ready(function() {
+		 document.getElementById('checkout_items').innerHTML = localStorage.getItem('CartSCounter');
+		 if(localStorage.getItem('CartSCounter') == 0 || localStorage.getItem('CartSCounter') == null) {
+			document.getElementById('checkout_items').style.display = "none";
+		 } 
+  });
+</script>
+<% } else { %>
 <script type="text/javascript">
  $(document).ready(function() {
 		 document.getElementById('checkout_items').innerHTML = localStorage.getItem('CartCounter');
@@ -47,7 +58,7 @@
 		 } 
   });
 </script>
-
+<% } %>
 </body>
 
 </html>

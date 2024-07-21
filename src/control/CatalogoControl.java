@@ -53,12 +53,15 @@ public class CatalogoControl extends HttpServlet {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println("Errore: " + e.getMessage()); //fare la req.getRequestDispatcher("directory pagina di errore");
+			System.out.println("Errore: " + e.getMessage()); 
 			throw new ServletException("Bing BOng!");
 		}
 
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/pages/Catalogo.jsp");
 		req.setAttribute("custom_styles", new String[] { "./resources/styles/categories_styles.css", "./resources/styles/categories_responsive.css" });
+		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+		res.setHeader("Pragma", "no-cache");
+		res.setDateHeader("Expires", 0);
 		dispatch.forward(req, res);
 	}
 

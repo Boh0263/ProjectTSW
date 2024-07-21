@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+@import url("https://fonts.googleapis.com/css?family=Work+Sans");
+
+.no-margin {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+.clearfix,
+.clearfix:before {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.order {
+  background-color: #f4f4f4;
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px !important;
+  padding: 15px !important;
+  max-width: 320px !important;
+}
+.order .order__title {
+  float: left !important;
+  margin-bottom: 20px;
+}
+.order #svg-summary {
+  float: right;
+}
+.order .order__subtitles {
+  margin-bottom: 10px;
+  line-height: 1em;
+}
+.order__sub-sections {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+.order__subtotal__table {
+  border-spacing: 0;
+  width: 320px;
+}
+.order__subtotal__table tbody {
+  background-color: #fff;
+  border: 1px solid #000;
+}
+.order__subtotal__table tbody tr:first-child td {
+  border-top: 1px solid #000;
+}
+.order__subtotal__table tbody tr td {
+  padding: 5px;
+}
+.order__subtotal__table tbody .values--discounts {
+  color: #6fa450;
+  font-weight: bold;
+}
+.order__subtotal__table tfoot tr:first-child td {
+  border-top: 1px solid #000;
+  padding: 5px 0;
+}
+.order__subtotal__table tfoot .values--total-text,
+.order__subtotal__table tfoot .values--total-price {
+  font-size: 1.857rem;
+  font-weight: bolder;
+  white-space: pre;
+}

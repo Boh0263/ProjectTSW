@@ -44,9 +44,9 @@ INSERT INTO Accessorio (ID_Prodotto) VALUES
 ('Product B');
 
 -- Inserting example clothing into Abbigliamento table
-INSERT INTO Abbigliamento (ID_Prodotto, Tipo, Materiale) VALUES
-('Product A', 'Maglietta', 'Cotton'),
-('Product B', 'Pantalone', 'Denim');
+INSERT INTO Abbigliamento (ID_Prodotto, Tipo, Genere) VALUES
+('Product A', 'Maglietta', 'U'),
+('Product B', 'Pantalone', 'F');
 
 -- Inserting example armor into Armatura table
 INSERT INTO Armatura (Materiale, Pezzo, ID_Prodotto) VALUES

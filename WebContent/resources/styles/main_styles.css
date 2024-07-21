@@ -154,7 +154,7 @@ h6::selection
 	font-weight: 500;
 	color: #777777 !important;
 }
-:-moz-placeholder /* older Firefox*/
+:-moz-placeholder /* per Firefox*/
 {
 	font-size: 16px !important;
 	font-weight: 500;

@@ -1,48 +1,56 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8"/>
 	<title>Modifica Profilo</title>
 </head>
+<%
+	Utente user = (Utente) request.getAttribute("user");
+ 	Indirizzo indirizzo = user.getIndirizzo();
+	if (user != null && session.getAttribute("username") != null && session.getAttribute("username").equals(user.getUsername())) {
+%>
 
-
+<%@include file="generic_header.jsp" %> 
 
 <body>
+<div class="container" style="padding: 50px">
+    <div class="card">
 	<form action="UserController?action=update" method="post">
 		<label for="Email">Email:</label>
-		<input type="email" name="Email" value="${user.Email}"><br>
+		<input type="email" name="Email" value="<%=user.getEmail()%>"><br>
 		
 		<label for="Password">Password:</label>
-		<input type="password" name="Password" value="${user.Password}"><br>
+		<input type="password" name="Password" placeholder="Inserire la nuova password qui.."><br>
 		
 		<label for="Nome">Nome:</label>
-		<input type="text" name="Nome" value="${user.Nome}"><br>
+		<input type="text" name="Nome" value="<%=user.getNome()%>"><br>
 		
 		<label for="Cognome">Cognome:</label>
-		<input type="text" name="Cognome" value="${user.Cognome}"><br>
+		<input type="text" name="Cognome" value="<%=user.getCognome()%>"><br>
 		
 		<label for="CF">CF:</label>
-		<input type="text" name="CF" value="${user.CF}"><br>
+		<input type="text" name="CF" value="<%=user.getCF()%>"><br>
 		
 		<label for="Telefono">Telefono:</label>
-		<input type="text" name="Telefono" value="${user.Telefono}"><br>
+		<input type="text" name="Telefono" value="<%=user.getTelefono()%>"><br>
 		
 		<label for="Data_Nascita">Data di nascita:</label>
-		<input type="text" name="Data_Nascita" value="${user.Data_Nascita}"><br>
+		<input type="text" name="Data_Nascita" value="<%=user.getDataNascita()%>"><br>
 		
 		<%-- Questi stanno nella tabella indirizzo, come vanno presi? --%>
 		<label for="Indirizzo_breve">Indirizzo:</label>
-		<input type="text" name="Indirizzo_breve" value="${user.Indirizzo_breve}"><br>
+		<input type="text" name="Indirizzo_breve" value="<%=user.getIndirizzo().getVia()%>"><br>
 		
 		<label for="Cap">Cap:</label>
-		<input type="text" name="Cap" value="${user.Cap}"><br>
+		<input type="text" name="Cap" value="<%=user.getIndirizzo().getCAP()%>"><br>
 		
 		<label for="Citta">Città:</label>
-		<input type="text" name="Citta" value="${user.Citta}"><br>
+		<input type="text" name="Citta" value="<%=user.getIndirizzo().getCitta()%>"><br>
 		
 		<label for="Provincia">Provincia:</label>
-		<input type="text" name="Provincia" value="${user.Provincia}"><br>
+		<input type="text" name="Provincia" value="<%=user.getIndirizzo().getProvincia()%>"><br>
 		
 		<input type="hidden" name="ctoken" value="<%=session.getAttribute("ctoken")%>"/>
 		
@@ -51,7 +59,10 @@
 	<form action="UserController?action=delete" method="post">
 		<input type="submit" value="Elimina Account"/>
 	</form>
+	</div>
+	</div>
 </body>
+
 
 <%-- confirm() apre una finestra di dialogo con due bottoni, OK e Cancel --%>
 <script type="text/javascript">
@@ -215,4 +226,8 @@
         });
     });
 </script>
+<% } %>
+
+
+<%@include file="generic_footer.jsp" %>
 </html>

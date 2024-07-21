@@ -1,31 +1,8 @@
 /* JS Document */
 
-/******************************
 
-[Table of Contents]
-
-1. Vars and Inits
-2. Set Header
-3. Init Menu
-4. Init Favorite
-5. Init Fix Product Border
-6. Init Isotope Filtering
-7. Init Price Slider
-8. Init Checkboxes
-
-
-
-******************************/
-
-jQuery(document).ready(function($)
-{
+$(document).ready(function($) {
 	"use strict";
-
-	/* 
-
-	1. Vars and Inits
-
-	*/
 
 	var header = $('.header');
 	var topNav = $('.top_nav')
@@ -36,7 +13,18 @@ jQuery(document).ready(function($)
 	var hamburgerClose = $('.dropdown_close');
 	var fsOverlay = $('.fs_menu_overlay');
 
+	
 	setHeader();
+	initFixProductBorder();
+	
+		function initDynamicContent() {
+		initFixProductBorder();
+		initFavorite();
+		initIsotopeFiltering();
+		initPriceSlider();
+		initCheckboxes();
+	}
+
 
 	$(window).on('resize', function()
 	{
@@ -48,19 +36,14 @@ jQuery(document).ready(function($)
 	{
 		setHeader();
 	});
+	
+	
 
 	initMenu();
 	initFavorite();
-	initFixProductBorder();
-	initIsotopeFiltering();
-	initPriceSlider();
-	initCheckboxes();
+	setTimeout(initDynamicContent, 500);
 
-	/* 
-
-	2. Set Header
-
-	*/
+	
 
 	function setHeader()
 	{
@@ -92,11 +75,7 @@ jQuery(document).ready(function($)
 		}
 	}
 
-	/* 
 
-	3. Init Menu
-
-	*/
 
 	function initMenu()
 	{
@@ -163,7 +142,6 @@ jQuery(document).ready(function($)
 	function openMenu()
 	{
 		menu.addClass('active');
-		// menu.css('right', "0");
 		fsOverlay.css('pointer-events', "auto");
 		menuActive = true;
 	}
@@ -175,11 +153,7 @@ jQuery(document).ready(function($)
 		menuActive = false;
 	}
 
-	/* 
 
-	4. Init Favorite
-
-	*/
 
     function initFavorite()
     {
@@ -213,11 +187,6 @@ jQuery(document).ready(function($)
     	}
     }
 
-    /* 
-
-	5. Init Fix Product Border
-
-	*/
 
     function initFixProductBorder()
     {
@@ -226,13 +195,13 @@ jQuery(document).ready(function($)
 			var products = $('.product_filter:visible');
     		var wdth = window.innerWidth;
 
-    		// reset border
+    	
     		products.each(function()
     		{
     			$(this).css('border-right', 'solid 1px #e9e9e9');
     		});
 
-    		// if window width is 991px or less
+    		//se la finestra è più piccola di 480px
 
     		if(wdth < 480)
 			{
@@ -285,7 +254,7 @@ jQuery(document).ready(function($)
 				}
 			}
 
-			//if window width is larger than 991px
+			//se la finestra è più grande di 992px
 			else
 			{
 				if(products.length < 5)
@@ -304,7 +273,7 @@ jQuery(document).ready(function($)
     
     /* 
 
-	6. Init Isotope Filtering
+	 Filtering con Isotope:
 
 	*/
 
@@ -334,7 +303,7 @@ jQuery(document).ready(function($)
 	            }
 	        });
 
-    		// Short based on the value from the sorting_type dropdown
+    		
 	        sortTypes.each(function()
 	        {
 	        	$(this).on('click', function()
@@ -346,7 +315,7 @@ jQuery(document).ready(function($)
 	        	});
 	        });
 
-	        // Show only a selected number of items
+	       // Filtro per numero di prodotti visualizzati.
 	        sortNums.each(function()
 	        {
 	        	$(this).on('click', function()
@@ -358,7 +327,7 @@ jQuery(document).ready(function($)
 	        	});
 	        });	
 
-	        // Filter based on the price range slider
+	        // Filtro basato sul prezzo nello slider.
 	        filterButton.on('click', function()
 	        {
 	        	$('.product-grid').isotope({
@@ -383,7 +352,7 @@ jQuery(document).ready(function($)
 
     /* 
 
-	7. Init Price Slider
+	7. Init Slider Prezzo
 
 	*/
 
@@ -406,7 +375,7 @@ jQuery(document).ready(function($)
 
     /* 
 
-	8. Init Checkboxes
+	8. Init Filter Checkboxes
 
 	*/
 
@@ -434,7 +403,7 @@ jQuery(document).ready(function($)
     					box.find('i').addClass('fa-square');
     					box.toggleClass('active');
     				}
-    				// box.toggleClass('active');
+    				
     			});
     		});
 

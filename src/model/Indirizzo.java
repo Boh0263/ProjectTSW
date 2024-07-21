@@ -59,5 +59,6 @@ public class Indirizzo implements Serializable {
 	public String toString() {
 		return via + ", " + citta + ", " + provincia + ", " + cap;
 	}
+	
 
 }
