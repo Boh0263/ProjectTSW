@@ -16,6 +16,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 
+import model.SanitizeInput;
 import model.UserDAOImp;
 
 /**
@@ -52,6 +53,7 @@ public class UsernameCheckControl extends HttpServlet {
 	        try (BufferedReader reader = request.getReader()) {
 	            JsonObject jsonRequest = JsonParser.parseReader(reader).getAsJsonObject();
 	            String username = jsonRequest.get("username").getAsString();
+	            username = SanitizeInput.sanitize(username);
 
 	            // Check if the username is available
 	            boolean isAvailable = !dao.doCheck(username);

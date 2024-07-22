@@ -36,6 +36,8 @@
 	    <url-pattern>/AdminControl/*</url-pattern>
 		<url-pattern>/checkout/*</url-pattern> <!-- TODO Gestire le POST AJAX -->
 		<url-pattern>/Account/*</url-pattern>
+		<url-pattern>/Ordini/*</url-pattern>
+		<url-pattern>/PDF/*</url-pattern>
 	</filter-mapping>
 	<filter>
 		<filter-name>UserPOSTSessionFilter</filter-name>

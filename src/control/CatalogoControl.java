@@ -1,6 +1,7 @@
 package control;
 
 import model.ProdottoDAOImp;
+import model.SanitizeInput;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,7 +22,8 @@ public class CatalogoControl extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		String categoria = req.getParameter("category");
+		String uncategoria = req.getParameter("category");
+		String categoria = SanitizeInput.sanitize(uncategoria);
 
 		try {
 			if (categoria != null) {

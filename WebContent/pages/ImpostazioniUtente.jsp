@@ -3,231 +3,361 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8"/>
-	<title>Modifica Profilo</title>
+    <meta charset="UTF-8"/>
+    <title>Modifica Profilo</title>
+    
 </head>
 <%
-	Utente user = (Utente) request.getAttribute("user");
- 	Indirizzo indirizzo = user.getIndirizzo();
-	if (user != null && session.getAttribute("username") != null && session.getAttribute("username").equals(user.getUsername())) {
+    Utente user = (Utente) request.getAttribute("user");
+    Indirizzo indirizzo = user.getIndirizzo();
+    if (user != null && session.getAttribute("username") != null && session.getAttribute("username").equals(user.getUsername())) {
 %>
+    <%@include file="generic_header.jsp" %> 
 
-<%@include file="generic_header.jsp" %> 
+    <body>
+     <div class="container" style="padding: 50px; margin-top: 175px;">
+        <div class="card" style="border-style: none !important;">
+            <form id="updateForm" action="Account" method="post" >
+                <div class="form-group">
+                    <label for="Email">Email:</label>
+                    <input type="email" id="Email" name="Email" class="form-control" value="<%=user.getEmail()%>" required>
+                    <small id="emailError" class="form-text text-danger"></small>
+                </div>
 
-<body>
-<div class="container" style="padding: 50px">
-    <div class="card">
-	<form action="UserController?action=update" method="post">
-		<label for="Email">Email:</label>
-		<input type="email" name="Email" value="<%=user.getEmail()%>"><br>
-		
-		<label for="Password">Password:</label>
-		<input type="password" name="Password" placeholder="Inserire la nuova password qui.."><br>
-		
-		<label for="Nome">Nome:</label>
-		<input type="text" name="Nome" value="<%=user.getNome()%>"><br>
-		
-		<label for="Cognome">Cognome:</label>
-		<input type="text" name="Cognome" value="<%=user.getCognome()%>"><br>
-		
-		<label for="CF">CF:</label>
-		<input type="text" name="CF" value="<%=user.getCF()%>"><br>
-		
-		<label for="Telefono">Telefono:</label>
-		<input type="text" name="Telefono" value="<%=user.getTelefono()%>"><br>
-		
-		<label for="Data_Nascita">Data di nascita:</label>
-		<input type="text" name="Data_Nascita" value="<%=user.getDataNascita()%>"><br>
-		
-		<%-- Questi stanno nella tabella indirizzo, come vanno presi? --%>
-		<label for="Indirizzo_breve">Indirizzo:</label>
-		<input type="text" name="Indirizzo_breve" value="<%=user.getIndirizzo().getVia()%>"><br>
-		
-		<label for="Cap">Cap:</label>
-		<input type="text" name="Cap" value="<%=user.getIndirizzo().getCAP()%>"><br>
-		
-		<label for="Citta">Città:</label>
-		<input type="text" name="Citta" value="<%=user.getIndirizzo().getCitta()%>"><br>
-		
-		<label for="Provincia">Provincia:</label>
-		<input type="text" name="Provincia" value="<%=user.getIndirizzo().getProvincia()%>"><br>
-		
-		<input type="hidden" name="ctoken" value="<%=session.getAttribute("ctoken")%>"/>
-		
-		<button type="submit" id="Submit" class="actionBtn">Aggiorna</button>
-    </form>
-	<form action="UserController?action=delete" method="post">
-		<input type="submit" value="Elimina Account"/>
-	</form>
-	</div>
-	</div>
-</body>
+                <div class="form-group">
+                    <label for="Password">Password:</label>
+                    <input type="password" id="Password" name="Password" class="form-control" placeholder="Inserire la nuova password qui..">
+                    <small id="passwordError" class="form-text text-danger"></small>
+                </div>
 
+                <div class="form-group">
+                    <label for="Nome">Nome:</label>
+                    <input type="text" id="Nome" name="Nome" class="form-control" value="<%=user.getNome()%>" required>
+                    <small id="nomeError" class="form-text text-danger"></small>
+                </div>
 
-<%-- confirm() apre una finestra di dialogo con due bottoni, OK e Cancel --%>
-<script type="text/javascript">
-	function confirmDelete() {
-		return confirm("Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.");
-	}
-</script>
+                <div class="form-group">
+                    <label for="Cognome">Cognome:</label>
+                    <input type="text" id="Cognome" name="Cognome" class="form-control" value="<%=user.getCognome()%>" required>
+                    <small id="cognomeError" class="form-text text-danger"></small>
+                </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="./resources/js/validation.js" type="text/javascript"></script>
+                <div class="form-group">
+                    <label for="CF">CF:</label>
+                    <input type="text" id="CF" name="CF" class="form-control" value="<%=user.getCF()%>" required>
+                    <small id="cfError" class="form-text text-danger"></small>
+                </div>
 
-<script>
-	let hasErrors = false;
-	document.addEventListener('DOMContentLoaded', function() {
-		document.getElementById('form').addEventListener('submit', function(event) {
-			hasErrors = false;
-			event.preventDefault();
-		});
-	});
-	document.getElementById("username").addEventListener("focusout", function() {
-		var username = document.getElementById("username").value;
-		var error = document.getElementById("usernameError");
-		if (validateUsername(username)) {
-			$.ajax({
-				url: './verifyUsername',
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify({ username: username }),
-				dataType: 'json',
-				success: function(response) {
-					if (response.available === false) {
-						document.getElementById("usernameError").textContent = "Username non disponibile";
-						hasErrors = true;
-					} else {
-						hasErrors = false;
-						document.getElementById("usernameError").textContent = "OK";
-					}
-				},
-				error: function() {
-					hasErrors = true;
-					document.getElementById("usernameError").textContent = response.message;
-				}
-			});
-		} else {
-			hasErrors = true;
-			document.getElementById("usernameError").textContent = username ? "Username non valido" : "";
-		}
-	});
+                <div class="form-group">
+                    <label for="Telefono">Telefono:</label>
+                    <input type="text" id="Telefono" name="Telefono" class="form-control" value="<%=user.getTelefono()%>">
+                    <small id="telefonoError" class="form-text text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="Data_Nascita">Data di nascita:</label>
+                    <input type="text" id="Data_Nascita" name="Data_Nascita" class="form-control" value="<%=user.getDataNascita()%>" required>
+                    <small id="dataNascitaError" class="form-text text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="Indirizzo_breve">Indirizzo:</label>
+                    <input type="text" id="Indirizzo_breve" name="Indirizzo_breve" class="form-control" value="<%=indirizzo.getVia()%>" required>
+                    <small id="indirizzoError" class="form-text text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="Cap">Cap:</label>
+                    <input type="text" id="Cap" name="Cap" class="form-control" value="<%=indirizzo.getCAP()%>" required>
+                    <small id="capError" class="form-text text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="Citta">Città:</label>
+                    <input type="text" id="Citta" name="Citta" class="form-control" value="<%=indirizzo.getCitta()%>" required>
+                    <small id="cittaError" class="form-text text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="Provincia">Provincia:</label>
+                    <input type="text" id="Provincia" name="Provincia" class="form-control" value="<%=indirizzo.getProvincia()%>" required>
+                    <small id="provinciaError" class="form-text text-danger"></small>
+                </div>
+
+                <input type="hidden" name="ctoken" value="<%=session.getAttribute("ctoken")%>"/>
+               <div class="text-center"> 
+                <button type="submit" id="Submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aggiorna&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                </div>
+            </form>
+
+            <form id="deleteForm" class="text-center" style="margin-top: 10px;" action="./Account?action=delete" method="post" onsubmit="return confirmDelete();">
+                <input type="hidden" name="ctoken" value="<%=session.getAttribute("ctoken")%>"/>
+                <input type="hidden" name="username" value="<%=user.getUsername()%>"/>
+                <input type="submit" value="Elimina Account" class="btn btn-danger"/>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./resources/js/validation.js" type="text/javascript"></script>
+	<script>
 	
-	function validateEm() {
-		var email = document.getElementById("email").value;
-		if ( email  && !validateEmail(email)) {
-			document.getElementById("emailError").textContent = "";
-			hasErrors = false;
-			$.ajax({
-				url: './verifyEmail',
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify({ email: email }),
-				dataType: 'json',
-				success: function(response) {
-					if (response === false) {
-						document.getElementById("emailError").textContent = "Email non disponibile";
-						hasErrors = true;
-					} else {
-						hasErrors = false;
-						document.getElementById("emailError").textContent = "OK";
-					}
-				},
-				error: function(response) {
-					hasErrors = true;
-					document.getElementById("emailError").textContent = response.message;
-				}
-			});
-			} else {
-				document.getElementById("emailError").textContent =  email ? "Email non valida" : "";
-				hasErrors = true;
-			}
-	}
-	document.getElementById("email").addEventListener("focusout", validateEm);
-	
-	document.getElementById("password").addEventListener("input", function() {
-		var password = document.getElementById("password").value;
-		if (validatePassword(password)) {
-			document.getElementById("passwordError").textContent = "La password deve: 1. contenere almeno 8 caratteri, 2. contenere almeno una lettera maiuscola, 3. contenere almeno un numero, 4. contenere almeno un carattere speciale";
-			hasErrors = true;
-			return;
-		} else {
-			document.getElementById("passwordError").textContent = "OK";
-			hasErrors = false;
-		}
-	});
-	
-	document.getElementById("confirmPassword").addEventListener("input", function() {
-		var password = document.getElementById("password").value;
-		var confirmPassword = document.getElementById("confirmPassword").value;
-		if (password != confirmPassword) {
-			document.getElementById("confirmPasswordError").textContent = "Le password non coincidono";
-			hasErrors = true;
-			return;
-		} else {
-			document.getElementById("confirmPasswordError").textContent = "";
-			hasErrors = false;
-		}
-	});
-	
-	$('#Submit').on('click', function(event) {
-		if (hasErrors) {
-			event.preventDefault();
-			window.location.href = "/ProjectTSW/register?Messaggio=Registrazione%20fallita:%20Campi%20non%20validi";
-			return;
-		}
-		
-		const username = $('#username').val();
-        const email = $('#email').val();
-        const password = $('#password').val();
-        const confirmPassword = $('#confirmPassword').val();
-        const firstName = $('#Nome').val();
-        const lastName = $('#Cognome').val();
-        const address = $('#Indirizzo').val();
-        const citta = $('#Citta').val();
-        const CAP = $('#CAP').val();
-        const provincia = $('#Provincia').val();
-        const CF = $('#CF').val();
-        const dataNascita = $('#dataNascita').val();
-        const telefono = $('#telefono').val();
-        
-        let data = {
-            	username: username,
-                email: email,
-                password: confirmPassword,
-                Nome: firstName,
-                Cognome: lastName,
-                Indirizzo: address,
-                citta: citta,
-                CAP: CAP,
-                provincia: provincia,
-                CF: CF,
-                dataNascita: dataNascita,
-                telefono: telefono
-        }
-        
+	$('#deleteForm').on('submit', function(event) {
+        event.preventDefault(); 
+		var form = $(this);
+		var action = $(this).attr('action');
+		var data = form.serialize();
         $.ajax({
-            url: './register',
+            url: action,
+            data: data,
             type: 'POST',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            encode: true,
+            contentType: 'application/x-www-form-urlencoded',
+
             success: function(response) {
                 if (response.success) {
-                    window.location.href = "/ProjectTSW/login?Messaggio=" + response.message;
+                    alert('Account eliminato con successo!');
+                    window.location.href = '/ProjectTSW/login';
                 } else {
-                    window.location.href = "/ProjectTSW/register?Messaggio=" + response.message;
-                    return;
+                    alert('Errore durante l\'eliminazione dell\'account: ' + response.message);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                window.location.href = "/ProjectTSW/register?Messaggio=" + textStatus + ": " + errorThrown;
-                console.error("Error submitting form:", textStatus, errorThrown);
+            error: function(xhr, status, error) {
+                alert('Errore AJAX: ' + error);
             }
         });
     });
+	
+	
+	</script>
+	<script>
+	
+	var initialEmail = '<%= user.getEmail() %>';
+    var initialPassword = ''; 
+    var initialNome = '<%= user.getNome() %>';
+    var initialCognome = '<%= user.getCognome() %>';
+    var initialCF = '<%= user.getCF() %>';
+    var initialTelefono = '<%= user.getTelefono() %>';
+    var initialDataNascita = '<%= user.getDataNascita() %>';
+    var initialIndirizzo = '<%= indirizzo.getVia() %>';
+    var initialCap = '<%= indirizzo.getCAP() %>';
+    var initialCitta = '<%= indirizzo.getCitta() %>';
+    var initialProvincia = '<%= indirizzo.getProvincia() %>';
+	
+	
+	
+	$('#updateForm').on('submit', function(event) {
+        event.preventDefault(); 
+
+        let hasErrors = false;
+        var form = $(this);
+        var action = $(this).attr('action');
+
+        // Clear errori precedenti.
+        $('.form-text.text-danger').text('');
+        
+         const email = $('#Email').val();
+        const password = $('#Password').val();
+        const nome = $('#Nome').val();
+        const cognome = $('#Cognome').val();
+        const cf = $('#CF').val();
+        const telefono = $('#Telefono').val();
+        const dataNascita = $('#Data_Nascita').val();
+        const indirizzo = $('#Indirizzo_breve').val();
+        const cap = $('#Cap').val();
+        const citta = $('#Citta').val();
+        const provincia = $('#Provincia').val();
+        
+        if (email !== initialEmail && !validateEmail(email)) {
+            $("#emailError").text("Email non valida");
+            hasErrors = true;
+        }
+
+        if (password != '' && password.length < 6) {
+            $("#passwordError").text("La password deve essere di almeno 6 caratteri");
+            hasErrors = true;
+        }
+
+        if (nome !== initialNome && !nome) {
+            $("#nomeError").text("Nome è richiesto");
+            hasErrors = true;
+        }
+
+        if (cognome !== initialCognome && !cognome) {
+            $("#cognomeError").text("Cognome è richiesto");
+            hasErrors = true;
+        }
+
+        if (cf !== initialCF && !cf) {
+            $("#cfError").text("CF è richiesto");
+            hasErrors = true;
+        }
+
+        if (telefono !== initialTelefono && !telefono) {
+            $("#telefonoError").text("Telefono è richiesto");
+            hasErrors = true;
+        }
+
+        if (dataNascita !== initialDataNascita && !dataNascita) {
+            $("#dataNascitaError").text("Data di nascita è richiesta");
+            hasErrors = true;
+        }
+
+        if (indirizzo !== initialIndirizzo && !indirizzo) {
+            $("#indirizzoError").text("Indirizzo è richiesto");
+            hasErrors = true;
+        }
+
+        if (cap !== initialCap && !cap) {
+            $("#capError").text("CAP è richiesto");
+            hasErrors = true;
+        }
+
+        if (citta !== initialCitta && !citta) {
+            $("#cittaError").text("Città è richiesta");
+            hasErrors = true;
+        }
+
+        if (provincia !== initialProvincia && !provincia) {
+            $("#provinciaError").text("Provincia è richiesta");
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            alert("Perfavore modifica i campi errati e riprova.");
+            return false;
+        }
+
+        
+       
+
+       
+ 
+
+        // Se non ci sono errori, preparo i dati da inviare al server in formato JSON (aggiungendo solo i campi modificati rispetto ai valori iniziali).
+        
+        let formData = {};
+        formData.userName = '<%= user.getUsername() %>';
+        if (email !== initialEmail) formData.userEmail = email;
+        if (password !== '' && password !== initialPassword) formData.userNPassword = password;
+        if (nome !== initialNome) formData.userNome = nome;
+        if (cognome !== initialCognome) formData.userCognome = cognome;
+        if (cf !== initialCF) formData.userCF = cf;
+        if (telefono !== initialTelefono) formData.userTelefono = telefono;
+        if (dataNascita !== initialDataNascita) formData.userDataNascita = dataNascita;
+        if (indirizzo !== initialIndirizzo) formData.userVia = indirizzo;
+        if (cap !== initialCap) formData.userCAP = cap;
+        if (citta !== initialCitta) formData.userCitta = citta;
+        if (provincia !== initialProvincia) formData.userProvincia = provincia;
+        formData.action = 'update';
+        formData.ctoken = '<%= session.getAttribute("ctoken") %>';
+
+        $.ajax({
+            url: 'Account',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                if (response.success) {
+                    alert('Profilo aggiornato!');
+                } else {
+                    alert('Errore nell\' aggiornamento: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Errore AJAX: ' + error.message + ' ' + status);
+            }
+        });
+    });
+
+
 </script>
-<% } %>
+	
+	
 
+    <script>
+        function confirmDelete() {
+            return confirm("Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.");
+        }
 
-<%@include file="generic_footer.jsp" %>
+        $(document).ready(function() {
+         
+            $('#updateForm').on('submit', function(event) {
+                let hasErrors = false;
+
+                
+                
+                if (hasErrors) {
+                    event.preventDefault();
+                    alert("Perfavore modifica i campi errati e riprova.");
+                    return false;
+                }
+                
+                
+                return true;
+            });
+
+            $('#email').on('focusout', function() {
+                var email = $(this).val();
+                if (validateEmail(email)) {
+                    $.ajax({
+                        url: './verifyEmail',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ email: email }),
+                        dataType: 'json',
+                        success: function(response) {
+                            if (!response.available) {
+                                $("#emailError").text("Email non disponibile");
+                            } else {
+                                $("#emailError").text("OK");
+                            }
+                        },
+                        error: function() {
+                            $("#emailError").text("Errore nella verifica dell'email");
+                        }
+                    });
+                } else {
+                    $("#emailError").text("Email non valida");
+                }
+            });
+
+            $('#username').on('focusout', function() {
+                var username = $(this).val();
+                if (validateUsername(username)) {
+                    $.ajax({
+                        url: './verifyUsername',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ username: username }),
+                        dataType: 'json',
+                        success: function(response) {
+                            if (!response.available) {
+                                $("#usernameError").text("Username non disponibile");
+                            } else {
+                                $("#usernameError").text("OK");
+                            }
+                        },
+                        error: function() {
+                            $("#usernameError").text("Errore nella verifica dello username");
+                        }
+                    });
+                } else {
+                    $("#usernameError").text("Username non valido");
+                }
+            });
+
+            $('#Password, #ConfirmPassword').on('input', function() {
+                var password = $('#Password').val();
+                var confirmPassword = $('#ConfirmPassword').val();
+                if (password !== confirmPassword) {
+                    $("#confirmPasswordError").text("Le password non coincidono");
+                } else {
+                    $("#confirmPasswordError").text("OK");
+                }
+            });
+        });
+    </script>
+    <% } %>
+    <%@include file="generic_footer.jsp" %>
+    </body>
 </html>

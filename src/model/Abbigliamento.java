@@ -4,8 +4,8 @@ public class Abbigliamento extends Prodotto {
 	private static final long serialVersionUID = 1L;
 	
 	private final int ID_Abbigliamento;
-	private String Tipo; //da fare l' enum
-	private String Genere; //da fare l'enum; 
+	private String Tipo; 
+	private String Genere; 
 	
 	public Abbigliamento(String Nome, double Prezzo, String Descrizione, int Giacenza, int img1, int img2, int img3, int ID_Abbigliamento, String Tipo, String Genere) {
 		super(Nome, Prezzo, Descrizione, Giacenza, img1, img2, img3);

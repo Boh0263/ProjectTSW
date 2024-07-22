@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,9 @@ import com.google.gson.reflect.TypeToken;
 
 import model.Prodotto;
 import model.ProdottoDAOImp;
+import model.Recensione;
+import model.RecensioneDAO;
+import model.SanitizeInput;
 
 
 public class ProdottoControl extends HttpServlet {
@@ -42,7 +46,7 @@ public class ProdottoControl extends HttpServlet {
         // Se il nome del prodotto non è presente nell'URL lo si cerca nei parametri della richiesta.
         
         if (productName == null) {
-            productName = request.getParameter("Nome");
+            productName = SanitizeInput.sanitize(request.getParameter("Nome"));
             if (productName != null) {
                 // Se il nome del prodotto è presente nei parametri della richiesta si reindirizza alla pagina del prodotto.
                response.sendRedirect("./Prodotto/" + productName);
@@ -50,9 +54,12 @@ public class ProdottoControl extends HttpServlet {
             }
         } else {
             try {
-            	Prodotto obj = (Prodotto) dao.doRetrieveByKey(productName);
-            	System.out.println(obj.toString());
+            	Prodotto obj = dao.doRetrieveByKey(productName);
                 request.setAttribute("prodotto", obj);
+                
+                Collection<Recensione> recensioni = RecensioneDAO.doRetrieveByProduct(obj);
+                request.setAttribute("recensioni", recensioni);
+                
             } catch (Exception e) {
                 if (e instanceof SQLException) {
                     throw new ServletException("Prodotto non trovato. :"+ e.getMessage());

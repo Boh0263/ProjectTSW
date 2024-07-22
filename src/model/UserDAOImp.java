@@ -46,8 +46,8 @@ public class UserDAOImp implements UserDAO {
 							rs.getString("password"),
 		                    rs.getString("nome"),
 		                    rs.getString("cognome"),
-		                    rs.getString("email"),
 		                    rs.getString("CF"),
+		                    rs.getString("email"),
 		                    rs.getString("tipo"),
 		                    rs.getString("data_nascita"),
 		                    rs.getString("telefono"),
@@ -104,8 +104,8 @@ public class UserDAOImp implements UserDAO {
 							rs.getString("password"),
 		                    rs.getString("nome"),
 		                    rs.getString("cognome"),
-		                    rs.getString("email"),
 		                    rs.getString("CF"),
+		                    rs.getString("email"),
 		                    rs.getString("tipo"),
 		                    rs.getString("data_nascita"),
 		                    rs.getString("telefono"),
@@ -164,8 +164,8 @@ public class UserDAOImp implements UserDAO {
 					rs.getString("password"),
                     rs.getString("nome"),
                     rs.getString("cognome"),
-                    rs.getString("email"),
                     rs.getString("CF"),
+                    rs.getString("email"),
                     rs.getString("tipo"),
                     rs.getString("data_nascita"),
                     rs.getString("telefono"),
@@ -258,13 +258,21 @@ public class UserDAOImp implements UserDAO {
 	@Override
 	public int update(Utente utente) throws SQLException {
 		int result = 0;
-		String UPDATE = "UPDATE Utente SET Email = COALESCE(?, Email), Password = COALESCE(SHA2(?, 256), Password),"
-				+ "Nome = COALESCE (?, Nome), Cognome = COALESCE(?, Cognome), CF = COALESCE(?, CF),"
-				+ "Telefono = COALESCE(?, Telefono), Data_Nascita = COALESCE(?, Data_Nascita)"
-				+ "Indirizzo_breve = COALESCE(?, Indirizzo_breve), CAP = COALESCE(?, CAP)"
-				+ "Località = COALESCE(?, Località), Provincia = COALESCE(?, Provincia)"
-				+ "WHERE username = ?";
+		PreparedStatement st1 = null;
+		String UPDATE = "UPDATE Utente SET Email = COALESCE(?, Email), "
+	               + "Password = COALESCE(SHA2(?, 256), Password), "
+	               + "Nome = COALESCE(?, Nome), "
+	               + "Cognome = COALESCE(?, Cognome), "
+	               + "CF = COALESCE(?, CF), "
+	               + "Telefono = COALESCE(?, Telefono), "
+	               + "Data_Nascita = COALESCE(?, Data_Nascita) "
+	               + "WHERE username = ?";
+		
+		String updateAddress = "UPDATE Indirizzo SET Via = COALESCE(?, Via), " + "CAP = COALESCE(?, CAP), "
+				+ "Città = COALESCE(?, Città), " + "Provincia = COALESCE(?, Provincia) "
+				+ "WHERE Utente_ID IN (SELECT ID FROM Utente WHERE username = ?)";
 		try (Connection con = DMConnectionPool.getConnection(); PreparedStatement st = con.prepareStatement(UPDATE)) {
+			con.setAutoCommit(false);
 			st.setString(1, utente.getEmail());
 			st.setString(2, utente.getPassword());
 			st.setString(3, utente.getNome());
@@ -272,13 +280,24 @@ public class UserDAOImp implements UserDAO {
 			st.setString(5, utente.getCF());
 			st.setString(6, utente.getTelefono());
 			st.setString(7, utente.getDataNascita());
-			st.setString(8, utente.getIndirizzo().getVia());
-			st.setString(9, utente.getIndirizzo().getCAP());
-			st.setString(10, utente.getIndirizzo().getCitta());
-			st.setString(11, utente.getIndirizzo().getProvincia());
-			st.setString(12, utente.getUsername());
+			st.setString(8, utente.getUsername());
 			result = st.executeUpdate();
+			
+			if (result >= 0) {	
+				st1 = con.prepareStatement(updateAddress);
+				st1.setString(1, utente.getIndirizzo().getVia());
+				st1.setString(2, utente.getIndirizzo().getCAP());
+				st1.setString(3, utente.getIndirizzo().getCitta());
+				st1.setString(4, utente.getIndirizzo().getProvincia());
+				st1.setString(5, utente.getUsername());
+				result = st1.executeUpdate();
+			
+		 if (result >= 0) {
 			con.commit();
+		}
+		 } else {
+            con.rollback();
+        }
 		}
 		return result;
 	}

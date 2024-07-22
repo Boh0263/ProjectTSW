@@ -67,6 +67,8 @@ public class UserControl extends HttpServlet {
 		String requestype = request.getContentType();
 		
 		if (requestype != null && "application/json".equals(requestype)) {
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
 			
 		 try (BufferedReader reader = request.getReader()) {
 			 
@@ -89,20 +91,20 @@ public class UserControl extends HttpServlet {
 			String CAP = jsonRequest.has("userCAP") ? jsonRequest.get("userCAP").getAsString() : null;
 			String Provincia = jsonRequest.has("userProvincia") ? jsonRequest.get("userProvincia").getAsString() : null;
 			
-			Indirizzo indirizzo = new Indirizzo(Via, CAP, Citta, Provincia);
+			Indirizzo indirizzo = new Indirizzo(SanitizeInput.sanitize(Via),  SanitizeInput.sanitize(Citta),SanitizeInput.sanitize(Provincia), SanitizeInput.sanitize(CAP));
 			
 			try {
 				
 				Utente user = new Utente(
-						username,
-						newPassword,
-						Nome,
-						Cognome,
-						Email,
-						CF,
+						SanitizeInput.sanitize(username),
+						SanitizeInput.sanitize(newPassword),
+						SanitizeInput.sanitize(Nome),
+						SanitizeInput.sanitize(Cognome),
+						SanitizeInput.sanitize(CF),
+						SanitizeInput.sanitize(Email),
 						"R",
-						Data_Nascita,
-						Telefono,
+						SanitizeInput.sanitize(Data_Nascita),
+						SanitizeInput.sanitize(Telefono),
 						indirizzo
 						);
 				
@@ -111,6 +113,7 @@ public class UserControl extends HttpServlet {
 					} catch (SQLException e) {
 						response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 						jsonResponse.addProperty("message", "Errore interno al server");
+						System.out.println(e.getMessage());
 						out.println(jsonResponse.toString());
 						return;
 					}
@@ -121,21 +124,45 @@ public class UserControl extends HttpServlet {
              return;
 		 }
 		 
+		 response.setStatus(HttpServletResponse.SC_OK);
+		 jsonResponse.addProperty("success", true);
+		 jsonResponse.addProperty("message", "Utente aggiornato con successo");
+		 out.println(jsonResponse.toString());
+		 return;
+		 
 		 } catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			jsonResponse.addProperty("message", "Errore interno al server");
+			System.out.println(e.getMessage());
 			out.println(jsonResponse.toString());
 			return;
 		}
-	} else {
+	} else if (requestype != null && "application/x-www-form-urlencoded".equals(requestype)) {
+		String action = request.getParameter("action");
+		String username = request.getParameter("username");
+		if (username != null && !username.isEmpty() && action != null && action.equals("delete")) {
+			HttpSession session = request.getSession(false);
+			String testusername = (String) session.getAttribute("username");
+			if (testusername != null && testusername.equals(username)) {
+				
+			try {
+				result = udao.doDelete(new Utente(username, "R")) == true ? 1 : 0;
+			} catch (SQLException e) {
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				return;
+			  }
+			} 
+		}
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		return;
 	}
 	if (result > 0) {
 	response.setStatus(HttpServletResponse.SC_OK);
+	response.sendRedirect(request.getContextPath() + "/logout");
 	return;
   } else {
 	response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	System.out.println("Hello, this is an error message!");
 	return;
     }
   }

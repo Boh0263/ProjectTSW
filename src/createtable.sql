@@ -116,7 +116,6 @@ CREATE TABLE IF NOT EXISTS Recensione (
     Data_Recensione date NOT NULL,
     PRIMARY KEY(ID_Recensione, ID_Prodotto),
     FOREIGN KEY(ID_Prodotto) REFERENCES Prodotto(Nome) ON UPDATE cascade ON DELETE cascade,
-    FOREIGN KEY(Email_Utente) REFERENCES Utente(Email) ON UPDATE cascade ON DELETE cascade
 );
 
 

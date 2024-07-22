@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="model.*, java.util.*" %>    
 <!DOCTYPE html>
 <html>
@@ -21,48 +22,47 @@ Map<Prodotto, Integer> prodotti = ordine.getProdotti();
 
     <div class="container fill_height">
         <div class="row align-items-center fill_height">
-        <h5>Ordine Confermato!</h5>
-        <h6>Grazie per aver acquistato da Kits!</h6>
+        
             <div class="col">
                 <div class="main_slider_content" style="margin-top: 175px;">
-                    
-                    <section class="order">
-                        <h1 class="order__title no-margin">Order summary</h1>
+                    <h2>Ordine Confermato!</h2>
+        			<h4>Grazie per aver acquistato su Kits!</h4>
+                    <section class="order justify-center">
+                        <div class="order__title no-margin" style="font-weight: bold;">Order summary</div>
                         <svg id="svg-summary" width="24" height="24" viewBox="0 0 24 24"></svg>
                         <section class="order__sub-sections order__subtotal clearfix ">
-                            <h2 class="order__subtitles no-margin">Subtotal</h2>
+                            <div class="order__subtitles no-margin">Subtotal</div>
                             <table id="values" class="order__subtotal__table">
                                 <tbody>
                                     <% for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) { %>
                                         <tr>
                                             <td class="first-row"><%= entry.getKey().getNome() %> (<%= entry.getValue() %> item<%= (entry.getValue() > 1 ? "s" : "") %>)</td>
-                                            <td class="first-row" align="right">R$ <%= entry.getKey().getPrezzo() * entry.getValue() %></td>
+                                            <td class="first-row" align="right"><fmt:formatNumber value="<%= entry.getKey().getPrezzo() * entry.getValue() %>" type="number" pattern="0.00" groupingUsed="false"/> &euro;</td>
                                         </tr>
                                     <% } %>
                                     <tr>
                                         <td>Spedizione</td>
-                                        <td align="right">5.00</td>
+                                        <td align="right"><fmt:formatNumber value="5.00" type="number" pattern="0.00" groupingUsed="false"/> &euro;</td>
                                     </tr>
                                     <tr class="values--discounts">
                                         <td>Sconto:</td>
-                                        <td align="right">-R$ <%= scontoCoupon %></td>
+                                        <td align="right">-<fmt:formatNumber value="<%= scontoCoupon %>" type="number" pattern="0.00" groupingUsed="false"/> &euro;</td>
                                     </tr>
-                                </tbody>
-                                <tfoot>
                                     <tr>
                                         <td class="values__total">Totale</td>
-                                        <td class="values--total-price">R$ <%= totale + 5.00 %></td>
+                                        <td class="values--total-price" style="font-weight: bold;"><fmt:formatNumber value="<%= totale + 5.00 - scontoCoupon %>" type="number" pattern="0.00" groupingUsed="false"/> &euro;</td>
                                     </tr>
-                                   
-                                </tfoot>
+                                    
+                                </tbody>
+                        
                             </table>
                         </section>
                         <section class="order__sub-sections order__address">
-                            <h2 class="order__subtitles no-margin">Delivery address</h2>
+                            <div class="order__subtitles no-margin">Indirizzo di Spedizione</div>
                             <p class="address--client no-margin"><%= ragioneSociale %></p>
                             <p class="address--street no-margin"><%= address.getVia() %></p>
                             <p class="address--region no-margin"><%= address.getCitta() %> - <%= address.getProvincia() %> IT</p>
-                            <p class="address--zipcode no-margin">ZipCode: <%= address.getCAP() %></p>
+                            <p class="address--zipcode no-margin">CAP: <%= address.getCAP() %></p>
                         </section> 
                     </section>
                 </div>

@@ -152,7 +152,7 @@
                 var email = document.getElementById("email").value;
 
 
-                if ( email  && !validateEmail(email)) {
+                if ( email  && validateEmail(email)) {
                 	document.getElementById("emailError").textContent = "";
                 	hasErrors = false;
                     
@@ -189,7 +189,7 @@
 
             document.getElementById("password").addEventListener("input", function() {
                 var password = document.getElementById("password").value;
-                if (validatePassword(password)) {
+                if (!validatePassword(password)) {
                     document.getElementById("passwordError").textContent = "La password deve: 1. contenere almeno 8 caratteri, 2. contenere almeno una lettera maiuscola, 3. contenere almeno un numero, 4. contenere almeno un carattere speciale";
                     hasErrors = true;
                     return;

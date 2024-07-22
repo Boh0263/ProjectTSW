@@ -30,24 +30,47 @@
 
 </div>
 
-<script src="./resources/js/jquery-3.2.1.min.js"></script> <!-- jQuery -->
-<script src="./resources/styles/bootstrap4/popper.js"></script>
-<script src="./resources/styles/bootstrap4/bootstrap.min.js"></script>
-<script src="./resources/plugins/Isotope/isotope.pkgd.min.js"></script>
-<script src="./resources/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-<script src="./resources/plugins/easing/easing.js"></script>
-<script src="./resources/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script> <!-- jQuery UI -->
-<script src="./resources/js/cart-number.js"></script>
-<script src="./resources/js/categories_custom.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script> <!-- jQuery -->
+<script src="${pageContext.request.contextPath}/resources/styles/bootstrap4/popper.js"></script>
+<script src="${pageContext.request.contextPath}/resources/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/easing/easing.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script> <!-- jQuery UI -->
+<script src="${pageContext.request.contextPath}/resources/js/cart-number.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/categories_custom.js"></script>
 
 <% if ( session != null && session.getAttribute("username") != null) { %>
 <script type="text/javascript">
  $(document).ready(function() {
+	 updateSCartCounter();
 		 document.getElementById('checkout_items').innerHTML = localStorage.getItem('CartSCounter');
 		 if(localStorage.getItem('CartSCounter') == 0 || localStorage.getItem('CartSCounter') == null) {
 			document.getElementById('checkout_items').style.display = "none";
 		 } 
   });
+ 
+ function updateSCartCounter() {
+ $.ajax({
+		type : "GET",
+		url : "${pageContext.request.contextPath}/ProdottoCount",
+		success : function(response) {
+			
+			localStorage.setItem('CartSCounter', response);
+			document.getElementById('checkout_items').innerHTML = localStorage.getItem('CartSCounter');
+			
+			if(localStorage.getItem('CartSCounter') == 0 || localStorage.getItem('CartSCounter') == null) {
+				document.getElementById('checkout_items').style.display = "none";
+		    } else {
+				document.getElementById('checkout_items').style.display = "block";
+			  }
+		},
+		error : function(xhr, status, error) {
+			console.error("Error: " + status + " " + error);
+		}
+	});
+}
+ 
 </script>
 <% } else { %>
 <script type="text/javascript">

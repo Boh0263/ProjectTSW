@@ -12,6 +12,7 @@ import java.io.OutputStream;
 
 import model.ImageDAO;
 import model.Immagine;
+import model.SanitizeInput;
 
 
 @WebServlet("/image")
@@ -33,7 +34,7 @@ public class ViewIMGControl extends HttpServlet {
 			return;
 		}
 		
-		int ID = Integer.parseInt(request.getParameter("img-id"));
+		int ID = Integer.parseInt(SanitizeInput.sanitize(request.getParameter("img-id")));
 		
 		try {
 				Immagine img = ImageDAO.doRetrieveByKey(ID);

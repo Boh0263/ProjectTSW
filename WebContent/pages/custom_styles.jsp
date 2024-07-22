@@ -3,7 +3,9 @@
  String[] customStyles = (String[]) request.getAttribute("custom_styles");
     if(customStyles != null) {
     	for(String style : customStyles) {
-    		%> <link rel="stylesheet" href="<%=style%>"> <%
+    		//rimuovi il punto iniziale.
+    		style = style.substring(1);
+    		%> <link rel="stylesheet" href="${pageContext.request.contextPath}<%=style%>"> <%
     	}
     	 }
 %>

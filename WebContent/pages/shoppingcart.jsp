@@ -51,10 +51,19 @@
                                         <div class="row cart_row"><%= entry.getKey().getNome() %></div>
                                     </div>
                                     <div class="col cart_col">
-                                        <a href="#">-</a><a href="#" class="border"><%= entry.getValue() %></a><a href="#">+</a>
+                                    
+                                        <form action="./Carrello?action=removeProduct" method="post" class="remove-form" style="display: contents;">
+                                        <input type="hidden" name="prodotto" value="<%= entry.getKey().getNome() %>" />
+                                        <a href="#">-</a>
+                                        </form>
+                                        <a href="#" class="border"><%= entry.getValue() %></a>
+                                        <form action="./Carrello?action=addProduct" method="post" class="add-form" style="display: contents;">
+                                        <input type="hidden" name="prodotto" value="<%=entry.getKey().getNome()%>" /> 
+                                        <a href="#">+</a>
+                                        </form>
                                     </div>
                                     <div class="col cart_col">
-                                        &euro; <fmt:formatNumber value="<%= entry.getKey().getPrezzo() %>" type="currency" currencySymbol="" /> <form action="./Carrello?action=removeProduct" method="post" class="remove-form"><input type="hidden" name="prodotto" value="<%= entry.getKey().getNome() %>" /><span class="close cart_close">&#10005;</span></form>
+                                        &euro; <fmt:formatNumber value="<%= entry.getKey().getPrezzo() %>" type="currency" currencySymbol="" /> <form action="./Carrello?action=removeProduct" method="post" class="remove-form" style="display: contents;"><input type="hidden" name="prodotto" value="<%= entry.getKey().getNome() %>" /><span class="close cart_close" >&#10005;</span></form>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +191,7 @@
         	            success: function(response) {
         	                showBanner('Prodotto rimosso dal carrello', 'success');
         	                getCartCounterFromSession();
-        	                // Reload the page
+        	               
         	                location.reload();
         	                
         	            },
@@ -192,6 +201,59 @@
         	            }
         	        });
         	    });
+                
+                $(document).on('click', '.remove-form a', function(){ 
+        	        var form = $(this).closest('form');
+        	        var url = form.attr('action');
+        	        var data = form.serialize() + "&ctoken=" + encodeURIComponent('<%=session.getAttribute("ctoken")%>');
+        	        console.log('Removing product from cart:', data); // Debug log
+        	        $.ajax({
+        	            type: "POST",
+        	            url: url,
+        	            data: data,
+        	            success: function(response) {
+        	                showBanner('Prodotto rimosso dal carrello', 'success');
+        	                getCartCounterFromSession();
+        	               
+        	                location.reload();
+        	                
+        	            },
+        	            error: function(xhr, status, error) {
+        	                showBanner('Errore, prodotto non rimosso', 'error');
+        	                console.error("Error: " + status + " " + error);
+        	            }
+        	        });
+        	    });
+                
+                $(document).on('click', '.add-form a', function(){
+                	var form = $(this).closest('form');
+        	        var url = form.attr('action');
+        	        var data = form.serialize() + "&ctoken=" + encodeURIComponent('<%=session.getAttribute("ctoken")%>');
+        	        $.ajax({
+        	            type: "POST",
+        	            url: url,
+        	            data: data,
+        	            success: function(response) {
+        	                showBanner('Prodotto aggiunto al carrello', 'success');
+        	                getCartCounterFromSession();
+        	                // Reload the page
+        	                location.reload();
+        	                
+        	            },
+        	            error: function(xhr, status, error) {
+        	                showBanner('Errore, prodotto non aggiunto', 'error');
+        	                console.error("Error: " + status + " " + error);
+        	            }
+        	        });
+        	    });
+                	
+                	
+                	
+                	
+                	
+                	
+                	
+       
                 
                 function getCartCounterFromSession() {
             		
@@ -229,7 +291,7 @@
 
                     if (cartData != null && cartData.length > 0) {
                         $.ajax({
-                            url: './Prodotto',
+                            url: 'Prodotto',
                             method: 'POST',
                             data: { keys: cartData },
                             success: function(prodotti) {
@@ -257,7 +319,7 @@
                                                         <div class="row cart_row prod_nome">` + prodotto.Nome +  `</div>
                                                     </div>
                                                     <div class="col cart_col">
-                                                        <a href="#">-</a><a href="#" class="border">` + prodotto.quantita + `</a><a href="#">+</a>
+                                                        <a href="#" class="minus">-</a><a href="#" class="border">` + prodotto.quantita + `</a><a href="#" class="plus">+</a>
                                                     </div>
                                                     <div class="col cart_col">
                                                         &euro; ` + prodotto.Prezzo.toFixed(2) + `<span class="close cart_close">&#10005;</span>

@@ -5,12 +5,22 @@ public class Recensione {
 	private int Votazione;
 	private String Commento;
 	private String Data_Recensione;
+	private String ID_Prodotto;
 	
-	public Recensione(String email, int votazione, String commento, String data_Recensione) {
+	public Recensione(String email, int votazione, String commento, String data_Recensione, String ID_Prodotto) {
 		Email = email;
 		Votazione = votazione;
 		Commento = commento;
 		Data_Recensione = data_Recensione;
+		this.ID_Prodotto = ID_Prodotto;
+	}
+
+	public String getID_Prodotto() {
+		return ID_Prodotto;
+	}
+
+	public void setID_Prodotto(String iD_Prodotto) {
+		ID_Prodotto = iD_Prodotto;
 	}
 
 	public String getEmail() {

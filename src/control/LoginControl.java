@@ -28,6 +28,7 @@ import model.LoginInfo;
 import model.Prodotto;
 import model.ProdottoDAO;
 import model.ProdottoDAOImp;
+import model.SanitizeInput;
 
 @WebServlet("/login")
 public class LoginControl extends HttpServlet {
@@ -160,7 +161,7 @@ public class LoginControl extends HttpServlet {
 			
 			Carrello cart1 = (Carrello) session.getAttribute("carrello");
 			Carrello cart = new Carrello();
-			String cart2 = request.getParameter("cart");
+			String cart2 = SanitizeInput.sanitize(request.getParameter("cart"));
 		
 			
 		

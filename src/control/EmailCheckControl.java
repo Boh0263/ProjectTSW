@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import model.SanitizeInput;
 import model.UserDAOImp;
 
 
@@ -36,6 +37,7 @@ public class EmailCheckControl extends HttpServlet {
 	        try (BufferedReader reader = request.getReader()) {
 	            JsonObject jsonRequest = JsonParser.parseReader(reader).getAsJsonObject();
 	            String email = jsonRequest.get("email").getAsString();
+	            email = SanitizeInput.sanitize(email);
 		
 		if (email == null || email.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required.");

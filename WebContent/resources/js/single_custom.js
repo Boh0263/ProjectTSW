@@ -1,31 +1,10 @@
-/* JS Document */
 
-/******************************
-
-[Table of Contents]
-
-1. Vars and Inits
-2. Set Header
-3. Init Menu
-4. Init Thumbnail
-5. Init Quantity
-6. Init Star Rating
-7. Init Favorite
-8. Init Tabs
-
-
-
-******************************/
 
 jQuery(document).ready(function($)
 {
 	"use strict";
 
-	/* 
-
-	1. Vars and Inits
-
-	*/
+	
 
 	var header = $('.header');
 	var topNav = $('.top_nav')
@@ -54,11 +33,7 @@ jQuery(document).ready(function($)
 	initFavorite();
 	initTabs();
 
-	/* 
 
-	2. Set Header
-
-	*/
 
 	function setHeader()
 	{
@@ -90,11 +65,7 @@ jQuery(document).ready(function($)
 		}
 	}
 
-	/* 
 
-	3. Init Menu
-
-	*/
 
 	function initMenu()
 	{
@@ -161,7 +132,7 @@ jQuery(document).ready(function($)
 	function openMenu()
 	{
 		menu.addClass('active');
-		// menu.css('right', "0");
+		
 		fsOverlay.css('pointer-events', "auto");
 		menuActive = true;
 	}
@@ -173,12 +144,7 @@ jQuery(document).ready(function($)
 		menuActive = false;
 	}
 
-	/* 
-
-	4. Init Thumbnail
-
-	*/
-
+	
 	function initThumbnail()
 	{
 		if($('.single_product_thumbnails ul li').length)
@@ -200,42 +166,9 @@ jQuery(document).ready(function($)
 		}	
 	}
 
-	/* 
 
-	5. Init Quantity
 
-	*/
 
-	function initQuantity()
-	{
-		if($('.plus').length && $('.minus').length)
-		{
-			var plus = $('.plus');
-			var minus = $('.minus');
-			var value = $('#quantity_value');
-
-			plus.on('click', function()
-			{
-				var x = parseInt(value.text());
-				value.text(x + 1);
-			});
-
-			minus.on('click', function()
-			{
-				var x = parseInt(value.text());
-				if(x > 1)
-				{
-					value.text(x - 1);
-				}
-			});
-		}
-	}
-
-	/* 
-
-	6. Init Star Rating
-
-	*/
 
 	function initStarRating()
 	{
@@ -266,11 +199,7 @@ jQuery(document).ready(function($)
 		}
 	}
 
-	/* 
 
-	7. Init Favorite
-
-	*/
 
 	function initFavorite()
 	{
@@ -285,11 +214,6 @@ jQuery(document).ready(function($)
 		}
 	}
 
-	/* 
-
-	8. Init Tabs
-
-	*/
 
 	function initTabs()
 	{

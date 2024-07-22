@@ -28,7 +28,7 @@ function validateUsername(username)
 }
 function validateEmail(email) {
 	const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-	if (email.length !== 0 && !pattern.test(email)) {
+	if (pattern.test(email)) {
 	 	return true;
 	} else { 
 		return false;
@@ -38,7 +38,7 @@ function validateEmail(email) {
 function validatePassword(password)
 {
 	const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-	if(!pattern.test(password))
+	if(pattern.test(password))
 	{
 		return true;
 	} else {
@@ -49,7 +49,7 @@ function validatePassword(password)
 function validateNomeProdotto(name)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(name))
+	if(pattern.test(name))
 	{
 		return true;
 	} else {
@@ -60,7 +60,7 @@ function validateNomeProdotto(name)
 function validateGiacenza(giacenza)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(giacenza))
+	if(pattern.test(giacenza))
 	{
 		return true;
 	} else {
@@ -71,7 +71,7 @@ function validateGiacenza(giacenza)
 function validateDescrizione(desc)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(desc))
+	if(pattern.test(desc))
 	{
 		return true;
 	} else {
@@ -82,7 +82,7 @@ function validateDescrizione(desc)
 function validatePrezzo(prezzo)
 {
 	const pattern = /^[0-9]{1,3}(\.[0-9]{3})*(,\d{1,2})?€$|^,(\d{1,2})€$/;
-	if(!pattern.test(prezzo))
+	if(pattern.test(prezzo))
 	{
 		return true;
 	} else { 
@@ -93,7 +93,7 @@ function validatePrezzo(prezzo)
 function validateIVA(iva)
 {
 	const pattern = /^\d{2}$/;	//esattamente due cifre
-	if(!pattern.test(iva))
+	if(pattern.test(iva))
 	{
 		return true;
 	} else {
@@ -104,7 +104,7 @@ function validateIVA(iva)
 function validateTipo(tipo)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(tipo))
+	if(pattern.test(tipo))
 	{
 		return true;
 	}
@@ -114,7 +114,7 @@ function validateTipo(tipo)
 function validateGenere(genere)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(genere))
+	if(pattern.test(genere))
 	{
 		return true;
 	} else {
@@ -125,7 +125,7 @@ function validateGenere(genere)
 function validateMateriale(mat)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(mat))
+	if(pattern.test(mat))
 	{
 		return true;
 	} else {
@@ -136,7 +136,7 @@ function validateMateriale(mat)
 function validatePezzo(pezzo)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(pezzo))
+	if(pattern.test(pezzo))
 	{
 		return true;
 	} else {
@@ -147,7 +147,7 @@ function validatePezzo(pezzo)
 function validateUtilizzo(usage)
 {
 	const pattern = /^[a-zA-Z]+$/;
-	if(!pattern.test(usage))
+	if(pattern.test(usage))
 	{
 		return true;
 	} else {

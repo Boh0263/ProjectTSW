@@ -31,7 +31,7 @@ public class GeneraPDFControl extends HttpServlet {
 
 	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String ID = request.getParameter("ID");
+        String ID = SanitizeInput.sanitize(request.getParameter("ID"));
         String xml = null;
         
         HttpSession session = request.getSession(false);
@@ -76,7 +76,42 @@ public class GeneraPDFControl extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException("Error generating PDF", e);
         }
-      }
+	} else if (username != null && role.equalsIgnoreCase("A") /*SI PRESUME CHE l'admin sia stato verificato nel filtro*/) {
+		try {
+			
+			Collection<Ordine> ordini = odao.doretrieveAll(null);
+
+			for (Ordine o : ordini) {
+				if (o.getID() == Integer.parseInt(ID)) {
+					xml = odao.doRetrieveFattura(o);
+					break;
+				}
+			}
+
+		} catch (SQLException e) {
+			throw new ServletException("Errore: " + e.getMessage());
+		}
+
+		if (xml == null || xml.isEmpty()) {
+			System.out.println(xml);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "XML parameter is missing.");
+			return;
+		}
+
+		try {
+			// Create PDF from XML
+			ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
+			generatePdfFromXml(xml, pdfOutputStream);
+
+			// Send PDF as response
+			response.setContentType("application/pdf");
+			response.setHeader("Content-Disposition", "attachment; filename=\"order-" + ID + ".pdf\"");
+			response.setContentLength(pdfOutputStream.size());
+			response.getOutputStream().write(pdfOutputStream.toByteArray());
+		} catch (Exception e) {
+			throw new ServletException("Error generating PDF", e);
+		}
+	}
 	}
 
     private void generatePdfFromXml(String xml, ByteArrayOutputStream outputStream) throws Exception {
