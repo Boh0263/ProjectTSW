@@ -139,13 +139,20 @@ function filterProducts() {
                 x = rows[i].getElementsByTagName("td")[column];
                 y = rows[i + 1].getElementsByTagName("td")[column];
 
+                let xContent = x.textContent.trim();
+                let yContent = y.textContent.trim();
+
+           
+                let xValue = isNaN(xContent) ? xContent.toLowerCase() : parseFloat(xContent);
+                let yValue = isNaN(yContent) ? yContent.toLowerCase() : parseFloat(yContent);
+
                 if (currentSortOrder[column] === 'asc') {
-                    if (x.textContent.toLowerCase() > y.textContent.toLowerCase()) {
+                    if (xValue > yValue) {
                         shouldSwitch = true;
                         break;
                     }
                 } else if (currentSortOrder[column] === 'desc') {
-                    if (x.textContent.toLowerCase() < y.textContent.toLowerCase()) {
+                    if (xValue < yValue) {
                         shouldSwitch = true;
                         break;
                     }

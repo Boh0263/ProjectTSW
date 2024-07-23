@@ -75,7 +75,7 @@ public class LoginControl extends HttpServlet {
                 session.setAttribute("atoken", generateToken());
                 session.setMaxInactiveInterval(43200);
                 
-                //set a samesite cookie for csrf protection
+                // samesite cookie per csrf protection
                 Cookie csrfCookie = new Cookie("CSRF-TOKEN", session.getAttribute("atoken").toString());
                 csrfCookie.setPath("/");
                 csrfCookie.setHttpOnly(true);
@@ -113,7 +113,7 @@ public class LoginControl extends HttpServlet {
 				}
                
                 if(request.getAttribute("forward") != null) {
-                	response.sendRedirect(request.getContextPath() + "/" + request.getAttribute("forward"));
+                	response.sendRedirect(request.getContextPath() + "/" + request.getParameter("forward"));
                 }
                 else {
                 	response.sendRedirect(request.getContextPath());

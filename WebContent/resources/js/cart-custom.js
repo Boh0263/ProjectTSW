@@ -24,7 +24,7 @@ class Carrello {
             showBanner('Prodotto aggiunto al carrello!', 'success');
         }
     }
-
+    
     removeProduct(prodotto) {
         if (this.checkProdotti()) {
             if (this.prodotti.has(prodotto)) {
@@ -40,7 +40,7 @@ class Carrello {
             }
         }
     }
-
+    
     updateProductNumber() {
         if (this.checkProdotti()) {
             let num = 0;

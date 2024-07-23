@@ -236,7 +236,7 @@
         	            success: function(response) {
         	                showBanner('Prodotto aggiunto al carrello', 'success');
         	                getCartCounterFromSession();
-        	                // Reload the page
+        	                // Ricarica la pagina.
         	                location.reload();
         	                
         	            },

@@ -28,7 +28,6 @@ jQuery(document).ready(function($)
 
 	initMenu();
 	initThumbnail();
-	initQuantity();
 	initStarRating();
 	initFavorite();
 	initTabs();
@@ -209,6 +208,7 @@ jQuery(document).ready(function($)
 
 			fav.on('click', function()
 			{
+				
 				fav.toggleClass('active');
 			});
 		}

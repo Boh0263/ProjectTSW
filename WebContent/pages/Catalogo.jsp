@@ -120,7 +120,7 @@
 									Prodotto prod = (Prodotto) product.next();
 									%>
 
-									<div class="product-item <%=request.getParameter("category")%>">
+									<div class="product-item <%=request.getParameter("category")%>" data-product-id="<%=prod.getNome()%>">
 										<div class="product discount product_filter">
 											<div class="product_image">	
 					                        
@@ -283,6 +283,57 @@ window.onload = function() {
 </script>
 
 <% } %>
+<script>
+$(document).ready(function() {
+ 
+    var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+   
+    $('.product-item').each(function() {
+        var productId = $(this).data('product-id'); 
+        if (wishlist.includes(productId)) {
+            $(this).find('.favorite').addClass('active');
+        }
+    });
+
+   
+    $('.favorite').on('click', function() {
+        var $this = $(this);
+        var productId = $this.closest('.product-item').data('product-id'); 
+        var isActive = $this.hasClass('active');
+
+        if (isActive) {
+           
+            removeFromWishlist(productId);
+            $this.removeClass('active');
+        } else {
+       
+            addToWishlist(productId);
+            $this.addClass('active');
+        }
+    });
+
+    function addToWishlist(productId) {
+        var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        if (!wishlist.includes(productId)) {
+            wishlist.push(productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+    }
+
+    function removeFromWishlist(productId) {
+        var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        var index = wishlist.indexOf(productId);
+        if (index !== -1) {
+            wishlist.splice(index, 1);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+    }
+});
+
+</script>
+
+
 	
 <%@include file="./generic_footer.jsp" %>
 

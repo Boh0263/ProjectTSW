@@ -82,7 +82,7 @@ public class ImageDAO {
 				}
 			}
 		}
-		if(flag = false) {	//trovato stesso id
+		if(flag == false) {	//trovato stesso id
 			return id;
 		}
 		else {

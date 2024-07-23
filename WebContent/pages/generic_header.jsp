@@ -56,6 +56,7 @@
 								<% String uri = request.getRequestURI(); %>	
 								<li><a href="${pageContext.request.contextPath}/Ordini"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Ordini</a></li>
 									<li><a href="${pageContext.request.contextPath}/Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
+									<li><a href="${pageContext.request.contextPath}/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li> 
 									<li><a href="${pageContext.request.contextPath}/Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Esci</a></li>
 								</ul>
 							</li>
@@ -93,11 +94,9 @@
 							<ul class="navbar_menu">
 								<li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
 								<li><a href="${pageContext.request.contextPath}/Catalogo?category=Arma">catalogo</a></li>
-								
 							</ul>
 							<ul class="navbar_utente">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								<li><a href="${pageContext.request.contextPath}/Account"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
 									<a href="${pageContext.request.contextPath}/Carrello">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -141,6 +140,7 @@
 					<% if(session != null && session.getAttribute("username") != null) { %>
 							<li><a href="${pageContext.request.contextPath}/Account"><i class="fa fa-user" aria-hidden="true"></i>Account</a></li>
 							<li><a href="${pageContext.request.contextPath}/Ordini"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Ordini</a></li>
+							<li><a href="${pageContext.request.contextPath}/Preferiti"><i class="fa fa-star" aria-hidden="true"></i>Preferiti</a></li> 
 							<li><a href="${pageContext.request.contextPath}/Logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Esci</a></li>
 					<%} else { %>
 						<% String uri = request.getRequestURI(); %>	
@@ -150,7 +150,7 @@
 					</ul>
 				</li>
 				<li class="menu_item"><a href="${pageContext.request.contextPath}/index.jsp">home</a></li>
-				<li class="menu_item"><a href="${pageContext.request.contextPath}/Catalogo?category=All">catalogo</a></li>
+				<li class="menu_item"><a href="${pageContext.request.contextPath}/Catalogo?category=Arma">catalogo</a></li>
 			</ul>
 		</div>
 	</div>

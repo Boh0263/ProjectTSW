@@ -258,6 +258,8 @@ public class UserDAOImp implements UserDAO {
 	@Override
 	public int update(Utente utente) throws SQLException {
 		int result = 0;
+		Connection con = null;
+		PreparedStatement st = null;
 		PreparedStatement st1 = null;
 		String UPDATE = "UPDATE Utente SET Email = COALESCE(?, Email), "
 	               + "Password = COALESCE(SHA2(?, 256), Password), "
@@ -265,13 +267,16 @@ public class UserDAOImp implements UserDAO {
 	               + "Cognome = COALESCE(?, Cognome), "
 	               + "CF = COALESCE(?, CF), "
 	               + "Telefono = COALESCE(?, Telefono), "
-	               + "Data_Nascita = COALESCE(?, Data_Nascita) "
+	               + "Data_Nascita = COALESCE(?, Data_Nascita), "
 	               + "WHERE username = ?";
 		
 		String updateAddress = "UPDATE Indirizzo SET Via = COALESCE(?, Via), " + "CAP = COALESCE(?, CAP), "
 				+ "Città = COALESCE(?, Città), " + "Provincia = COALESCE(?, Provincia) "
 				+ "WHERE Utente_ID IN (SELECT ID FROM Utente WHERE username = ?)";
-		try (Connection con = DMConnectionPool.getConnection(); PreparedStatement st = con.prepareStatement(UPDATE)) {
+		try {
+			con = DMConnectionPool.getConnection();
+			st = con.prepareStatement(UPDATE); 
+		
 			con.setAutoCommit(false);
 			st.setString(1, utente.getEmail());
 			st.setString(2, utente.getPassword());
@@ -281,27 +286,70 @@ public class UserDAOImp implements UserDAO {
 			st.setString(6, utente.getTelefono());
 			st.setString(7, utente.getDataNascita());
 			st.setString(8, utente.getUsername());
+			st.setString(9, utente.getTipo());
+			
 			result = st.executeUpdate();
 			
 			if (result >= 0) {	
 				st1 = con.prepareStatement(updateAddress);
+				if(utente.getIndirizzo() != null) {
 				st1.setString(1, utente.getIndirizzo().getVia());
 				st1.setString(2, utente.getIndirizzo().getCAP());
 				st1.setString(3, utente.getIndirizzo().getCitta());
 				st1.setString(4, utente.getIndirizzo().getProvincia());
 				st1.setString(5, utente.getUsername());
 				result = st1.executeUpdate();
-			
-		 if (result >= 0) {
+				}
+				
+			if (result >= 0) {	
 			con.commit();
+			} else {
+                con.rollback();
 		}
-		 } else {
-            con.rollback();
-        }
+			} 
+			else {
+			con.rollback();
+			} } 
+		finally {
+                if (st != null)
+                    st.close();
+                if (st1 != null)
+                    st1.close();
+                DMConnectionPool.releaseConnection(con); 
+            } 
+			
+		return result;        
+	}
+	
+	public synchronized boolean doPriviledge(Utente u) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		boolean result = false;
+		
+		String updateSQL = "UPDATE Utente SET tipo = ? WHERE username = ?";
+		
+		try {
+			con = DMConnectionPool.getConnection();
+			ps = con.prepareStatement(updateSQL);
+			ps.setString(1, u.getTipo());
+			ps.setString(2, u.getUsername());
+			ps.executeUpdate();
+			result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} finally {
+				DMConnectionPool.releaseConnection(con);
+			}
 		}
 		return result;
 	}
 
+	
+	
 	@Override
 	public boolean doDelete(Utente t) throws SQLException {
 		Connection con = null;

@@ -112,7 +112,7 @@ public class ProdottoDAOImp implements ProdottoDAO {
 						rs.getInt("img3"),
 						rs.getInt("ID_Abbigliamento"),
 						rs.getString("Tipo"),
-						rs.getString("Materiale")
+						rs.getString("Genere")
 						);
 				prodotti.add(prod);
 			}

@@ -6,9 +6,9 @@
 			<div class="row align-items-center fill_height">
 				<div class="col">
 					<div class="main_slider_content">
-						<h6>Spring / Summer Collection 2017</h6>
-						<h1>Get up to 30% Off New Arrivals</h1>
-						<div class="red_button shop_button"><a href="#">shop now</a></div>
+						<h6>Collezione Estiva 2023/2024</h6>
+						<h1>Ottieni prezzi scontati fino al 30%</h1>
+						<div class="red_button shop_button"><a href="${pageContext.request.contextPath}/Catalogo?category=Arma">Acquista ora!</a></div>
 					</div>
 				</div>
 			</div>

@@ -83,7 +83,7 @@
 						</form>
 						<% } %>
 					</div>
-						<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div> <!-- PREFERITI (DA CANCELLARE SE NON VOGLIAMO GESTIRLO ORA) -->
+						<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div> 
 					</div>
 					</div>
 				</div>
@@ -209,13 +209,75 @@
 
 	</div>
 	<div id="notification-container"></div>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script> <!-- jQuery --> 
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script> <!-- jQuery  normale --> 
 	<script src="${pageContext.request.contextPath}/resources/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script> <!-- jQuery UI -->
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
 	<script src="${pageContext.request.contextPath}/resources/js/single_custom.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/cart-custom.js"></script>
+    <script>
     
-	<script>
+		function addToWishlist(productName) {
+
+			var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+						if (!wishlist.includes(productName)) {
+							wishlist.push(productName);
+							console.log(wishlist);
+							localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+							console.log(productName + " aggiunto alla wishlist!");
+						} else {
+
+							console.log(productName+ " si trova già nella wishlist.");
+						}
+					}
+		
+		function removeFromWishlist(productName) {
+			var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            if (wishlist.includes(productName)) {
+                wishlist = wishlist.filter(item => item !== productName);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+                console.log(productName + " rimosso dalla wishlist.");
+            } else {
+
+                console.log(productName + " non è presente nella wishlist.");
+            }
+		}
+				</script>
+				
+<script>
+    //SCRIPT PER LA GESTIONE DELLA WISHLIST (init fav, Aggiungi e Rimuovi dalla wishlist)
+    $(document).ready(function() {
+        var productName = '<%= product.getNome() %>';
+        var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        
+        // Controllo del prodotto nella wishlist
+        if (wishlist.includes(productName)) {
+            $('.product_favorite').addClass('active');
+        } 
+        
+
+        // Toggle
+        $('.product_favorite').on('click', function() {
+            $(this).toggleClass('active');
+            var isActive = $(this).hasClass('active');
+            if (isActive) {
+                removeFromWishlist(productName);
+                $(this).removeClass('active');
+            } else {
+                addToWishlist(productName);
+                $(this).addClass('active');
+            }
+            
+        });
+      });
+</script>
+						
+<script>
+	//SCRIPT PER LA GESTIONE DELLA RECENSIONE.
+	
 	$(document).ready(function() {
     $('#review_form').on('submit', function(event) {
         event.preventDefault(); 
@@ -257,7 +319,9 @@
     });
 });
 </script>
+
 <% if(test_session) { %>
+
 	<script type="text/javascript">
 	
 	$(document).ready(function () {

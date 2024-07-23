@@ -31,7 +31,11 @@
     boolean hasOrders = (orders != null && !orders.isEmpty());
 %>
 
-<div class="main_slider">
+<div class="main_banner">
+ 	<div class="container" style="margin-top: 175px;">
+			<div class="row">
+			
+ 	    
 
     <h2 class="order-title">I Tuoi Ordini</h2>
     <% if (hasOrders) { %>
@@ -102,6 +106,10 @@
         <p class="empty-orders">Non hai ordini.</p>
     <% } %>
 </div>
+</div>
+</div>
+
+
 
 <script>
 function toggleOrderDetails(orderId) {

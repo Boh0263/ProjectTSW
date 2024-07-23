@@ -38,15 +38,19 @@
 <div class="container">
 	<div class="search-bar">
         <input type="text" id="search-input" oninput="filterOrders()" placeholder="Cerca per ID Ordine...">
+        <input type="date" id="start-date">
+        <input type="date" id="end-date">
+        <button onclick="filterByDate()">Cerca per Data</button>
     </div>
     <div class="table-container">
         <table class="order-table table table-striped table-bordered table-hover" id="myTable">
             <thead>
                 <tr>
                     <th onclick="sortBy(0)">ID Ordine <i id="sortIcon0" class="fa fa-sort"></i></th>
-                    <th onclick="sortBy(1)">Data <i id="sortIcon1" class="fa fa-sort"></i></th>
-                    <th onclick="sortBy(2)">Prezzo Totale <i id="sortIcon2" class="fa fa-sort"></i></th>
-                    <th onclick="sortBy(3)">Stato <i id="sortIcon3" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(1)">Cliente <i id="sortIcon1" class="fa fa-sort "></i></th>
+                    <th onclick="sortBy(2)">Data <i id="sortIcon2" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(3)">Prezzo Totale <i id="sortIcon3" class="fa fa-sort"></i></th>
+                    <th onclick="sortBy(4)">Stato <i id="sortIcon4" class="fa fa-sort"></i></th>
                     <th>Dettagli</th>
                     <th>Scarica PDF</th>
                 </tr>
@@ -60,6 +64,7 @@
                 %>
                     <tr class="order-row">
              			<td><%= order.getID() %></td>
+             			<td><%= order.getRagione_Sociale() %></td>
                         <td><%= order.getData_Ordine() %></td>
                         <td>&euro; <%= new java.text.DecimalFormat("#,##0.00").format(order.getTotalPrice()) %></td>
                         <td><%= order.getStato() %></td>
@@ -69,7 +74,7 @@
 						<td>
 						<button type="button" onclick="downloadPDF('<%=order.getID()%>')">Scarica PDF</button>
 						</td>
-			</tr>
+			       </tr>
                     <tr id="order-details-<%= order.getID() %>" style="display: none;">
                         <td colspan="5">
                             <table class="order-table table table-striped table-bordered table-hover">
@@ -124,7 +129,7 @@ function filterOrders() {
 
 
 	  for (i = 0; i < tr.length; i++) {
-	    td = tr[i].getElementsByTagName("td")[0];
+	    td = tr[i].getElementsByTagName("td")[1];
 	    if (td) {
 	      txtValue = td.textContent || td.innerText;
 	      if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -136,6 +141,23 @@ function filterOrders() {
 	  }
 }
 
+function filterByDate() {
+	
+    const startDate = new Date(document.getElementById('start-date').value);
+    const endDate = new Date(document.getElementById('end-date').value);
+    const rows = document.querySelectorAll('.order-row'); // prendi tutte le righe degli ordini
+
+    rows.forEach(row => { //stream delle righe degli ordini, con js lambda. Per ogni riga esegui la funzione
+        const dateCell = row.cells[2]; //prendi la cella della data
+        const rowDate = new Date(dateCell.textContent); //crea un oggetto data con il contenuto della cella
+
+        if (rowDate >= startDate && rowDate <= endDate) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
 </script>
 
 <script type="text/javascript">

@@ -530,11 +530,11 @@ public class AdminControl extends HttpServlet {
 			
 			switch (Operation) {
 			case "OP": {
-				 test = (udao.update(new Utente(Username, "A")) == 1);
+				 test = udao.doPriviledge(new Utente(Username, "A"));
                 break;
 			}
 			case "DEOP": {
-				 test = (udao.update(new Utente(Username, "R")) == 1);
+				 test = udao.doPriviledge(new Utente(Username, "R"));
                 break;
 			}
 			default: break;
